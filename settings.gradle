@@ -1,0 +1,6 @@
+rootProject.name = 'game-arena'
+
+include 'application'
+include 'common'
+include 'platform'
+include 'checkers'
