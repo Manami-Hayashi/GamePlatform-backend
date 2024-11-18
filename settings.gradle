@@ -6,4 +6,5 @@ include 'gameManagementContext'
 include 'playerManagementContext'
 include 'lobbyManagementContext'
 include 'gameStatisticsContext'
+include 'storeContext'
 
