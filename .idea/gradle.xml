@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/gameStatisticsContext" />
             <option value="$PROJECT_DIR$/lobbyManagementContext" />
             <option value="$PROJECT_DIR$/playerManagementContext" />
+            <option value="$PROJECT_DIR$/storeContext" />
           </set>
         </option>
       </GradleProjectSettings>
