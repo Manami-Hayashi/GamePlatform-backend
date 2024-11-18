@@ -10,4 +10,7 @@ dependencies {
     implementation project(':gameStatisticsContext')
     implementation project(':lobbyManagementContext')
     implementation project(':storeContext')
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 }
