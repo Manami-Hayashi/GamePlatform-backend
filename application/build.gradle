@@ -5,6 +5,8 @@ plugins {
 
 dependencies {
     implementation project(":common")
-    implementation project(':platform')
-    implementation project(':checkers')
+    implementation project(':gameManagementContext')
+    implementation project(':playerManagementContext')
+    implementation project(':gameStatisticsContext')
+    implementation project(':lobbyManagementContext')
 }

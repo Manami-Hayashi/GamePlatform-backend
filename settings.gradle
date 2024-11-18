@@ -2,5 +2,8 @@ rootProject.name = 'game-arena'
 
 include 'application'
 include 'common'
-include 'platform'
-include 'checkers'
+include 'gameManagementContext'
+include 'playerManagementContext'
+include 'lobbyManagementContext'
+include 'gameStatisticsContext'
+
