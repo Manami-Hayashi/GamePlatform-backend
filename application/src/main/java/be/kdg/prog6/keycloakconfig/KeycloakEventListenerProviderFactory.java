@@ -1,7 +1,6 @@
 package be.kdg.prog6.keycloakconfig;
 
 import org.keycloak.Config;
-import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
 
 import org.keycloak.models.KeycloakSession;
@@ -15,9 +14,10 @@ public class KeycloakEventListenerProviderFactory implements EventListenerProvid
         this.rabbitTemplate = rabbitTemplate;
     }
 
+
     @Override
-    public EventListenerProvider create(KeycloakSession keycloakSession) {
-        return new KeycloakEventListenerProvider(rabbitTemplate);
+    public org.keycloak.events.EventListenerProvider create(KeycloakSession keycloakSession) {
+        return new EventListenerProvider(rabbitTemplate);
     }
 
     @Override

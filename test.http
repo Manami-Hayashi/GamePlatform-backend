@@ -15,3 +15,19 @@ scope = openid
     client.global.set("access_token", response.body.access_token);
 %}
 
+
+
+### Create a new user in Keycloak (Register User)
+POST http://localhost:8181/realms/GamePlatform/users
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "enabled": true,
+  "emailVerified": true,
+  "firstName": "New",
+  "lastName": "User",
+  "email": "newuser@example.com",
+  "credentials": [{"type": "password", "value": "password"}]
+}
