@@ -7,6 +7,25 @@ server:
 spring:
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
+    sql:
+      init:
+        mode: always
+    jpa:
+      open-in-view: false
+      hibernate:
+        ddl-auto: update
+        show-sql: true
+      defer-datasource-initialization: true
+    datasource:
+      url: "jdbc:mysql://localhost:13308"
+      username: user
+      password: password
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    rabbitmq:
+      host: localhost
+      port: 5672
+      username: myuser
+      password: mypassword
   security:
     oauth2:
       resourceserver:

@@ -6,16 +6,13 @@ import java.util.List;
 public class Player {
     private PlayerId playerId;
     private String name;
-    private String location;
-    private LocalDate birthDate;
+
     private List<Friend> friends;
     private List<Game> gamesOwned;
 
-    public Player(PlayerId playerId, String name, String location, LocalDate birthDate) {
+    public Player(PlayerId playerId, String name) {
         this.playerId = playerId;
         this.name = name;
-        this.location = location;
-        this.birthDate = birthDate;
     }
 
     public void addFriend(Friend friend) {
@@ -49,13 +46,6 @@ public class Player {
 
     public void setName(String name) {this.name = name;}
 
-    public String getLocation() {return location;}
-
-    public void setLocation(String location) {this.location = location;}
-
-    public LocalDate getBirthDate() {return birthDate;}
-
-    public void setBirthDate(LocalDate birthDate) {this.birthDate = birthDate;}
 
     public List<Friend> getFriends() {return friends;}
 

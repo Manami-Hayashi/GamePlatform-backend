@@ -1,4 +1,4 @@
-### Get access token with normal user
+### Get access token with admin credentials
 
 POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
