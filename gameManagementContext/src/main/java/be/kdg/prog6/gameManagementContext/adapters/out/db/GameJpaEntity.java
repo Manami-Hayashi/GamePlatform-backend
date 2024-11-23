@@ -8,10 +8,10 @@ import jakarta.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(catalog = "gameManagement", name = "game")
+@Table(catalog = "game_management", name = "game")
 public class GameJpaEntity {
     @Id
-    @Column(name="game_id", columnDefinition = "CHAR(36)")
+    @Column(name="game_id")
     private UUID gameId;
     @Column(name="game_name")
     private String gameName;
