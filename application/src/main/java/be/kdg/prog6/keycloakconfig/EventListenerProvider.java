@@ -17,29 +17,49 @@ public class EventListenerProvider implements org.keycloak.events.EventListenerP
     public EventListenerProvider(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
+
     @Override
     public void onEvent(Event event) {
         logger.info("Processing event: {}", event.getType());
-        if(event.getType().toString() == "REGISTER") {
+
+        if (event.getType() == null) {
+            logger.error("Event type is null");
+            return;
+        }
+
+        if (event.getType().toString().equals("REGISTER")) {
             System.out.println("Event Occurred:" + toString(event));
         }
 
         // Listen for registration events
         if (EventType.REGISTER.equals(event.getType())) {
-            UUID userId = UUID.fromString(event.getUserId());
-            String username = event.getDetails().get("username");
-            String email = event.getDetails().get("email");
-            String firstName = event.getDetails().getOrDefault("firstName", ""); // Fallback to empty if not present
-            String lastName = event.getDetails().getOrDefault("lastName", "");   // Fallback to empty if not present
+            try {
+                UUID userId = UUID.fromString(event.getUserId());
+                String username = event.getDetails().get("username");
+                String email = event.getDetails().get("email");
+                String firstName = event.getDetails().getOrDefault("firstName", ""); // Fallback to empty if not present
+                String lastName = event.getDetails().getOrDefault("lastName", "");   // Fallback to empty if not present
 
-            logger.info("Processing registration event for user: {}", username);
-            logger.info("Event details: userId={} email={}", userId, email);
+                if (username == null || email == null) {
+                    logger.error("Username or email is null");
+                    return;
+                }
 
-            // Send event to RabbitMQ
-            UserRegistrationEvent registrationEvent = new UserRegistrationEvent(userId, username, email, firstName, lastName);
-            rabbitTemplate.convertAndSend("user.registration.exchange", "user.registration", registrationEvent);
+                logger.info("Processing registration event for user: {}", username);
+                logger.info("Event details: userId={} email={}", userId, email);
 
-            logger.info("User registration event sent to RabbitMQ: {}", registrationEvent);
+                // Send event to RabbitMQ
+                UserRegistrationEvent registrationEvent = new UserRegistrationEvent(userId, username, email, firstName, lastName);
+                rabbitTemplate.convertAndSend("user.registration.exchange", "user.registration", registrationEvent);
+
+                logger.info("User registration event sent to RabbitMQ: {}", registrationEvent);
+            } catch (IllegalArgumentException e) {
+                logger.error("Invalid UUID string: {}", event.getUserId(), e);
+            } catch (Exception e) {
+                logger.error("Error processing registration event", e);
+            }
+        } else {
+            logger.warn("Unhandled event type: {}", event.getType());
         }
     }
 
@@ -57,11 +77,10 @@ public class EventListenerProvider implements org.keycloak.events.EventListenerP
     @Override
     public void onEvent(AdminEvent adminEvent, boolean b) {
         logger.info("Processing registration event for admin: {}", adminEvent.getId());
-
     }
 
     @Override
     public void close() {
-
+        // No resources to close
     }
 }
