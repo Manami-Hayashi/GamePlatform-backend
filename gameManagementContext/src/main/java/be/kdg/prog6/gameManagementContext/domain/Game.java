@@ -1,12 +1,14 @@
 package be.kdg.prog6.gameManagementContext.domain;
 
 public class Game {
-    private GameId gameId;
-    private String gameName;
+    private final GameId gameId;
+    private final String gameName;
+    private final String description;
 
-    public Game(GameId gameId, String gameName) {
+    public Game(GameId gameId, String gameName, String description) {
         this.gameId = gameId;
         this.gameName = gameName;
+        this.description = description;
     }
 
     public GameId getGameId() {
@@ -15,5 +17,9 @@ public class Game {
 
     public String getGameName() {
         return gameName;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

@@ -13,6 +13,8 @@ public class Admin {
         this.gameList = gameList;
         this.playerList = playerList;
     }
+    public Admin() {
+    }
 
     public UUID getAdminId() {
         return adminId;
@@ -28,9 +30,11 @@ public class Admin {
     }
 
 
-    public void createGame(GameId gameId, String gameName) {
-        Game game = new Game(gameId, gameName);
-        gameList.add(game);
+    public void createGame(GameId gameId, String gameName, String description) {
+        {
+            Game game = new Game(gameId, gameName, description);
+            gameList.add(game);
+        }
     }
 
     public void registerPlater(Player player){
