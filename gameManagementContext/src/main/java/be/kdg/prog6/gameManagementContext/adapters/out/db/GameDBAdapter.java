@@ -5,13 +5,14 @@ import be.kdg.prog6.gameManagementContext.domain.GameId;
 import be.kdg.prog6.gameManagementContext.ports.out.LoadGamePort;
 import be.kdg.prog6.gameManagementContext.ports.out.LoadAllGamesPort;
 import be.kdg.prog6.gameManagementContext.ports.out.SaveGamePort;
+import be.kdg.prog6.gameManagementContext.ports.out.UpdateGamePort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPort {
+public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPort, UpdateGamePort {
     private final GameJpaRepository gameJpaRepository;
 
     public GameDBAdapter(GameJpaRepository gameJpaRepository) {
@@ -52,5 +53,10 @@ public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPo
         gameJpaEntity.setGameName(game.getGameName());
         gameJpaEntity.setDescription(game.getDescription());
         return gameJpaEntity;
+    }
+
+    @Override
+    public void updateGame(Game game) {
+
     }
 }

@@ -41,6 +41,30 @@ public class RabbitMQTopology {
                 .with(USER_REGISTRATION_ROUTING_KEY);
     }
 
+    // Admin adds a new name
+    public static final String GAME_ADDED_EXCHANGE = "game.added.exchange";
+    public static final String GAME_ADDED_QUEUE = "game.added.queue";
+    public static final String GAME_ADDED_ROUTING_KEY = "game.added";
+    @Bean
+    public DirectExchange gameAddedExchange() {
+        return new DirectExchange(GAME_ADDED_EXCHANGE);
+    }
+
+    @Bean
+    public Queue gameAddedQueue() {
+        return new Queue(GAME_ADDED_QUEUE, true); // Durable queue
+    }
+
+    @Bean
+    public Binding gameAddedBinding(Queue gameAddedQueue, DirectExchange gameAddedExchange) {
+        return BindingBuilder
+                .bind(gameAddedQueue)
+                .to(gameAddedExchange)
+                .with(GAME_ADDED_ROUTING_KEY);
+    }
+
+
+
     @Bean
     RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         final var rabbitTemplate = new RabbitTemplate(connectionFactory);
