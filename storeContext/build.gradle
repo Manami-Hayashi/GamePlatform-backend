@@ -11,6 +11,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
-
+    testImplementation 'org.testcontainers:mysql:1.20.2'
 }
 

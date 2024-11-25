@@ -3,7 +3,6 @@ server:
   servlet:
     context-path: /api
 
-
 spring:
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
@@ -25,7 +24,7 @@ spring:
 
   rabbitmq:
     host: localhost
-    port: 5672
+    port: 5673
     username: myuser
     password: mypassword
 
@@ -36,3 +35,6 @@ spring:
           jwk-set-uri: http://localhost:8181/realms/GamePlatform/protocol/openid-connect/certs
           issuer-uri: http://localhost:8181/realms/GamePlatform
 
+external:
+  api:
+    url: "http://localhost:8081"
