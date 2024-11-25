@@ -15,15 +15,18 @@ import java.util.UUID;
 @Component
 public class ReviewDBAdapter implements ReviewCreatedPort, LoadReviewPort {
     private final ReviewJpaRepository reviewJpaRepository;
+    private final StoreGameJpaRepository storeGameJpaRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(ReviewDBAdapter.class);
 
-    public ReviewDBAdapter(ReviewJpaRepository reviewJpaRepository) {
+    public ReviewDBAdapter(ReviewJpaRepository reviewJpaRepository, StoreGameJpaRepository storeGameJpaRepository) {
         this.reviewJpaRepository = reviewJpaRepository;
+        this.storeGameJpaRepository = storeGameJpaRepository;
     }
 
     @Override
     public List<Review> findReviewByGameId(UUID gameId) {
-        List<ReviewJpaEntity> reviewJpaEntities = reviewJpaRepository.findByGameId(gameId);
+        List<ReviewJpaEntity> reviewJpaEntities = reviewJpaRepository.findByGame_GameId(gameId);
         if (reviewJpaEntities.isEmpty()) {
             logger.info("No reviews found for game with id: {}", gameId);
             return List.of();
@@ -40,7 +43,7 @@ public class ReviewDBAdapter implements ReviewCreatedPort, LoadReviewPort {
         return new Review(
                 reviewJpaEntity.getReviewId(),
                 new PlayerId(reviewJpaEntity.getPlayerId()),
-                new GameId(reviewJpaEntity.getGameId()),
+                new GameId(reviewJpaEntity.getGame().getGameId()),
                 reviewJpaEntity.getRating(),
                 reviewJpaEntity.getComment(),
                 reviewJpaEntity.getCreatedAt()
@@ -49,10 +52,13 @@ public class ReviewDBAdapter implements ReviewCreatedPort, LoadReviewPort {
 
     @Override
     public void createReview(Review review) {
+        StoreGameJpaEntity storeGameJpaEntity = storeGameJpaRepository.findById(review.getGameId().id())
+                .orElseThrow(() -> new IllegalArgumentException("Game with id: " + review.getGameId() + " not found"));
+
         ReviewJpaEntity jpaEntity = new ReviewJpaEntity(
                 review.getReviewId(),
                 review.getPlayerId().id(),
-                review.getGameId().id(),
+                storeGameJpaEntity,
                 review.getRating(),
                 review.getComment(),
                 review.getCreatedAt()

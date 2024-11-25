@@ -11,7 +11,8 @@ import java.util.UUID;
 public class StoreGameJpaEntity {
 
     @Id
-    @Column(name="game_id", columnDefinition = "CHAR(36)")
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name="game_id")
     private UUID gameId;
 
     @Column(name="name")
@@ -32,6 +33,14 @@ public class StoreGameJpaEntity {
         this.name = name;
         this.price = price;
         this.description = description;
+    }
+
+    public StoreGameJpaEntity(UUID gameId, String name, BigDecimal price, String description, List<ReviewJpaEntity> reviews) {
+        this.gameId = gameId;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.reviews = reviews;
     }
 
     public StoreGameJpaEntity() {}

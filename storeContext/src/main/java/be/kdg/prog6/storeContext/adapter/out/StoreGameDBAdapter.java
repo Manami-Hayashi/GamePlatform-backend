@@ -15,16 +15,16 @@ import java.util.stream.Collectors;
 
 @Component
 public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPort {
-    private final StoreGameRepository storeGameRepository;
+    private final StoreGameJpaRepository storeGameJpaRepository;
     private static final Logger logger = LoggerFactory.getLogger(StoreGameDBAdapter.class);
 
-    public StoreGameDBAdapter(StoreGameRepository storeGameRepository) {
-        this.storeGameRepository = storeGameRepository;
+    public StoreGameDBAdapter(StoreGameJpaRepository storeGameJpaRepository) {
+        this.storeGameJpaRepository = storeGameJpaRepository;
     }
 
     @Override
     public List<StoreGame> findAll() {
-        List<StoreGameJpaEntity> storeGameJpaEntities = storeGameRepository.findAll();
+        List<StoreGameJpaEntity> storeGameJpaEntities = storeGameJpaRepository.findAll();
         if (storeGameJpaEntities.isEmpty()) {
             logger.info("No games found in the store");
             return List.of();
@@ -78,7 +78,7 @@ public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPo
                     .map(review -> new ReviewJpaEntity(
                             review.getReviewId(),
                             review.getPlayerId().id(),
-                            review.getGameId().id(),
+                            jpaEntity,
                             review.getRating(),
                             review.getComment(),
                             review.getCreatedAt()
@@ -86,10 +86,10 @@ public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPo
                     .collect(Collectors.toList())
             );
 
-            storeGameRepository.save(jpaEntity);
+            storeGameJpaRepository.save(jpaEntity);
         }
         else {
-            storeGameRepository.save(jpaEntity);
+            storeGameJpaRepository.save(jpaEntity);
         }
 
     }

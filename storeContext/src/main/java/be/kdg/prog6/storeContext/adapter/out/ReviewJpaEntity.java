@@ -9,15 +9,17 @@ import java.util.UUID;
 @Table(catalog="store", name="reviews")
 public class ReviewJpaEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID reviewId;
 
-    @Column(name="player_id", columnDefinition = "CHAR(36)")
+    @Column(name="player_id")
     private UUID playerId;
 
-    @Column(name="game_id", columnDefinition = "CHAR(36)")
-    private UUID gameId;
+//    @Column(name="game_id")
+//    private UUID gameId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id", nullable = false)
     private StoreGameJpaEntity game;
 
     @Column(name="rating")
@@ -31,10 +33,10 @@ public class ReviewJpaEntity {
 
 
 
-    public ReviewJpaEntity(UUID reviewId, UUID playerId, UUID gameId, int rating, String comment, LocalDateTime createdAt) {
+    public ReviewJpaEntity(UUID reviewId, UUID playerId, StoreGameJpaEntity game , int rating, String comment, LocalDateTime createdAt) {
         this.reviewId = reviewId;
         this.playerId = playerId;
-        this.gameId = gameId;
+        this.game = game;
         this.rating = rating;
         this.comment = comment;
         this.createdAt = createdAt;
@@ -51,9 +53,13 @@ public class ReviewJpaEntity {
 
     public void setPlayerId(UUID playerId) {this.playerId = playerId;}
 
-    public UUID getGameId() {return gameId;}
+    public StoreGameJpaEntity getGame() {return game;}
 
-    public void setGameId(UUID gameId) {this.gameId = gameId;}
+    public void setGame(StoreGameJpaEntity game) {this.game = game;}
+
+    public UUID getGameId() {return game.getGameId();}
+
+    public void setGameId(UUID gameId) {game.setGameId(gameId);}
 
     public int getRating() {return rating;}
 
