@@ -7,3 +7,8 @@
 spring:
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: myuser
+    password: mypassword
