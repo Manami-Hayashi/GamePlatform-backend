@@ -1,11 +1,11 @@
-package be.kdg.storeContext.adapter.out;
+package be.kdg.prog6.storeContext.adapter.out;
 
-import be.kdg.storeContext.domain.GameId;
-import be.kdg.storeContext.domain.PlayerId;
-import be.kdg.storeContext.domain.Review;
-import be.kdg.storeContext.domain.StoreGame;
-import be.kdg.storeContext.port.out.LoadStoreGamePort;
-import be.kdg.storeContext.port.out.StoreGameCreatedPort;
+import be.kdg.prog6.storeContext.domain.GameId;
+import be.kdg.prog6.storeContext.domain.PlayerId;
+import be.kdg.prog6.storeContext.domain.Review;
+import be.kdg.prog6.storeContext.domain.StoreGame;
+import be.kdg.prog6.storeContext.port.out.LoadStoreGamePort;
+import be.kdg.prog6.storeContext.port.out.StoreGameCreatedPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

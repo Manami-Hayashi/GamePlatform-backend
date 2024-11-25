@@ -1,4 +1,4 @@
-package be.kdg.storeContext.adapter.out;
+package be.kdg.prog6.storeContext.adapter.out;
 
 import jakarta.persistence.*;
 
@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(catalog="store", name="games")
+@Table(catalog="store", name="game")
 public class StoreGameJpaEntity {
 
     @Id
+    @Column(name="game_id", columnDefinition = "CHAR(36)")
     private UUID gameId;
 
     @Column(name="name")
@@ -19,7 +20,7 @@ public class StoreGameJpaEntity {
     @Column(name="price")
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ReviewJpaEntity> reviews;
 
 

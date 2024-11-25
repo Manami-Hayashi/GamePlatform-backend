@@ -8,12 +8,14 @@ public class StoreGame {
     private GameId gameId;
     private String name;
     private BigDecimal price;
+    private String description;
     private List<Review> reviews;
 
-    public StoreGame(GameId gameId, String name, BigDecimal price, List<Review> reviews) {
+    public StoreGame(GameId gameId, String name, BigDecimal price, String description, List<Review> reviews) {
         this.gameId = gameId;
         this.name = name;
         this.price = price;
+        this.description = description;
         this.reviews = reviews;
     }
 
@@ -51,4 +53,8 @@ public class StoreGame {
     public void removeReview(Review review) {
         reviews.remove(review);
     }
+
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
 }

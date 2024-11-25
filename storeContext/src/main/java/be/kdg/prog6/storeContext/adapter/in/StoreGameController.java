@@ -1,7 +1,7 @@
-package be.kdg.storeContext.adapter.in;
+package be.kdg.prog6.storeContext.adapter.in;
 
-import be.kdg.storeContext.domain.StoreGame;
-import be.kdg.storeContext.port.in.DisplayGameCatalogUseCase;
+import be.kdg.prog6.storeContext.domain.StoreGame;
+import be.kdg.prog6.storeContext.port.in.DisplayGameCatalogUseCase;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

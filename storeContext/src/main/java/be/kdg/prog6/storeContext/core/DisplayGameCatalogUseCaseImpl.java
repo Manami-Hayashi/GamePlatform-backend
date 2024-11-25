@@ -1,8 +1,8 @@
-package be.kdg.storeContext.core;
+package be.kdg.prog6.storeContext.core;
 
-import be.kdg.storeContext.domain.StoreGame;
-import be.kdg.storeContext.port.in.DisplayGameCatalogUseCase;
-import be.kdg.storeContext.port.out.LoadStoreGamePort;
+import be.kdg.prog6.storeContext.domain.StoreGame;
+import be.kdg.prog6.storeContext.port.in.DisplayGameCatalogUseCase;
+import be.kdg.prog6.storeContext.port.out.LoadStoreGamePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

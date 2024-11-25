@@ -1,4 +1,4 @@
-package be.kdg.storeContext.adapter.out;
+package be.kdg.prog6.storeContext.adapter.out;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

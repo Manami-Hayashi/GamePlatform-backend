@@ -1,11 +1,6 @@
-package be.kdg.storeContext.adapter.out;
+package be.kdg.prog6.storeContext.adapter.out;
 
-import be.kdg.storeContext.domain.PlayerId;
-import be.kdg.storeContext.domain.Review;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -22,6 +17,9 @@ public class ReviewJpaEntity {
     @Column(name="game_id", columnDefinition = "CHAR(36)")
     private UUID gameId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private StoreGameJpaEntity game;
+
     @Column(name="rating")
     private int rating;
 
@@ -30,6 +28,8 @@ public class ReviewJpaEntity {
 
     @Column(name="created_at")
     private LocalDateTime createdAt;
+
+
 
     public ReviewJpaEntity(UUID reviewId, UUID playerId, UUID gameId, int rating, String comment, LocalDateTime createdAt) {
         this.reviewId = reviewId;
@@ -67,4 +67,6 @@ public class ReviewJpaEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
 
+
 }
+
