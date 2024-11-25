@@ -1,5 +1,6 @@
 package be.kdg.prog6.gameManagementContext.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,8 +33,8 @@ public class Admin {
         return playerList;
     }
 
-    public void createGame(GameId gameId, String gameName, String description) {
-        Game game = new Game(gameId, gameName, description);
+    public void createGame(GameId gameId, String gameName, BigDecimal price,  String description) {
+        Game game = new Game(gameId, gameName, price, description);
         gameList.add(game);
     }
 

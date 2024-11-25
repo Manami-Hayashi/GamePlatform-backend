@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -13,6 +14,8 @@ public class GameJpaEntity {
     @Id
     @Column(name="game_id")
     private UUID gameId;
+    @Column(name="price")
+    private BigDecimal price;
     @Column(name="game_name")
     private String gameName;
     @Column(name="description")
@@ -40,5 +43,13 @@ public class GameJpaEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

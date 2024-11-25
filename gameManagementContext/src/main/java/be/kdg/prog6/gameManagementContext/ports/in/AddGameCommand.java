@@ -1,4 +1,6 @@
 package be.kdg.prog6.gameManagementContext.ports.in;
 
-public record AddGameCommand(String gameName, String description) {
+import java.math.BigDecimal;
+
+public record AddGameCommand(String gameName, BigDecimal price, String description) {
 }

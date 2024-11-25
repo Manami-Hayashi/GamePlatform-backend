@@ -43,6 +43,7 @@ public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPo
         return new Game(
                 new GameId(gameJpaEntity.getGameId()),
                 gameJpaEntity.getGameName(),
+                gameJpaEntity.getPrice(),
                 gameJpaEntity.getDescription()
         );
     }
@@ -51,6 +52,7 @@ public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPo
         GameJpaEntity gameJpaEntity = new GameJpaEntity();
         gameJpaEntity.setGameId(game.getGameId().id());
         gameJpaEntity.setGameName(game.getGameName());
+        gameJpaEntity.setPrice(game.getPrice());
         gameJpaEntity.setDescription(game.getDescription());
         return gameJpaEntity;
     }

@@ -1,4 +1,4 @@
-package be.kdg.storeContext.adapter.in;
+package be.kdg.storeContext.adapters.in;
 
 import be.kdg.prog6.common.events.GameAddedEvent;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

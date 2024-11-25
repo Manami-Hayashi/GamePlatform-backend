@@ -1,3 +1,4 @@
+// GameCreatedEventPublisher.java
 package be.kdg.prog6.gameManagementContext.adapters.out;
 
 import be.kdg.prog6.common.events.GameAddedEvent;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class GameCreatedEventPublisher implements UpdateGamePort {
     private final RabbitTemplate rabbitTemplate;
     private static final String EXCHANGE_NAME = "game.added.exchange";
+    private static final String ROUTING_KEY = "game.added";
     private static final Logger LOGGER = LoggerFactory.getLogger(GameCreatedEventPublisher.class);
 
     public GameCreatedEventPublisher(RabbitTemplate rabbitTemplate) {
@@ -20,11 +22,11 @@ public class GameCreatedEventPublisher implements UpdateGamePort {
 
     @Override
     public void updateGame(Game game) {
-        final String routingKey = "game." + game.getGameId().id() + ".added";
-        LOGGER.info("Publishing GameAddedEvent to RabbitMQ: {}", routingKey);
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, new GameAddedEvent(
+        LOGGER.info("Publishing GameAddedEvent to RabbitMQ");
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, new GameAddedEvent(
                 game.getGameId().id(),
                 game.getGameName(),
+                game.getPrice(),
                 game.getDescription()
         ));
     }

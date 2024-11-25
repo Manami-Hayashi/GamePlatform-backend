@@ -45,9 +45,10 @@ public class RabbitMQTopology {
     public static final String GAME_ADDED_EXCHANGE = "game.added.exchange";
     public static final String GAME_ADDED_QUEUE = "game.added.queue";
     public static final String GAME_ADDED_ROUTING_KEY = "game.added";
+
     @Bean
-    public DirectExchange gameAddedExchange() {
-        return new DirectExchange(GAME_ADDED_EXCHANGE);
+    public TopicExchange gameAddedExchange() {
+        return new TopicExchange(GAME_ADDED_EXCHANGE);
     }
 
     @Bean
@@ -56,7 +57,7 @@ public class RabbitMQTopology {
     }
 
     @Bean
-    public Binding gameAddedBinding(Queue gameAddedQueue, DirectExchange gameAddedExchange) {
+    public Binding gameAddedBinding(Queue gameAddedQueue, TopicExchange gameAddedExchange) {
         return BindingBuilder
                 .bind(gameAddedQueue)
                 .to(gameAddedExchange)

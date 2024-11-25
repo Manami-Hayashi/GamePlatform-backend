@@ -18,7 +18,7 @@ public class PlatformController {
 
     @PostMapping("/add")
     public void addGame(@RequestBody AddGameRequest request) {
-        AddGameCommand command = new AddGameCommand(request.getGameName(), request.getDescription());
+        AddGameCommand command = new AddGameCommand(request.getGameName(), request.getPrice(), request.getDescription());
         addGameUseCase.addGame(command);
     }
 }

@@ -26,10 +26,10 @@ public class AddGameUseCaseImpl implements AddGameUseCase {
     public void addGame(AddGameCommand command) {
         // Create a new game using the provided details
         GameId gameId = new GameId(UUID.randomUUID());
-        Game game = new Game(gameId, command.gameName(), command.description());
+        Game game = new Game(gameId, command.gameName(), command.price(), command.description());
 
         Admin admin = new Admin();
-        admin.createGame(gameId, game.getGameName(), game.getDescription());
+        admin.createGame(gameId, game.getGameName(), game.getPrice(), game.getDescription());
         saveGamePort.saveGame(game);
 
         // Update the game using all UpdateGamePort implementations
