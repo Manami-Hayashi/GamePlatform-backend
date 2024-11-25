@@ -7,7 +7,7 @@ import org.hibernate.type.SqlTypes;
 import java.util.UUID;
 
 @Entity
-@Table(catalog = "game_statistics", name = "achievements")
+@Table(catalog = "game_statistics", name = "achievement")
 public class AchievementJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

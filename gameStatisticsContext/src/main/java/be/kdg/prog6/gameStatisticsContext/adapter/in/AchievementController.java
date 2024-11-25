@@ -22,7 +22,7 @@ public class AchievementController {
         List<Achievement> achievements = getAchievementsUseCase.getAchievements();
         List<AchievementDto> achievementDtos = new ArrayList<>();
         for (Achievement achievement : achievements) {
-            achievementDtos.add(new AchievementDto(achievement.getAchievementId(), achievement.getPlayerId().id(), achievement.getName(), achievement.getDescription(), achievement.isLocked()));
+            achievementDtos.add(new AchievementDto(achievement.getId(), achievement.getPlayerId().id(), achievement.getName(), achievement.getDescription(), achievement.isLocked()));
         }
         return achievementDtos;
     }

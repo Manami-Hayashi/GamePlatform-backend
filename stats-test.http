@@ -20,3 +20,9 @@ scope = openid
 
 GET http://localhost:8090/api/achievements
 Authorization: Bearer {{access_token}}
+
+
+### Get game statistics
+
+GET http://localhost:8090/api/game-statistics
+Authorization: Bearer {{access_token}}
