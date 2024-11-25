@@ -1,4 +1,4 @@
-package be.kdg.gameStatisticsContext;
+package be.kdg.prog6.gameStatisticsContext;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package be.kdg.gameStatisticsContext.domain;
+package be.kdg.prog6.gameStatisticsContext.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;

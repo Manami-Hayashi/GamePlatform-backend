@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(catalog="playerManagement", name="players")
+@Table(catalog="player_management", name="players")
 public class PlayerJpaEntity{
     @Id
     @Column(name="player_id", columnDefinition = "CHAR(36)")
