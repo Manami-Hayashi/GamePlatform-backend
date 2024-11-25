@@ -3,12 +3,15 @@ package be.kdg.prog6.common.events;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class UserRegistrationEvent implements Serializable {
+public class UserRegistrationEvent {
     private UUID userId;
     private String username;
     private String email;
     private String firstName;
     private String lastName;
+
+    public UserRegistrationEvent() {
+    }
 
     public UserRegistrationEvent(UUID userId, String username, String email, String firstName, String lastName) {
         this.userId = userId;
