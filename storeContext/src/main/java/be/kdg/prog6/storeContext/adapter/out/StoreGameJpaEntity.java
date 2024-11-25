@@ -20,14 +20,18 @@ public class StoreGameJpaEntity {
     @Column(name="price")
     private BigDecimal price;
 
+    @Column(name="description")
+    private String description;
+
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ReviewJpaEntity> reviews;
 
 
-    public StoreGameJpaEntity(UUID gameId, String name, BigDecimal price) {
+    public StoreGameJpaEntity(UUID gameId, String name, BigDecimal price, String description) {
         this.gameId = gameId;
         this.name = name;
         this.price = price;
+        this.description = description;
     }
 
     public StoreGameJpaEntity() {}
@@ -48,4 +52,7 @@ public class StoreGameJpaEntity {
 
     public void setReviews(List<ReviewJpaEntity> reviews) {this.reviews = reviews;}
 
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
 }

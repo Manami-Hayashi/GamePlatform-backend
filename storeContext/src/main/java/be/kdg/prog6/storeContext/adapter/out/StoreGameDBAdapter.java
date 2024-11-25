@@ -45,6 +45,7 @@ public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPo
         game.setGameId(new GameId(storeGameJpaEntity.getGameId()));
         game.setName(storeGameJpaEntity.getName());
         game.setPrice(storeGameJpaEntity.getPrice());
+        game.setDescription(storeGameJpaEntity.getDescription());
         if (!storeGameJpaEntity.getReviews().isEmpty()) {
             List<Review> reviewList = storeGameJpaEntity.getReviews()
                     .stream()
@@ -69,7 +70,8 @@ public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPo
         StoreGameJpaEntity jpaEntity= new StoreGameJpaEntity(
                 newStoreGame.getGameId().id(),
                 newStoreGame.getName(),
-                newStoreGame.getPrice()
+                newStoreGame.getPrice(),
+                newStoreGame.getDescription()
         );
         if (!newStoreGame.getReviews().isEmpty()) {
             jpaEntity.setReviews(newStoreGame.getReviews().stream()
