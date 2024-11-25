@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = gGS9JZkQh2MLPIgcr3LjJdwa3H9g5TR8 &
+client_secret = 0Ss74BU8bo5Xcq7p3SfxvYRyNmxtkB3E &
 username = admin &
 password = password &
 grant_type = password &
@@ -14,3 +14,30 @@ scope = openid
 > {%
     client.global.set("access_token", response.body.access_token);
 %}
+
+
+
+### Create a new user in Keycloak (Register User)
+POST http://localhost:8181/realms/GamePlatform/users
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "enabled": true,
+  "emailVerified": true,
+  "firstName": "New",
+  "lastName": "User",
+  "email": "newuser@example.com",
+  "credentials": [{"type": "password", "value": "password"}]
+}
+
+### Add a game
+POST http://localhost:8090/api/games/add
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "gameName": "Checkers",
+  "description": "A classic board game"
+}

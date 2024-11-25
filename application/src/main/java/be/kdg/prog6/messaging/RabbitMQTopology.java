@@ -65,6 +65,30 @@ public class RabbitMQTopology {
                 .with(USER_REGISTRATION_ROUTING_KEY);
     }
 
+
+    // Admin adds a new name
+    public static final String GAME_ADDED_EXCHANGE = "game.added.exchange";
+    public static final String GAME_ADDED_QUEUE = "game.added.queue";
+    public static final String GAME_ADDED_ROUTING_KEY = "game.added";
+
+    @Bean
+    public TopicExchange gameAddedExchange() {
+        return new TopicExchange(GAME_ADDED_EXCHANGE);
+    }
+
+    @Bean
+    public Queue gameAddedQueue() {
+        return new Queue(GAME_ADDED_QUEUE, true); // Durable queue
+    }
+
+    @Bean
+    public Binding gameAddedBinding(Queue gameAddedQueue, TopicExchange gameAddedExchange) {
+        return BindingBuilder
+                .bind(gameAddedQueue)
+                .to(gameAddedExchange)
+                .with(GAME_ADDED_ROUTING_KEY);
+    }
+
     // Define RabbitTemplate for internal communication with Keycloak (using the internalConnectionFactory)
     @Bean(name = "internalRabbitTemplate")
     public RabbitTemplate internalRabbitTemplate(final ConnectionFactory internalConnectionFactory) {

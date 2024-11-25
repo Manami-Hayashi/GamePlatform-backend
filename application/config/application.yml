@@ -3,7 +3,6 @@ server:
   servlet:
     context-path: /api
 
-
 spring:
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
@@ -28,10 +27,14 @@ spring:
     port: 5673
     username: myuser
     password: mypassword
-    security:
-      oauth2:
-        resourceserver:
-          jwt:
-            jwk-set-uri: http://localhost:8181/realms/GamePlatform/protocol/openid-connect/certs
-            issuer-uri: http://localhost:8181/realms/GamePlatform
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8181/realms/GamePlatform/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8181/realms/GamePlatform
+
+external:
+  api:
+    url: "http://localhost:8081"
