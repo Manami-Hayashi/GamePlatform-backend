@@ -33,6 +33,6 @@ public class AddGameUseCaseImpl implements AddGameUseCase {
         saveGamePort.saveGame(game);
 
         // Update the game using all UpdateGamePort implementations
-//        updateGamePorts.forEach(updateGamePort -> updateGamePort.updateGame(game));
+        updateGamePorts.forEach(updateGamePort -> updateGamePort.updateGame(game));
     }
 }
