@@ -39,5 +39,6 @@ Content-Type: application/json
 
 {
   "gameName": "Checkers",
-  "description": "A classic board game"
+  "description": "A classic board game",
+  "price": 0.0
 }
