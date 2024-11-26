@@ -14,5 +14,30 @@ public class LobbyJpaEntity {
     @OneToMany(mappedBy = "lobby")
     private List<LobbyPlayerJpaEntity> players;
 
+    public LobbyJpaEntity(UUID lobbyId, List<LobbyPlayerJpaEntity> players) {
+        this.lobbyId = lobbyId;
+        this.players = players;
+    }
+
+    public LobbyJpaEntity() {
+    }
+
+    public UUID getLobbyId() {
+        return lobbyId;
+    }
+
+    public void setLobbyId(UUID lobbyId) {
+        this.lobbyId = lobbyId;
+    }
+
+    public List<LobbyPlayerJpaEntity> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<LobbyPlayerJpaEntity> players) {
+        this.players = players;
+    }
+
+
     // Getters and setters
 }

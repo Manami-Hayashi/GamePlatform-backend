@@ -17,5 +17,37 @@ public class LobbyPlayerJpaEntity {
     @JoinColumn(name = "lobby_id")
     private LobbyJpaEntity lobby;
 
+    public LobbyPlayerJpaEntity(UUID playerId, String name, LobbyJpaEntity lobby) {
+        this.playerId = playerId;
+        this.name = name;
+        this.lobby = lobby;
+    }
+
+    public LobbyPlayerJpaEntity() {
+    }
+
+    public UUID getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(UUID playerId) {
+        this.playerId = playerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LobbyJpaEntity getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(LobbyJpaEntity lobby) {
+        this.lobby = lobby;
+    }
     // Getters and setters
 }

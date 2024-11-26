@@ -12,3 +12,19 @@ INSERT INTO store.reviews (review_id, player_id, game_id, rating, comment, creat
                                                                                      (UUID_TO_BIN('5314ba14-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 2, 'Could be better.', '2024-01-04 08:45:00'),
                                                                                      (UUID_TO_BIN('585d9478-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 5, 'Absolutely love it!', '2024-01-05 19:00:00');
 */
+-- Insert dummy players
+INSERT INTO lobby_management.player (player_id, name) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), 'Player One');
+INSERT INTO lobby_management.player (player_id, name) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120003'), 'Player Two');
+INSERT INTO lobby_management.player (player_id, name) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120004'), 'Player Three');
+
+-- Insert lobbies
+INSERT INTO lobby_management.lobby (lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
+INSERT INTO lobby_management.lobby (lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120003'));
+
+-- Assign players to lobbies
+-- Lobby with 2 players
+INSERT INTO lobby_management.player (player_id, name, lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120005'), 'Player One', UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
+INSERT INTO lobby_management.player (player_id, name, lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120006'), 'Player Two', UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
+
+-- Lobby with 1 player
+INSERT INTO lobby_management.player (player_id, name, lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120007'), 'Player Three', UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120003'));

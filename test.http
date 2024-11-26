@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = gGS9JZkQh2MLPIgcr3LjJdwa3H9g5TR8 &
+client_secret = 0Ss74BU8bo5Xcq7p3SfxvYRyNmxtkB3E &
 username = admin &
 password = password &
 grant_type = password &
@@ -42,3 +42,15 @@ Content-Type: application/json
   "description": "A classic board game",
   "price": 0.0
 }
+
+### Match players in a lobby
+POST http://localhost:8090/api/lobby/match
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120002",
+  "friendId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120003"
+}
+
+
