@@ -1,43 +1,89 @@
-package be.kdg.prog6.gameStatisticsContext.domain;
+package be.kdg.prog6.gameStatisticsContext.adapter.out;
+
+import be.kdg.prog6.gameStatisticsContext.domain.Player;
+import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
-public class GameStatistics {
-    private final GameId gameId;
+@Entity
+@Table(catalog = "game_statistics", name = "game_statistics")
+public class GameStatisticsJpaEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "player_id")
+    private StatsPlayerJpaEntity player;
+
+    @Column(name = "game_id")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID gameId;
+
+    @Column(name = "total_score")
     private int totalScore;
-    private int totalGamesPlayed;
-    private int wins;
-    private int losses;
-    private int draws;
-    private double winLossRatio;
-    private int totalTimePlayed;
-    private int highestScore;
-    private int movesMade;
-    private int averageGameDuration;
-    private List<MatchHistory> matchesPlayed;
 
-    public GameStatistics(final GameId gameId, int totalScore, List<MatchHistory> matchesPlayed) {
+    @Column(name = "total_games_played")
+    private int totalGamesPlayed;
+
+    @Column(name = "wins")
+    private int wins;
+
+    @Column(name = "losses")
+    private int losses;
+
+    @Column(name = "draws")
+    private int draws;
+
+    @Column(name = "win_loss_ratio")
+    private double winLossRatio;
+
+    @Column(name = "total_time_played")
+    private int totalTimePlayed;
+
+    @Column(name = "highest_score")
+    private int highestScore;
+
+    @Column(name = "moves_made")
+    private int movesMade;
+
+    @Column(name = "average_game_duration")
+    private int averageGameDuration;
+
+    @Column(name = "matches_played")
+    private int matchesPlayed;
+
+    @OneToMany(mappedBy = "gameStatistics")
+    private Set<GameStatisticsMatchHistoryJpaEntity> matchHistories;
+
+    public GameStatisticsJpaEntity() {
+    }
+
+    public GameStatisticsJpaEntity(UUID gameId, int totalScore, int matchesPlayed) {
         this.gameId = gameId;
         this.totalScore = totalScore;
         this.matchesPlayed = matchesPlayed;
     }
 
-    public GameStatistics(GameId gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
-        this.gameId = gameId;
-        this.totalScore = totalScore;
-        this.totalGamesPlayed = totalGamesPlayed;
-        this.wins = wins;
-        this.losses = losses;
-        this.draws = draws;
-        this.winLossRatio = winLossRatio;
-        this.totalTimePlayed = totalTimePlayed;
-        this.highestScore = highestScore;
-        this.movesMade = movesMade;
-        this.averageGameDuration = averageGameDuration;
+    public int getId() {
+        return id;
     }
 
-    public GameId getGameId() {
+    public StatsPlayerJpaEntity getPlayer() {
+        return player;
+    }
+
+    public UUID getGameId() {
         return gameId;
+    }
+
+    public void setGameId(UUID gameId) {
+        this.gameId = gameId;
     }
 
     public int getTotalScore() {
@@ -120,11 +166,11 @@ public class GameStatistics {
         this.averageGameDuration = averageGameDuration;
     }
 
-    public List<MatchHistory> getMatchesPlayed() {
+    public int getMatchesPlayed() {
         return matchesPlayed;
     }
 
-    public void setMatchesPlayed(List<MatchHistory> matchesPlayed) {
+    public void setMatchesPlayed(int matchesPlayed) {
         this.matchesPlayed = matchesPlayed;
     }
 }
