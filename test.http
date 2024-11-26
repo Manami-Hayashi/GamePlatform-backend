@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = gGS9JZkQh2MLPIgcr3LjJdwa3H9g5TR8 &
+client_secret = lUwSgUy7uOS9C34OApToaD3KgY2CRQon &
 username = admin &
 password = password &
 grant_type = password &
