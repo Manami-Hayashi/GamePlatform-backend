@@ -1,18 +1,26 @@
 package be.kdg.prog6.gameStatisticsContext.adapter.out;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import be.kdg.prog6.gameStatisticsContext.domain.Player;
+import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(catalog = "game_statistics", name = "game_statistics")
 public class GameStatisticsJpaEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "player_id")
+    private StatsPlayerJpaEntity player;
+
     @Column(name = "game_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID gameId;
@@ -20,8 +28,38 @@ public class GameStatisticsJpaEntity {
     @Column(name = "total_score")
     private int totalScore;
 
+    @Column(name = "total_games_played")
+    private int totalGamesPlayed;
+
+    @Column(name = "wins")
+    private int wins;
+
+    @Column(name = "losses")
+    private int losses;
+
+    @Column(name = "draws")
+    private int draws;
+
+    @Column(name = "win_loss_ratio")
+    private double winLossRatio;
+
+    @Column(name = "total_time_played")
+    private int totalTimePlayed;
+
+    @Column(name = "highest_score")
+    private int highestScore;
+
+    @Column(name = "moves_made")
+    private int movesMade;
+
+    @Column(name = "average_game_duration")
+    private int averageGameDuration;
+
     @Column(name = "matches_played")
     private int matchesPlayed;
+
+    @OneToMany(mappedBy = "gameStatistics")
+    private Set<GameStatisticsMatchHistoryJpaEntity> matchHistories;
 
     public GameStatisticsJpaEntity() {
     }
@@ -32,15 +70,107 @@ public class GameStatisticsJpaEntity {
         this.matchesPlayed = matchesPlayed;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public StatsPlayerJpaEntity getPlayer() {
+        return player;
+    }
+
     public UUID getGameId() {
         return gameId;
+    }
+
+    public void setGameId(UUID gameId) {
+        this.gameId = gameId;
     }
 
     public int getTotalScore() {
         return totalScore;
     }
 
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public int getTotalGamesPlayed() {
+        return totalGamesPlayed;
+    }
+
+    public void setTotalGamesPlayed(int totalGamesPlayed) {
+        this.totalGamesPlayed = totalGamesPlayed;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
+    public int getDraws() {
+        return draws;
+    }
+
+    public void setDraws(int draws) {
+        this.draws = draws;
+    }
+
+    public double getWinLossRatio() {
+        return winLossRatio;
+    }
+
+    public void setWinLossRatio(double winLossRatio) {
+        this.winLossRatio = winLossRatio;
+    }
+
+    public int getTotalTimePlayed() {
+        return totalTimePlayed;
+    }
+
+    public void setTotalTimePlayed(int totalTimePlayed) {
+        this.totalTimePlayed = totalTimePlayed;
+    }
+
+    public int getHighestScore() {
+        return highestScore;
+    }
+
+    public void setHighestScore(int highestScore) {
+        this.highestScore = highestScore;
+    }
+
+    public int getMovesMade() {
+        return movesMade;
+    }
+
+    public void setMovesMade(int movesMade) {
+        this.movesMade = movesMade;
+    }
+
+    public int getAverageGameDuration() {
+        return averageGameDuration;
+    }
+
+    public void setAverageGameDuration(int averageGameDuration) {
+        this.averageGameDuration = averageGameDuration;
+    }
+
     public int getMatchesPlayed() {
         return matchesPlayed;
+    }
+
+    public void setMatchesPlayed(int matchesPlayed) {
+        this.matchesPlayed = matchesPlayed;
     }
 }

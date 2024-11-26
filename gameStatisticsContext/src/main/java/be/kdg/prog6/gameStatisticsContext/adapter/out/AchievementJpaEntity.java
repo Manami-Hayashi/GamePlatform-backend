@@ -7,7 +7,7 @@ import org.hibernate.type.SqlTypes;
 import java.util.UUID;
 
 @Entity
-@Table(catalog = "game_statistics", name = "achievement")
+@Table(catalog = "game_statistics", name = "achievements")
 public class AchievementJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,10 @@ public class AchievementJpaEntity {
     @Column(name = "player_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID playerId;
+
+    @Column(name = "game_id")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID gameId;
 
     @Column(name = "name")
     private String name;
@@ -30,8 +34,9 @@ public class AchievementJpaEntity {
     public AchievementJpaEntity() {
     }
 
-    public AchievementJpaEntity(UUID playerId, String name, String description, boolean isLocked) {
+    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, boolean isLocked) {
         this.playerId = playerId;
+        this.gameId = gameId;
         this.name = name;
         this.description = description;
         this.isLocked = isLocked;
@@ -43,6 +48,10 @@ public class AchievementJpaEntity {
 
     public UUID getPlayerId() {
         return playerId;
+    }
+
+    public UUID getGameId() {
+        return gameId;
     }
 
     public String getName() {
