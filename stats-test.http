@@ -1,0 +1,28 @@
+### Get access token with admin credentials
+
+POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id = backend &
+client_secret = hjMbDSS6bsMYLsFiiH6ETl7YWSgi3oyv &
+username = admin &
+password = password &
+grant_type = password &
+scope = openid
+
+//saving the access token
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
+
+
+### Get achievements
+
+GET http://localhost:8090/api/achievements
+Authorization: Bearer {{access_token}}
+
+
+### Get scoreboard
+
+GET http://localhost:8090/api/scoreboard/a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634
+Authorization: Bearer {{access_token}}

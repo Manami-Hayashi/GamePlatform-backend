@@ -1,34 +1,32 @@
 package be.kdg.prog6.gameStatisticsContext.domain;
 
-import java.util.UUID;
-
 public class Achievement {
-    private UUID achievementId;
-    private PlayerId playerId;
-    private String name;
-    private String description;
+    private final int id;
+    private final PlayerId playerId;
+    private final GameId gameId;
+    private final String name;
+    private final String description;
     private boolean isLocked;
 
-    public Achievement(UUID achievementId, PlayerId playerId, String name, String description, boolean isLocked) {
-        this.achievementId = achievementId;
+    public Achievement(final int id, PlayerId playerId, final GameId gameId, final String name, final String description, boolean isLocked) {
+        this.id = id;
         this.playerId = playerId;
+        this.gameId = gameId;
         this.name = name;
         this.description = description;
         this.isLocked = isLocked;
     }
 
-
-    public void unLock() {
-        isLocked = false;
-    }
-
-
-    public UUID getAchievementId() {
-        return achievementId;
+    public int getId() {
+        return id;
     }
 
     public PlayerId getPlayerId() {
         return playerId;
+    }
+
+    public GameId getGameId() {
+        return gameId;
     }
 
     public String getName() {
@@ -41,5 +39,9 @@ public class Achievement {
 
     public boolean isLocked() {
         return isLocked;
+    }
+
+    public void unlock() {
+        this.isLocked = false;
     }
 }
