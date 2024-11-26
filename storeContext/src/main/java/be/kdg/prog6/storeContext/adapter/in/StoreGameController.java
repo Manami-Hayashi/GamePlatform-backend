@@ -19,7 +19,7 @@ public class StoreGameController {
         this.displayGameCatalogUseCase = displayGameCatalogUseCase;
     }
 
-    @GetMapping
+    @GetMapping("/games")
     public ResponseEntity<List<StoreGameDto>> getAvailableGames() {
         List<StoreGame> availableGames = displayGameCatalogUseCase.getAvailableGames();
 
