@@ -43,7 +43,7 @@ Content-Type: application/json
   "price": 0.0
 }
 
-### Match players in a lobby
+### Match players in a lobby if they are friends and dont have a match
 POST http://localhost:8090/api/lobby/match
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
@@ -51,6 +51,16 @@ Content-Type: application/json
 {
   "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120002",
   "friendId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120003"
+}
+
+
+### Match a player with a random player in a lobby
+POST http://localhost:8090/api/lobby/match
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120004"
 }
 
 

@@ -23,6 +23,11 @@ public class LobbyPlayerJpaEntity {
         this.lobby = lobby;
     }
 
+    public LobbyPlayerJpaEntity(UUID playerId, String name) {
+        this.playerId = playerId;
+        this.name = name;
+    }
+
     public LobbyPlayerJpaEntity() {
     }
 

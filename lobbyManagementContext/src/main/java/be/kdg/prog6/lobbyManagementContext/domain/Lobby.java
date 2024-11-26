@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public class Lobby {
     private final UUID lobbyId;
-    private List<PlayerId> players;
+    private List<Player> players;
     private static final int MAX_PLAYERS = 2;
 
-    public Lobby(UUID lobbyId, List<PlayerId> players) {
+    public Lobby(UUID lobbyId, List<Player> players) {
         this.lobbyId = lobbyId;
         this.players = players;
     }
@@ -20,24 +20,24 @@ public class Lobby {
     }
 
     public boolean isFull() {
-        return players.size() != MAX_PLAYERS;
+        return players.size() == MAX_PLAYERS;
     }
 
-    public void inviteFriend(PlayerId playerId, PlayerId friendId) {
-        if (players.contains(playerId) && players.size() < MAX_PLAYERS) {
-            players.add(friendId);
+    public void inviteFriend(Player player, Player friend) {
+        if (players.contains(player) && players.size() < MAX_PLAYERS) {
+            players.add(friend);
         }
     }
 
-    public void matchWithRandomPlayer(PlayerId playerId, List<PlayerId> existingPlayers) {
-        if (players.contains(playerId) && players.size() < MAX_PLAYERS) {
-            for (PlayerId existingPlayer : existingPlayers) {
+    public void matchWithRandomPlayer(Player player, List<Player> existingPlayers) {
+        if (players.contains(player) && players.size() < MAX_PLAYERS) {
+            for (Player existingPlayer : existingPlayers) {
                 if (!players.contains(existingPlayer)) {
                     players.add(existingPlayer);
                     return;
                 }
             }
-            players.add(new PlayerId(UUID.randomUUID()));
+            players.add(new Player(new PlayerId(UUID.randomUUID()), "Random Player"));
         }
     }
 
@@ -45,17 +45,17 @@ public class Lobby {
         return lobbyId;
     }
 
-    public List<PlayerId> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<PlayerId> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
-    public void addPlayer(PlayerId playerId) {
-        if (isFull() && !players.contains(playerId)) {
-            players.add(playerId);
+    public void addPlayer(Player player) {
+        if (!isFull() && !players.contains(player)) {
+            players.add(player);
         }
     }
 }
