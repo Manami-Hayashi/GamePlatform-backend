@@ -6,6 +6,7 @@ import be.kdg.prog6.lobbyManagementContext.domain.PlayerId;
 import be.kdg.prog6.lobbyManagementContext.ports.in.MatchPlayersCommand;
 import be.kdg.prog6.lobbyManagementContext.ports.in.MatchPlayersUseCase;
 import be.kdg.prog6.lobbyManagementContext.ports.out.LoadAllLobbiesPort;
+import be.kdg.prog6.lobbyManagementContext.ports.out.LoadPlayerPort;
 import be.kdg.prog6.lobbyManagementContext.ports.out.SaveLobbyPort;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -16,220 +17,92 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
-//check if player is online
-
 @Service
 public class MatchPlayersUseCaseImpl implements MatchPlayersUseCase {
-    private static final Logger logger = LoggerFactory.getLogger(MatchPlayersUseCaseImpl.class);
-
     private final LoadAllLobbiesPort loadAllLobbiesPort;
     private final SaveLobbyPort saveLobbyPort;
+    private final LoadPlayerPort loadPlayerPort;
 
-    public MatchPlayersUseCaseImpl(LoadAllLobbiesPort loadAllLobbiesPort, SaveLobbyPort saveLobbyPort) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MatchPlayersUseCaseImpl.class);
+
+    public MatchPlayersUseCaseImpl(LoadAllLobbiesPort loadAllLobbiesPort, SaveLobbyPort saveLobbyPort, LoadPlayerPort loadPlayerPort) {
         this.loadAllLobbiesPort = loadAllLobbiesPort;
         this.saveLobbyPort = saveLobbyPort;
+        this.loadPlayerPort = loadPlayerPort;
     }
 
     @Override
     @Transactional
     public void matchPlayers(MatchPlayersCommand command) {
-        UUID playerId = command.playerId();
-        UUID friendId = command.friendId();
+        LOGGER.info("Matching players for player ID: {}", command.playerId());
 
-        logger.info("Matching player with ID: {} and friend ID: {}", playerId, friendId);
+        // Load and verify player
+        Player player = loadAndVerifyPlayer(command.playerId());
+        LOGGER.info("Player {} loaded and verified", player.getPlayerId());
 
+        Player friend = command.friendId() != null ? loadAndVerifyPlayer(command.friendId()) : null;
+        if (friend != null) {
+            LOGGER.info("Matching player {} with friend {}", player.getPlayerId(), friend.getPlayerId());
+        } else {
+            LOGGER.info("Matching player {} with a random player", player.getPlayerId());
+        }
+
+        // Load all lobbies
         List<Lobby> lobbies = loadAllLobbiesPort.loadAllLobbies();
-        List<Player> allPlayers = lobbies.stream()
-                .flatMap(lobby -> lobby.getPlayers().stream())
-                .toList();
+        LOGGER.info("Loaded {} lobbies", lobbies.size());
 
-        Player player = allPlayers.stream()
-                .filter(p -> p.getPlayerId().id().equals(playerId))
-                .findFirst()
-                .orElse(null);
-
-        if (player == null || !player.isOnline()) {
-            logger.info("Player with ID: {} is not online or does not exist.", playerId);
-            return;
-        }
-
-        Player friend = null;
-        if (friendId != null) {
-            friend = allPlayers.stream()
-                    .filter(p -> p.getPlayerId().id().equals(friendId))
-                    .findFirst()
-                    .orElse(null);
-
-            if (friend == null || !friend.isOnline()) {
-                logger.info("Friend with ID: {} is not online or does not exist.", friendId);
-                return;
-            }
-        }
-
-        boolean playerInLobby = allPlayers.stream().anyMatch(p -> p.getPlayerId().id().equals(playerId));
-        boolean friendInLobby = friendId != null && allPlayers.stream().anyMatch(p -> p.getPlayerId().id().equals(friendId));
-
-        if (!playerInLobby && !friendInLobby) {
-            if (friendId != null) {
-                logger.info("Neither player nor friend is in any lobby. Creating a private lobby for them.");
-                createPrivateLobby(player, friend);
-            } else {
-                logger.info("Player is not in any lobby. Matching with an available lobby.");
-                addPlayersToLobby(lobbies, player, null);
-            }
-        } else if (playerInLobby && !friendInLobby && friend != null) {
-            logger.info("Player is in a lobby. Inviting friend to the same lobby.");
-            inviteFriendToLobby(lobbies, player, friend);
-        } else {
-            logger.info("Player or friend is already in a lobby.");
-            addPlayersToLobby(lobbies, player, friend);
-        }
-    }
-
-    private void createPrivateLobby(Player player, Player friend) {
-        Lobby newLobby = new Lobby();
-        newLobby.addPlayer(player);
-        if (friend != null) {
-            newLobby.inviteFriend(player, friend);
-        }
-        saveLobbyPort.saveLobby(newLobby);
-    }
-
-    private void addPlayersToLobby(List<Lobby> lobbies, Player player, Player friend) {
-        Lobby availableLobby = lobbies.stream()
-                .filter(lobby -> !lobby.isFull())
-                .findFirst()
-                .orElse(null);
-
-        if (availableLobby == null) {
-            logger.info("No available lobby found, creating a new lobby.");
-            availableLobby = new Lobby();
-        } else {
-            logger.info("Found an available lobby with ID: {}", availableLobby.getLobbyId());
-        }
-
-        availableLobby.addPlayer(player);
-        if (friend != null) {
-            availableLobby.addPlayer(friend);
-        } else {
-            List<Player> existingPlayers = lobbies.stream()
-                    .flatMap(lobby -> lobby.getPlayers().stream())
-                    .filter(p -> !p.getPlayerId().id().equals(player.getPlayerId().id()))
-                    .collect(Collectors.toList());
-            availableLobby.matchWithRandomPlayer(player, existingPlayers);
-        }
-
-        saveLobbyPort.saveLobby(availableLobby);
-    }
-
-    private void inviteFriendToLobby(List<Lobby> lobbies, Player player, Player friend) {
+        // Find or create a lobby for the player
         Lobby playerLobby = lobbies.stream()
-                .filter(lobby -> lobby.getPlayers().contains(player))
+                .filter(lobby -> lobby.containsPlayer(player.getPlayerId()))
                 .findFirst()
-                .orElse(null);
+                .orElseGet(() -> {
+                    LOGGER.info("No existing lobby found for player {}, creating new lobby", player.getPlayerId());
+                    return createNewLobby(player.getPlayerId());
+                });
 
-        if (playerLobby != null) {
-            playerLobby.inviteFriend(player, friend);
-            saveLobbyPort.saveLobby(playerLobby);
+        // Invite a friend or match with a random player
+        if (friend != null) {
+            LOGGER.info("Inviting friend {} to lobby", friend.getPlayerId());
+            playerLobby.inviteFriend(player.getPlayerId(), friend.getPlayerId());
+        } else {
+            LOGGER.info("Matching player {} with random players", player.getPlayerId());
+            playerLobby.matchWithRandomPlayer(fetchAvailablePlayers(playerLobby));
         }
+
+        // Save the updated lobby
+        saveLobbyPort.saveLobby(playerLobby);
+        LOGGER.info("Lobby for player {} saved successfully", player.getPlayerId());
+    }
+
+    // Helper method to load and verify player is online
+    private Player loadAndVerifyPlayer(UUID playerId) {
+        LOGGER.debug("Loading player with ID: {}", playerId);
+        Player player = loadPlayerPort.loadPlayer(playerId);
+        if (player == null || !player.isOnline()) {
+            LOGGER.error("Player {} is either offline or does not exist", playerId);
+            throw new IllegalStateException("Player is not online or does not exist.");
+        }
+        LOGGER.debug("Player {} is online, updating activity", playerId);
+        player.updateActivity();
+        return player;
+    }
+
+    // Create a new lobby and add the player
+    private Lobby createNewLobby(PlayerId playerId) {
+        LOGGER.debug("Creating new lobby for player {}", playerId);
+        Lobby lobby = new Lobby();
+        lobby.addPlayer(playerId);
+        saveLobbyPort.saveLobby(lobby);
+        LOGGER.info("New lobby created and saved for player {}", playerId);
+        return lobby;
+    }
+
+    // Fetch available players that are not in the current lobby
+    private List<PlayerId> fetchAvailablePlayers(Lobby currentLobby) {
+        LOGGER.debug("Fetching available players for matching from lobbies");
+        return loadAllLobbiesPort.loadAllLobbies().stream()
+                .flatMap(lobby -> lobby.getPlayerIds().stream())
+                .filter(playerId -> !currentLobby.containsPlayer(playerId))
+                .collect(Collectors.toList());
     }
 }
-
-
-//package be.kdg.prog6.lobbyManagementContext.core;
-//
-//import be.kdg.prog6.lobbyManagementContext.domain.Lobby;
-//import be.kdg.prog6.lobbyManagementContext.domain.Player;
-//import be.kdg.prog6.lobbyManagementContext.domain.PlayerId;
-//import be.kdg.prog6.lobbyManagementContext.ports.in.MatchPlayersCommand;
-//import be.kdg.prog6.lobbyManagementContext.ports.in.MatchPlayersUseCase;
-//import be.kdg.prog6.lobbyManagementContext.ports.out.LoadAllLobbiesPort;
-//import be.kdg.prog6.lobbyManagementContext.ports.out.SaveLobbyPort;
-//import jakarta.transaction.Transactional;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.List;
-//import java.util.UUID;
-//import java.util.stream.Collectors;
-//
-//@Service
-//public class MatchPlayersUseCaseImpl implements MatchPlayersUseCase {
-//    private static final Logger logger = LoggerFactory.getLogger(MatchPlayersUseCaseImpl.class);
-//
-//    private final LoadAllLobbiesPort loadAllLobbiesPort;
-//    private final SaveLobbyPort saveLobbyPort;
-//
-//    public MatchPlayersUseCaseImpl(LoadAllLobbiesPort loadAllLobbiesPort, SaveLobbyPort saveLobbyPort) {
-//        this.loadAllLobbiesPort = loadAllLobbiesPort;
-//        this.saveLobbyPort = saveLobbyPort;
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void matchPlayers(MatchPlayersCommand command) {
-//        UUID playerId = command.playerId();
-//        UUID friendId = command.friendId();
-//
-//        logger.info("Matching player with ID: {} and friend ID: {}", playerId, friendId);
-//
-//        List<Lobby> lobbies = loadAllLobbiesPort.loadAllLobbies();
-//        List<Player> allPlayers = lobbies.stream()
-//                .flatMap(lobby -> lobby.getPlayers().stream())
-//                .toList();
-//
-//        boolean playerInLobby = allPlayers.stream().anyMatch(player -> player.getPlayerId().id().equals(playerId));
-//        boolean friendInLobby = friendId != null && allPlayers.stream().anyMatch(player -> player.getPlayerId().id().equals(friendId));
-//
-//        if (!playerInLobby && !friendInLobby) {
-//            if (friendId != null) {
-//                logger.info("Neither player nor friend is in any lobby. Creating a private lobby for them.");
-//                createPrivateLobby(playerId, friendId);
-//            } else {
-//                logger.info("Player is not in any lobby. Matching with an available lobby.");
-//                addPlayersToLobby(lobbies, playerId, null);
-//            }
-//        } else {
-//            logger.info("Player or friend is already in a lobby.");
-//            addPlayersToLobby(lobbies, playerId, friendId);
-//        }
-//    }
-//
-//    private void createPrivateLobby(UUID playerId, UUID friendId) {
-//        Lobby newLobby = new Lobby();
-//        newLobby.addPlayer(new Player(new PlayerId(playerId), "PlayerName")); // Replace "PlayerName" with actual player name
-//        if (friendId != null) {
-//            newLobby.addPlayer(new Player(new PlayerId(friendId), "FriendName")); // Replace "FriendName" with actual friend name
-//        }
-//        saveLobbyPort.saveLobby(newLobby);
-//    }
-//
-//    private void addPlayersToLobby(List<Lobby> lobbies, UUID playerId, UUID friendId) {
-//        Lobby availableLobby = lobbies.stream()
-//                .filter(lobby -> !lobby.isFull())
-//                .findFirst()
-//                .orElse(null);
-//
-//        if (availableLobby == null) {
-//            logger.info("No available lobby found, creating a new lobby.");
-//            availableLobby = new Lobby();
-//        } else {
-//            logger.info("Found an available lobby with ID: {}", availableLobby.getLobbyId());
-//        }
-//
-//        availableLobby.addPlayer(new Player(new PlayerId(playerId), "PlayerName")); // Replace "PlayerName" with actual player name
-//        if (friendId != null) {
-//            availableLobby.addPlayer(new Player(new PlayerId(friendId), "FriendName")); // Replace "FriendName" with actual friend name
-//        } else {
-//            List<Player> existingPlayers = lobbies.stream()
-//                    .flatMap(lobby -> lobby.getPlayers().stream())
-//                    .filter(player -> !player.getPlayerId().id().equals(playerId))
-//                    .collect(Collectors.toList());
-//            availableLobby.matchWithRandomPlayer(new Player(new PlayerId(playerId), "PlayerName"), existingPlayers); // Replace "PlayerName" with actual player name
-//        }
-//
-//        saveLobbyPort.saveLobby(availableLobby);
-//    }
-//}

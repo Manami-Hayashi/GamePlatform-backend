@@ -57,10 +57,10 @@ VALUES
     ('b3fe1b6d-cf7f-4d87-9b30-b0337e601477', 4);
 
 */
--- Insert dummy players
-INSERT INTO lobby_management.player (player_id, name) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), 'Player One');
-INSERT INTO lobby_management.player (player_id, name) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120003'), 'Player Two');
-INSERT INTO lobby_management.player (player_id, name) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120004'), 'Player Three');
+-- Insert dummy players with online status
+INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), 'Player One', NOW());
+INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120003'), 'Player Two', NOW());
+INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120004'), 'Player Three', NOW());
 
 -- Insert lobbies
 INSERT INTO lobby_management.lobby (lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
@@ -68,8 +68,8 @@ INSERT INTO lobby_management.lobby (lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e
 
 -- Assign players to lobbies
 -- Lobby with 2 players
-INSERT INTO lobby_management.player (player_id, name, lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120005'), 'Player One', UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
-INSERT INTO lobby_management.player (player_id, name, lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120006'), 'Player Two', UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
+INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120005'), 'Player One', NOW(), UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
+INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120006'), 'Player Two', NOW(), UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
 
 -- Lobby with 1 player
-INSERT INTO lobby_management.player (player_id, name, lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120007'), 'Player Three', UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120003'));
+INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120007'), 'Player Three', NOW(), UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120003'));

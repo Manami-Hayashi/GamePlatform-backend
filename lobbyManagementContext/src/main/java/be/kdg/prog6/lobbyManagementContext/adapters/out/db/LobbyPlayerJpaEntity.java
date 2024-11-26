@@ -1,6 +1,7 @@
 package be.kdg.prog6.lobbyManagementContext.adapters.out.db;
 
 import jakarta.persistence.*;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -13,19 +14,24 @@ public class LobbyPlayerJpaEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "last_active")
+    private Instant lastActive;
+
     @ManyToOne
     @JoinColumn(name = "lobby_id")
     private LobbyJpaEntity lobby;
 
-    public LobbyPlayerJpaEntity(UUID playerId, String name, LobbyJpaEntity lobby) {
+    public LobbyPlayerJpaEntity(UUID playerId, String name, Instant lastActive, LobbyJpaEntity lobby) {
         this.playerId = playerId;
         this.name = name;
+        this.lastActive = lastActive;
         this.lobby = lobby;
     }
 
-    public LobbyPlayerJpaEntity(UUID playerId, String name) {
+    public LobbyPlayerJpaEntity(UUID playerId, String name, Instant lastActive) {
         this.playerId = playerId;
         this.name = name;
+        this.lastActive = lastActive;
     }
 
     public LobbyPlayerJpaEntity() {
@@ -47,6 +53,14 @@ public class LobbyPlayerJpaEntity {
         this.name = name;
     }
 
+    public Instant getLastActive() {
+        return lastActive;
+    }
+
+    public void setLastActive(Instant lastActive) {
+        this.lastActive = lastActive;
+    }
+
     public LobbyJpaEntity getLobby() {
         return lobby;
     }
@@ -54,5 +68,4 @@ public class LobbyPlayerJpaEntity {
     public void setLobby(LobbyJpaEntity lobby) {
         this.lobby = lobby;
     }
-    // Getters and setters
 }

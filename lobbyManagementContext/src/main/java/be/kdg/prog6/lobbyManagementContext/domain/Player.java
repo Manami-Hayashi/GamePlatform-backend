@@ -13,6 +13,18 @@ public class Player {
         this.lastActive = Instant.now();
     }
 
+    public Player(PlayerId playerId, String name, Instant lastActive) {
+        this.playerId = playerId;
+        this.name = name;
+        this.lastActive = lastActive;
+    }
+
+    public Player() {
+        this.playerId = null;
+        this.name = null;
+        this.lastActive = Instant.now();
+    }
+
     public PlayerId getPlayerId() {
         return playerId;
     }

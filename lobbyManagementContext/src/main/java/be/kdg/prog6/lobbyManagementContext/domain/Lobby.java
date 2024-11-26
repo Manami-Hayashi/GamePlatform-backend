@@ -6,60 +6,63 @@ import java.util.UUID;
 
 public class Lobby {
     private final UUID lobbyId;
-    private List<Player> players;
+    private final List<PlayerId> playerIds;
     private static final int MAX_PLAYERS = 2;
 
-    public Lobby(UUID lobbyId, List<Player> players) {
+    // Constructor for creating a new Lobby with a specific lobbyId
+    public Lobby(UUID lobbyId, List<PlayerId> playerIds) {
         this.lobbyId = lobbyId;
-        this.players = players;
+        this.playerIds = new ArrayList<>(playerIds);  // Creating a new list to prevent mutation
+    }
+
+    public Lobby(UUID lobbyId) {
+        this(lobbyId, new ArrayList<>());
     }
 
     public Lobby() {
-        this.lobbyId = UUID.randomUUID();
-        this.players = new ArrayList<>();
+        this(UUID.randomUUID(), new ArrayList<>());
     }
 
     public boolean isFull() {
-        return players.size() != MAX_PLAYERS;
+        return playerIds.size() >= MAX_PLAYERS;
     }
 
-    public void inviteFriend(Player player, Player friend) {
-        if (players.contains(player) && players.size() < MAX_PLAYERS) {
-            players.add(friend);
+    public void addPlayer(PlayerId playerId) {
+        if (isFull()) {
+            throw new IllegalStateException("Lobby is full.");
         }
+        if (playerIds.contains(playerId)) {
+            throw new IllegalStateException("Player is already in the lobby.");
+        }
+        playerIds.add(playerId);
     }
 
-    public void matchWithRandomPlayer(Player player, List<Player> existingPlayers) {
-        if (players.contains(player) && players.size() < MAX_PLAYERS) {
-            for (Player existingPlayer : existingPlayers) {
-                if (!players.contains(existingPlayer)) {
-                    players.add(existingPlayer);
-                    return;
-                }
+    public void inviteFriend(PlayerId playerId, PlayerId friendId) {
+        if (!playerIds.contains(playerId)) {
+            throw new IllegalStateException("Player must be in the lobby to invite a friend.");
+        }
+        addPlayer(friendId); // Reuses addPlayer for logic
+    }
+
+    public void matchWithRandomPlayer(List<PlayerId> availablePlayers) {
+        for (PlayerId playerId : availablePlayers) {
+            if (!playerIds.contains(playerId) && !isFull()) {
+                addPlayer(playerId);
+                return;
             }
-            players.add(new Player(new PlayerId(UUID.randomUUID()), "Random Player"));
         }
+        throw new IllegalStateException("No suitable players available to match.");
+    }
+
+    public boolean containsPlayer(PlayerId playerId) {
+        return playerIds.contains(playerId);
     }
 
     public UUID getLobbyId() {
         return lobbyId;
     }
 
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(List<Player> players) {
-        this.players = players;
-    }
-
-    public void addPlayer(Player player) {
-        if (isFull() && !players.contains(player)) {
-            players.add(player);
-        }
-    }
-
-    public boolean areAllPlayersOnline() {
-        return players.stream().allMatch(Player::isOnline);
+    public List<PlayerId> getPlayerIds() {
+        return List.copyOf(playerIds); // Immutable copy
     }
 }
