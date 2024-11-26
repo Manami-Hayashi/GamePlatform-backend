@@ -22,28 +22,6 @@ public class RabbitMQTopology {
     public static final String USER_REGISTRATION_QUEUE = "user.registration.queue";
     public static final String USER_REGISTRATION_ROUTING_KEY = "user.registration";
 
-    // Custom ConnectionFactory for Keycloak internal communication (use your existing one)
-    @Bean
-    public ConnectionFactory internalConnectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("team3_rabbitmq");
-        connectionFactory.setUsername("myuser");
-        connectionFactory.setPassword("mypassword");
-        connectionFactory.setVirtualHost("/");
-        connectionFactory.setPort(5672); // This is Keycloak's port
-        return connectionFactory;
-    }
-
-    // Separate ConnectionFactory for Spring Boot application (uses application.yml configuration)
-    @Bean
-    public ConnectionFactory applicationConnectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");  // Use "localhost" for Spring Boot
-        connectionFactory.setUsername("myuser");
-        connectionFactory.setPassword("mypassword");
-        connectionFactory.setVirtualHost("/");
-        connectionFactory.setPort(5673); // Use the port for Spring Boot's RabbitMQ
-        return connectionFactory;
-    }
-
     // Define the exchange
     @Bean
     public TopicExchange userRegistrationExchange() {
