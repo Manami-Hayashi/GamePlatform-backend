@@ -17,6 +17,9 @@ public class GameAddedEvent implements Serializable {
         this.description = description;
     }
 
+    public GameAddedEvent() {
+    }
+
     public UUID getGameId() {
         return gameId;
     }

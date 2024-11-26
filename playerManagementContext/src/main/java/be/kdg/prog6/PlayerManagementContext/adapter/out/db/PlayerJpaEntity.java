@@ -15,7 +15,6 @@ public class PlayerJpaEntity{
     @Column(name="name")
     private String name;
 
-
     public PlayerJpaEntity() {
     }
 

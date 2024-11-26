@@ -5,6 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlayerJpaRepository extends JpaRepository<PlayerJpaEntity, String> {
-
     PlayerJpaEntity findByName(String name);
 }
