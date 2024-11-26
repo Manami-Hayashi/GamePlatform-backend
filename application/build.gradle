@@ -1,6 +1,7 @@
 plugins {
     id 'module-config'
     id 'spring-conventions'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 dependencies {
@@ -13,19 +14,54 @@ dependencies {
 
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
 
+
+    // Use Spring Boot dependencies to ensure alignment
+    implementation platform('org.springframework.boot:spring-boot-dependencies:3.1.1')
 
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
 
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
-
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-    implementation 'org.keycloak:keycloak-server-spi:25.0.5'
-    implementation 'org.keycloak:keycloak-core:25.0.5'
-    implementation 'org.keycloak:keycloak-server-spi-private:25.0.5'
 
+
+    // Keycloak dependencies
+    compileOnly('org.keycloak:keycloak-core:25.0.5') {
+        exclude group: 'org.wildfly', module: 'wildfly-common'
+    }
+    compileOnly 'org.keycloak:keycloak-server-spi:25.0.5'
+    // Optional: Add if specific classes from `keycloak-services` are needed
+    compileOnly 'org.keycloak:keycloak-services:25.0.5'
+
+    // Include additional libraries if necessary
+    implementation 'org.wildfly.client:wildfly-client-config:1.0.1.Final'
+
+    runtimeOnly("org.jboss.resteasy:resteasy-client-api:6.2.4.Final") { transitive = false }
+    runtimeOnly("org.jboss.resteasy:resteasy-client:6.2.4.Final") { transitive = false }
+
+    // JSON support (optional, if used in listener logic)
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+}
 
 
+shadowJar {
+    archiveBaseName.set('keycloak-event-listener')
+    archiveVersion.set('1.0.0')
+    archiveClassifier.set('')
+    // Shade Hibernate classes to avoid conflicts
+    relocate 'org.hibernate', 'com.example.shaded.hibernate'
+
+    exclude 'org/keycloak/**'
+
+// Exclude RESTEasy and Wildfly if they are already provided by Keycloak
+    exclude 'org/jboss/resteasy/**'
+    exclude 'org/wildfly/**'
+
+    mergeServiceFiles() // Ensures service files are merged correctly
+}
+
+tasks.build {
+    dependsOn shadowJar
 }

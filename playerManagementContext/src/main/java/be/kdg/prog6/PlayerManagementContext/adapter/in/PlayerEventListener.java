@@ -14,18 +14,34 @@ public class PlayerEventListener {
     private final RegisterUseCaseImpl registerUseCaseImpl;
 
     public PlayerEventListener(RegisterUseCaseImpl registerUseCaseImpl) {
+        logger.info("PlayerEventListener created");
         this.registerUseCaseImpl = registerUseCaseImpl;
     }
 
-    @RabbitListener(queues = "user.registration.queue", containerFactory = "rabbitListenerContainerFactory")
+    @RabbitListener(queues = "user.registration.queue")
     public void handleUserRegistrationEvent(UserRegistrationEvent event) {
-        logger.info("Handling user registration event for user: {}", event.getUserId());
+        logger.info("Handling user registration event for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
+
+        String fullName = formatFullName(event.getFirstName(), event.getLastName());
 
         RegisterUserCommand command = new RegisterUserCommand( event.getUserId(),
-                event.getFirstName() + event.getLastName()
+                fullName
         );
 
+        logger.info("Registering player with full name: {}", fullName);
+
         registerUseCaseImpl.registerPlayer(command);
+    }
+
+    // Helper method to format the full name
+    private String formatFullName(String firstName, String lastName) {
+        if (firstName == null || firstName.isEmpty()) {
+            return lastName != null ? lastName : "";
+        }
+        if (lastName == null || lastName.isEmpty()) {
+            return firstName;
+        }
+        return firstName + " " + lastName;
     }
 
 }
