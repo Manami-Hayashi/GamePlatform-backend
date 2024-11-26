@@ -12,7 +12,7 @@ public class LobbyJpaEntity {
     private UUID lobbyId;
 
     @OneToMany(mappedBy = "lobby")
-    private List<PlayerJpaEntity> players;
+    private List<LobbyPlayerJpaEntity> players;
 
     // Getters and setters
 }

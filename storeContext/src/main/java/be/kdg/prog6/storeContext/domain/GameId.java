@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:lobbyManagementContext/src/main/java/be/kdg/prog6/lobbyManagementContext/domain/GameId.java
-package be.kdg.prog6.lobbyManagementContext.domain;
-========
 package be.kdg.prog6.storeContext.domain;
->>>>>>>> fde147d8f7fd4f7d1945e297579a62afc2c5320c:storeContext/src/main/java/be/kdg/prog6/storeContext/domain/GameId.java
 
 import java.util.UUID;
 

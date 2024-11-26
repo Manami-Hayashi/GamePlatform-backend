@@ -5,7 +5,7 @@ import java.util.UUID;
 
 @Entity
 @Table(catalog = "lobby_management", name = "player")
-public class PlayerJpaEntity {
+public class LobbyPlayerJpaEntity {
     @Id
     @Column(name = "player_id")
     private UUID playerId;
