@@ -6,11 +6,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class RabbitMQTopology {
@@ -22,8 +24,8 @@ public class RabbitMQTopology {
 
     // Define the exchange
     @Bean
-    public DirectExchange userRegistrationExchange() {
-        return new DirectExchange(USER_REGISTRATION_EXCHANGE);
+    public TopicExchange userRegistrationExchange() {
+        return new TopicExchange(USER_REGISTRATION_EXCHANGE);
     }
 
     // Define the queue
@@ -34,12 +36,13 @@ public class RabbitMQTopology {
 
     // Bind the queue to the exchange with the routing key
     @Bean
-    public Binding userRegistrationBinding(Queue userRegistrationQueue, DirectExchange userRegistrationExchange) {
+    public Binding userRegistrationBinding(Queue userRegistrationQueue, TopicExchange userRegistrationExchange) {
         return BindingBuilder
                 .bind(userRegistrationQueue)
                 .to(userRegistrationExchange)
                 .with(USER_REGISTRATION_ROUTING_KEY);
     }
+
 
     // Admin adds a new name
     public static final String GAME_ADDED_EXCHANGE = "game.added.exchange";
@@ -64,11 +67,19 @@ public class RabbitMQTopology {
                 .with(GAME_ADDED_ROUTING_KEY);
     }
 
+    // Define RabbitTemplate for internal communication with Keycloak (using the internalConnectionFactory)
+    @Bean(name = "internalRabbitTemplate")
+    public RabbitTemplate internalRabbitTemplate(final ConnectionFactory internalConnectionFactory) {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(internalConnectionFactory);
+        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+        return rabbitTemplate;
+    }
 
-
-    @Bean
-    RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
-        final var rabbitTemplate = new RabbitTemplate(connectionFactory);
+    // Define RabbitTemplate for Spring Boot application (using the applicationConnectionFactory)
+    @Bean(name = "applicationRabbitTemplate")
+    @Primary
+    public RabbitTemplate applicationRabbitTemplate(final ConnectionFactory applicationConnectionFactory) {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(applicationConnectionFactory);
         rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
         return rabbitTemplate;
     }
@@ -82,17 +93,16 @@ public class RabbitMQTopology {
 
     @Bean
     public Jackson2JsonMessageConverter consumerJackson2MessageConverter() {
-
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         return new Jackson2JsonMessageConverter(objectMapper);
     }
 
-
+    // Define a separate RabbitListenerContainerFactory for Spring Boot application
     @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory applicationConnectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        factory.setConnectionFactory(connectionFactory);
+        factory.setConnectionFactory(applicationConnectionFactory);
         factory.setMessageConverter(consumerJackson2MessageConverter());
         return factory;
     }

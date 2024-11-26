@@ -1,3 +1,7 @@
 plugins {
     id 'module-config'
 }
+tasks.named('bootJar') {
+    mainClass.set('be.kdg.prog6.CompleteApplication')
+}
+
