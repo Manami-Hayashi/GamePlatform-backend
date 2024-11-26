@@ -34,3 +34,7 @@ spring:
         jwt:
           jwk-set-uri: http://localhost:8181/realms/GamePlatform/protocol/openid-connect/certs
           issuer-uri: http://localhost:8181/realms/GamePlatform
+
+external:
+  api:
+    url: "http://localhost:8081"
