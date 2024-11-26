@@ -20,7 +20,7 @@ public class Lobby {
     }
 
     public boolean isFull() {
-        return players.size() == MAX_PLAYERS;
+        return players.size() != MAX_PLAYERS;
     }
 
     public void inviteFriend(Player player, Player friend) {
@@ -54,8 +54,12 @@ public class Lobby {
     }
 
     public void addPlayer(Player player) {
-        if (!isFull() && !players.contains(player)) {
+        if (isFull() && !players.contains(player)) {
             players.add(player);
         }
+    }
+
+    public boolean areAllPlayersOnline() {
+        return players.stream().allMatch(Player::isOnline);
     }
 }
