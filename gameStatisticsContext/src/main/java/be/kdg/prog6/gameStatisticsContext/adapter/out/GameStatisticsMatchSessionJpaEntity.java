@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(catalog = "game_statistics", name = "game_statistics_match_history")
-public class GameStatisticsMatchHistoryJpaEntity {
+public class GameStatisticsMatchSessionJpaEntity {
 
     @Id
     @ManyToOne
@@ -14,11 +14,11 @@ public class GameStatisticsMatchHistoryJpaEntity {
     @Id
     @ManyToOne
     @JoinColumn(name = "match_history_id", referencedColumnName = "id")
-    private MatchHistoryJpaEntity matchHistory;
+    private MatchSessionJpaEntity matchHistory;
 
-    public GameStatisticsMatchHistoryJpaEntity() {}
+    public GameStatisticsMatchSessionJpaEntity() {}
 
-    public GameStatisticsMatchHistoryJpaEntity(GameStatisticsJpaEntity gameStatistics, MatchHistoryJpaEntity matchHistory) {
+    public GameStatisticsMatchSessionJpaEntity(GameStatisticsJpaEntity gameStatistics, MatchSessionJpaEntity matchHistory) {
         this.gameStatistics = gameStatistics;
         this.matchHistory = matchHistory;
     }
@@ -27,7 +27,7 @@ public class GameStatisticsMatchHistoryJpaEntity {
         return gameStatistics;
     }
 
-    public MatchHistoryJpaEntity getMatchHistory() {
+    public MatchSessionJpaEntity getMatchHistory() {
         return matchHistory;
     }
 }

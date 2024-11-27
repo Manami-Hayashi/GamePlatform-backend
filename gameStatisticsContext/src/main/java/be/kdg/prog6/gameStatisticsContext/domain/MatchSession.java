@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class MatchHistory {
+public class MatchSession {
     private final UUID id;
     private final GameId gameId;
     private final List<Player> players;
@@ -17,7 +17,7 @@ public class MatchHistory {
     private int score;
     private int movesMade;
 
-    public MatchHistory(final UUID id, final GameId gameId, final List<Player> players, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Player winner) {
+    public MatchSession(final UUID id, final GameId gameId, final List<Player> players, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Player winner) {
         this.id = id;
         this.gameId = gameId;
         this.players = players;
@@ -27,7 +27,7 @@ public class MatchHistory {
         this.winner = winner;
     }
 
-    public MatchHistory(final UUID id, final GameId gameId, final List<Player> players, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Player winner, int score, int movesMade) {
+    public MatchSession(final UUID id, final GameId gameId, final List<Player> players, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Player winner, int score, int movesMade) {
         this.id = id;
         this.gameId = gameId;
         this.players = players;

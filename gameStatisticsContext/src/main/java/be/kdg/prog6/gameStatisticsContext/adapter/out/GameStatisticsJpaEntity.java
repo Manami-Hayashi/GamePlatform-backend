@@ -1,11 +1,9 @@
 package be.kdg.prog6.gameStatisticsContext.adapter.out;
 
-import be.kdg.prog6.gameStatisticsContext.domain.Player;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -59,15 +57,31 @@ public class GameStatisticsJpaEntity {
     private int matchesPlayed;
 
     @OneToMany(mappedBy = "gameStatistics")
-    private Set<GameStatisticsMatchHistoryJpaEntity> matchHistories;
+    private Set<GameStatisticsMatchSessionJpaEntity> matchSessions;
 
     public GameStatisticsJpaEntity() {
     }
 
-    public GameStatisticsJpaEntity(UUID gameId, int totalScore, int matchesPlayed) {
+    public GameStatisticsJpaEntity(StatsPlayerJpaEntity player, UUID gameId, int totalScore, int matchesPlayed) {
+        this.player = player;
         this.gameId = gameId;
         this.totalScore = totalScore;
         this.matchesPlayed = matchesPlayed;
+    }
+
+    public GameStatisticsJpaEntity(StatsPlayerJpaEntity player, UUID gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
+        this.player = player;
+        this.gameId = gameId;
+        this.totalScore = totalScore;
+        this.totalGamesPlayed = totalGamesPlayed;
+        this.wins = wins;
+        this.losses = losses;
+        this.draws = draws;
+        this.winLossRatio = winLossRatio;
+        this.totalTimePlayed = totalTimePlayed;
+        this.highestScore = highestScore;
+        this.movesMade = movesMade;
+        this.averageGameDuration = averageGameDuration;
     }
 
     public int getId() {

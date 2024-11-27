@@ -34,6 +34,14 @@ public class StatsPlayerJpaEntity {
     public StatsPlayerJpaEntity() {
     }
 
+    public StatsPlayerJpaEntity(UUID id, String name, int age, String gender, String location) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.location = location;
+    }
+
     public StatsPlayerJpaEntity(UUID id, String name, int age, String gender, String location, Set<GameStatisticsJpaEntity> gameStatistics) {
         this.id = id;
         this.name = name;

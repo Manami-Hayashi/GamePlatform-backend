@@ -24,5 +24,11 @@ Authorization: Bearer {{access_token}}
 
 ### Get scoreboard
 
-GET http://localhost:8090/api/scoreboards/a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634
+GET http://localhost:8090/api/game-statistics/a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634
+Authorization: Bearer {{access_token}}
+
+
+### Update game statistics
+
+GET http://localhost:8090/api/game-statistics/update
 Authorization: Bearer {{access_token}}

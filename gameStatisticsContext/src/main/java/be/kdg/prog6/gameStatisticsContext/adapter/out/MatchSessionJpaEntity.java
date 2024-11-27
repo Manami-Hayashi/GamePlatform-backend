@@ -5,13 +5,12 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(catalog = "game_statistics", name = "match_history")
-public class MatchHistoryJpaEntity {
+public class MatchSessionJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -21,7 +20,7 @@ public class MatchHistoryJpaEntity {
     private UUID gameId;
 
     @OneToMany(mappedBy = "matchHistory")
-    private Set<GameStatisticsMatchHistoryJpaEntity> gameStatistics;
+    private Set<GameStatisticsMatchSessionJpaEntity> gameStatistics;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -41,10 +40,10 @@ public class MatchHistoryJpaEntity {
     @Column(name = "moves_made")
     private int movesMade;
 
-    public MatchHistoryJpaEntity() {
+    public MatchSessionJpaEntity() {
     }
 
-    public MatchHistoryJpaEntity(UUID gameId, Set<GameStatisticsMatchHistoryJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+    public MatchSessionJpaEntity(UUID gameId, Set<GameStatisticsMatchSessionJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
         this.startTime = startTime;
@@ -71,11 +70,11 @@ public class MatchHistoryJpaEntity {
         this.gameId = gameId;
     }
 
-    public Set<GameStatisticsMatchHistoryJpaEntity> getGameStatistics() {
+    public Set<GameStatisticsMatchSessionJpaEntity> getGameStatistics() {
         return gameStatistics;
     }
 
-    public void setGameStatistics(Set<GameStatisticsMatchHistoryJpaEntity> gameStatistics) {
+    public void setGameStatistics(Set<GameStatisticsMatchSessionJpaEntity> gameStatistics) {
         this.gameStatistics = gameStatistics;
     }
 
