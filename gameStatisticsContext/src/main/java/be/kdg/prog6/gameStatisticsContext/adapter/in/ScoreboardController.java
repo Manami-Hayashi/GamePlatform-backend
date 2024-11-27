@@ -19,8 +19,8 @@ public class ScoreboardController {
         this.getScoreboardUseCase = getScoreboardUseCase;
     }
 
-    @GetMapping("/scoreboard/{playerId}")
-    public List<GameStatisticsDto> getScoreboard(@PathVariable String playerId) {
+    @GetMapping("/scoreboards/{playerId}")
+    public List<GameStatisticsDto> getScoreboards(@PathVariable String playerId) {
         List<GameStatistics> gameStatistics = getScoreboardUseCase.getScoreboard(new PlayerId(UUID.fromString(playerId)));
         List<GameStatisticsDto> gameStatisticsDtos = new ArrayList<>();
         for (GameStatistics gameStatistic : gameStatistics) {
