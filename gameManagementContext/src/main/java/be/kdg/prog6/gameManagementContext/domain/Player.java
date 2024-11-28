@@ -15,6 +15,13 @@ public class Player {
         this.location = location;
     }
 
+    public Player(PlayerId playerId, String name) {
+        this.playerId = playerId;
+        this.name = name;
+        this.age = 0; // Default value for age
+        this.gender = null; // Default value for gender
+        this.location = ""; // Default value for location
+    }
 
     public PlayerId getPlayerId() {
         return playerId;

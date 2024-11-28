@@ -1,5 +1,6 @@
 package be.kdg.prog6.gameStatisticsContext.adapter.out;
 
+import be.kdg.prog6.gameStatisticsContext.domain.Gender;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -51,6 +52,14 @@ public class StatsPlayerJpaEntity {
         this.gender = gender;
         this.location = location;
         this.gameStatistics = gameStatistics;
+    }
+
+    public StatsPlayerJpaEntity(UUID id, String name, int age, String gender, String location) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender= gender;
+        this.location = location;
     }
 
     public UUID getId() {

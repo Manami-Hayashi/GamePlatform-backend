@@ -1,26 +1,25 @@
-package be.kdg.prog6.PlayerManagementContext.adapter.in;
+package be.kdg.prog6.storeContext.adapters.in;
 
-import be.kdg.prog6.PlayerManagementContext.core.RegisterUseCaseImpl;
-import be.kdg.prog6.PlayerManagementContext.port.in.RegisterUserCommand;
 import be.kdg.prog6.common.events.UserRegistrationEvent;
+import be.kdg.prog6.storeContext.port.in.RegisterPlayerUseCase;
+import be.kdg.prog6.storeContext.port.in.RegisterUserCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlayerEventListener {
-    private static final Logger logger = LoggerFactory.getLogger(PlayerEventListener.class);
-    private final RegisterUseCaseImpl registerUseCaseImpl;
+public class StoreRegisterUserEventListener {
+    private static final Logger logger = LoggerFactory.getLogger(StoreRegisterUserEventListener.class);
+    private final RegisterPlayerUseCase registerUseCaseImpl;
 
-    public PlayerEventListener(RegisterUseCaseImpl registerUseCaseImpl) {
-        logger.info("PlayerEventListener created");
+    public StoreRegisterUserEventListener(RegisterPlayerUseCase registerUseCaseImpl) {
         this.registerUseCaseImpl = registerUseCaseImpl;
     }
 
-    @RabbitListener(queues = "user.registration.queue")
+    @RabbitListener(queues = "user.registration.queue5")
     public void handleUserRegistrationEvent(UserRegistrationEvent event) {
-        logger.info("Handling user registration event in the player mng for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
+        logger.info("Handling user registration event in the store for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
 
         String fullName = formatFullName(event.getFirstName(), event.getLastName());
 
@@ -28,7 +27,7 @@ public class PlayerEventListener {
                 fullName
         );
 
-        logger.info("Registering player with full name: {}", fullName);
+        logger.info("Registering player store with full name: {}", fullName);
 
         registerUseCaseImpl.registerPlayer(command);
     }
@@ -43,5 +42,4 @@ public class PlayerEventListener {
         }
         return firstName + " " + lastName;
     }
-
 }

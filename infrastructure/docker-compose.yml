@@ -19,7 +19,6 @@
       environment:
         - RABBITMQ_DEFAULT_USER=myuser
         - RABBITMQ_DEFAULT_PASS=mypassword
-        - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management.load_definitions /etc/rabbitmq/definitions.json
       ports:
         - "5673:5672" #AMQP
         - "15673:15672" #MGMT
@@ -29,7 +28,6 @@
       volumes:
         - ./team3/rabbitmq/data/:/var/lib/rabbitmq/
         - ./team3/rabbitmq/log/:/var/log/rabbitmq/
-        - ./team3/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
 
 
 
@@ -63,8 +61,8 @@
       volumes:
         - C:\Users\alprn\Desktop\Integration 5\game-arena\application\build\libs\keycloak-event-listener-1.0.0.jar:/opt/keycloak/providers/keycloak-event-listener-1.0.0.jar
       depends_on:
-        - idp_mysql_team3
         - team3_rabbitmq
+        - idp_mysql_team3
       networks:
         - kc
         - shared_network # Make keycloak accessible from RabbitMQ container
