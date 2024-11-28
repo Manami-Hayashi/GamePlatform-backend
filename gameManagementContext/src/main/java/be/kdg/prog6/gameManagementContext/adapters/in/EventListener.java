@@ -19,14 +19,13 @@ public class EventListener {
     @RabbitListener(queues = "user.registration.queue3")
     public void handleUserRegistrationEvent(UserRegistrationEvent event) {
         logger.info("Handling user registration event in the game for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
-
         String fullName = formatFullName(event.getFirstName(), event.getLastName());
 
         RegisterUserCommand command = new RegisterUserCommand( event.getUserId(),
                 fullName
         );
 
-        logger.info("Registering player game with full name: {}", fullName);
+        logger.info("Registering player game mng with full name: {}", fullName);
 
         registerUseCaseImpl.registerPlayer(command);
     }

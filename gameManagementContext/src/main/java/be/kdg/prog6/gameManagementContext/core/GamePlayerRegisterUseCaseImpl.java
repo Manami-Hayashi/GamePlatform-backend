@@ -1,6 +1,5 @@
 package be.kdg.prog6.gameManagementContext.core;
 
-import be.kdg.prog6.gameManagementContext.domain.Gender;
 import be.kdg.prog6.gameManagementContext.domain.Player;
 import be.kdg.prog6.gameManagementContext.domain.PlayerId;
 import be.kdg.prog6.gameManagementContext.ports.in.RegisterUseCase;

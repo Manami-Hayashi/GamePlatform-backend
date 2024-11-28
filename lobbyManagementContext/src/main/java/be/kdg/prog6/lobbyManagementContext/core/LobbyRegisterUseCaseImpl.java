@@ -22,7 +22,7 @@ public class LobbyRegisterUseCaseImpl implements RegisterUseCase {
 
     @Override
     public void registerPlayer(RegisterUserCommand command) {
-        logger.info("Registering player with name: {}", command.name());
+        logger.info("Registering player with name on lobby: {}", command.name());
         PlayerId playerId = new PlayerId(command.playerId());
         Player player = new Player(playerId, command.name());
 
