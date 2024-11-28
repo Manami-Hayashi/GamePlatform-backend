@@ -54,6 +54,7 @@ public class PlayerDbAdapter implements LoadPlayerPort, LoadPlayersPort, StatsPl
 
     private GameStatistics toGameStatistics(GameStatisticsJpaEntity gameStatsEntity) {
         return new GameStatistics(
+                new PlayerId(gameStatsEntity.getPlayerId()),
                 new GameId(gameStatsEntity.getGameId()),
                 gameStatsEntity.getTotalScore(),
                 gameStatsEntity.getTotalGamesPlayed(),

@@ -6,12 +6,13 @@ import be.kdg.prog6.gameStatisticsContext.port.in.RegisterPlayerUseCase;
 import be.kdg.prog6.gameStatisticsContext.port.in.RegisterUserCommand;
 import be.kdg.prog6.gameStatisticsContext.port.out.StatsPlayerCreatedPort;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StatsPlayerRegisterUseCaseImpl implements RegisterPlayerUseCase {
 
-    private final Logger logger = org.slf4j.LoggerFactory.getLogger(StatsPlayerRegisterUseCaseImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(StatsPlayerRegisterUseCaseImpl.class);
 
     private final StatsPlayerCreatedPort statsPlayerCreatedPort;
 

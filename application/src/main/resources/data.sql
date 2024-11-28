@@ -18,40 +18,18 @@ VALUES ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'Josh', 25, "MALE", 'New York'),
        ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', 'Will', 22, "MALE", 'Chicago'),
        ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', 'Mary', 28, "FEMALE", 'Houston');
 
-
 -- Insert into achievements
 INSERT INTO game_statistics.achievements (player_id, game_id, name, description, is_locked)
 VALUES
-    ('14910372-c39d-7de7-b05a-93f8166cf7af', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Champion', 'Win 10 games of Checkers.', 0),
-    ('fde47098-ab1d-11ef-9cd2-0242ac120002', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Strategist', 'Win 20 games of Checkers.', 1),
-    ('12d242be-ab1e-11ef-9cd2-0242ac120002', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Veteran', 'Win 50 games of Checkers.', 1),
-    ('2e468e92-ab1e-11ef-9cd2-0242ac120002', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1);
-
--- Insert sample data for Match History
-INSERT INTO game_statistics.match_history (game_id, start_time, end_time, is_active, winner, score, moves_made)
-VALUES
-    ('14910372-c39d-7de7-b05a-93f8166cf7af', '2024-11-01T14:30:00', '2024-11-01T15:00:00', TRUE, 'Player1', 10, 20),
-    ('9b836e39-e513-4750-b428-25d5576e4db7', '2024-11-05T12:00:00', '2024-11-05T12:45:00', FALSE, 'Player2', 12, 18),
-    ('a1d91ef0-df88-4118-8c09-63d0b64b54fc', '2024-11-10T16:30:00', '2024-11-10T17:15:00', TRUE, 'Player1', 15, 25),
-    ('b3fe1b6d-cf7f-4d87-9b30-b0337e601477', '2024-11-15T10:00:00', '2024-11-15T10:50:00', FALSE, 'Draw', 8, 12);
+    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Champion', 'Win 10 games of Checkers.', 0),
+    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Strategist', 'Win 20 games of Checkers.', 1),
+    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Veteran', 'Win 50 games of Checkers.', 1),
+    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1);
 
 -- Insert sample data for game_statistics
 INSERT INTO game_statistics.game_statistics (player_id, game_id, total_score, total_games_played, wins, losses, draws, win_loss_ratio, total_time_played, highest_score, moves_made, average_game_duration, matches_played)
 VALUES
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 1500, 20, 12, 8, 0, 1.5, 1200, 200, 180, 60, 10),
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '9b836e39-e513-4750-b428-25d5576e4db7', 1300, 18, 10, 8, 0, 1.25, 1100, 180, 170, 55, 8),
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'a1d91ef0-df88-4118-8c09-63d0b64b54fc', 1600, 25, 15, 5, 5, 2.0, 1300, 220, 200, 65, 12),
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'b3fe1b6d-cf7f-4d87-9b30-b0337e601477', 1400, 22, 13, 7, 2, 1.86, 1250, 210, 190, 60, 11);
-
--- Insert sample data for game_statistics_match_history
--- This is the join table, associating game_statistics with match_history
-INSERT INTO game_statistics.game_statistics_match_history (game_statistics_id, match_history_id)
-VALUES
-    ('14910372-c39d-7de7-b05a-93f8166cf7af', 1),
-    ('9b836e39-e513-4750-b428-25d5576e4db7', 1),
-    ('a1d91ef0-df88-4118-8c09-63d0b64b54fc', 2),
-    ('b3fe1b6d-cf7f-4d87-9b30-b0337e601477', 2),
-    ('14910372-c39d-7de7-b05a-93f8166cf7af', 3),
-    ('9b836e39-e513-4750-b428-25d5576e4db7', 3),
-    ('a1d91ef0-df88-4118-8c09-63d0b64b54fc', 4),
-    ('b3fe1b6d-cf7f-4d87-9b30-b0337e601477', 4);
+    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
