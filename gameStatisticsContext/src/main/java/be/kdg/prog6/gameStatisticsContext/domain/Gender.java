@@ -1,4 +1,5 @@
 package be.kdg.prog6.gameStatisticsContext.domain;
 
-public class PlayerStatistics {
+public enum Gender {
+    MALE, FEMALE, OTHER
 }
