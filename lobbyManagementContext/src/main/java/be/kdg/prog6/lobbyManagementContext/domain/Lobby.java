@@ -5,23 +5,27 @@ import java.util.List;
 import java.util.UUID;
 
 public class Lobby {
+
     private final UUID lobbyId;
     private final List<PlayerId> playerIds;
+    private final GameId gameId;
     private static final int MAX_PLAYERS = 2;
 
-    // Constructor for creating a new Lobby with a specific lobbyId
-    public Lobby(UUID lobbyId, List<PlayerId> playerIds) {
+    public Lobby(UUID lobbyId, List<PlayerId> playerIds, GameId gameId) {
         this.lobbyId = lobbyId;
-        this.playerIds = new ArrayList<>(playerIds);  // Creating a new list to prevent mutation
+        this.playerIds = new ArrayList<>(playerIds);
+        this.gameId = gameId;
     }
 
-    public Lobby(UUID lobbyId) {
-        this(lobbyId, new ArrayList<>());
+    public Lobby(UUID lobbyId, GameId gameId) {
+        this(lobbyId, new ArrayList<>(), gameId);
     }
 
-    public Lobby() {
-        this(UUID.randomUUID(), new ArrayList<>());
+    public Lobby(GameId gameId) {
+        this(UUID.randomUUID(), new ArrayList<>(), gameId);
     }
+
+
 
     public boolean isFull() {
         return playerIds.size() >= MAX_PLAYERS;
@@ -35,6 +39,13 @@ public class Lobby {
             throw new IllegalStateException("Player is already in the lobby.");
         }
         playerIds.add(playerId);
+    }
+
+    public void removePlayer(PlayerId playerId) {
+        if (!playerIds.contains(playerId)) {
+            throw new IllegalStateException("Player is not in the lobby.");
+        }
+        playerIds.remove(playerId);  // Remove the player from the list
     }
 
     public void inviteFriend(PlayerId playerId, PlayerId friendId) {
@@ -64,5 +75,9 @@ public class Lobby {
 
     public List<PlayerId> getPlayerIds() {
         return List.copyOf(playerIds); // Immutable copy
+    }
+
+    public GameId getGameId() {
+        return gameId;
     }
 }

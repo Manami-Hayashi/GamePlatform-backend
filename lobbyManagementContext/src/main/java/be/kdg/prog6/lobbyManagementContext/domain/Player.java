@@ -1,29 +1,29 @@
 package be.kdg.prog6.lobbyManagementContext.domain;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public class Player {
     private final PlayerId playerId;
     private final String name;
     private Instant lastActive;
+    private  UUID lobbyId;
 
-    public Player(PlayerId playerId, String name) {
+    public Player(PlayerId playerId, String name, UUID lobbyId) {
         this.playerId = playerId;
         this.name = name;
+        this.lobbyId = lobbyId;
         this.lastActive = Instant.now();
     }
 
-    public Player(PlayerId playerId, String name, Instant lastActive) {
+    public Player(PlayerId playerId, String name, Instant lastActive, UUID lobbyId) {
         this.playerId = playerId;
         this.name = name;
         this.lastActive = lastActive;
+        this.lobbyId = lobbyId;
     }
 
-    public Player() {
-        this.playerId = null;
-        this.name = null;
-        this.lastActive = Instant.now();
-    }
+
 
     public PlayerId getPlayerId() {
         return playerId;
@@ -40,4 +40,17 @@ public class Player {
     public boolean isOnline() {
         return Instant.now().minusSeconds(300).isBefore(lastActive); // 5 minutes timeout
     }
+
+    public Instant getLastActive() {
+        return lastActive;
+    }
+
+    public UUID getLobbyId() {
+        return lobbyId;
+    }
+
+    public void setLobbyId(UUID lobbyId) {
+        this.lobbyId = lobbyId;
+    }
+
 }

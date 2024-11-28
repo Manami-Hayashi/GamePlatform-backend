@@ -28,12 +28,6 @@ public class LobbyPlayerJpaEntity {
         this.lobby = lobby;
     }
 
-    public LobbyPlayerJpaEntity(UUID playerId, String name, Instant lastActive) {
-        this.playerId = playerId;
-        this.name = name;
-        this.lastActive = lastActive;
-    }
-
     public LobbyPlayerJpaEntity() {
     }
 

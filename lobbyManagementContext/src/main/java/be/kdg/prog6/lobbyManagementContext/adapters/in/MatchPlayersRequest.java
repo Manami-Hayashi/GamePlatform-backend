@@ -5,6 +5,7 @@ import java.util.UUID;
 public class MatchPlayersRequest {
     private UUID playerId;
     private UUID friendId;
+    private UUID gameId;
 
     // Getters and setters
     public UUID getPlayerId() {
@@ -21,5 +22,13 @@ public class MatchPlayersRequest {
 
     public void setFriendId(UUID friendId) {
         this.friendId = friendId;
+    }
+
+    public UUID getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(UUID gameId) {
+        this.gameId = gameId;
     }
 }

@@ -1,7 +1,6 @@
 package be.kdg.prog6.lobbyManagementContext.ports.in;
 
-import java.util.UUID;
 
-public interface MatchPlayersUseCase {
+public interface MatchWithRandomPlayerUseCase {
     void matchPlayers(MatchPlayersCommand command);
 }

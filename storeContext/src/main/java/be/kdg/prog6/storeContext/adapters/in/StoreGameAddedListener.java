@@ -18,7 +18,7 @@ public class StoreGameAddedListener {
         this.addStoreGameUseCase = addStoreGameUseCase;
     }
 
-    @RabbitListener(queues = "#{gameAddedQueue.name}")
+    @RabbitListener(queues = "#{gameAddedQueue1.name}")
     public void handleGameAddedEvent(GameAddedEvent event) {
         System.out.println("Received GameAddedEvent in storeContext: " + event);
         StoreGame storeGame = new StoreGame(

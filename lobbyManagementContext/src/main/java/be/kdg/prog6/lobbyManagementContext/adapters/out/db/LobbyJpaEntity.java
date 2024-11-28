@@ -14,9 +14,14 @@ public class LobbyJpaEntity {
     @OneToMany(mappedBy = "lobby")
     private List<LobbyPlayerJpaEntity> players;
 
-    public LobbyJpaEntity(UUID lobbyId, List<LobbyPlayerJpaEntity> players) {
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private LobbyGameJpaEntity game;
+
+    public LobbyJpaEntity(UUID lobbyId, List<LobbyPlayerJpaEntity> players, LobbyGameJpaEntity game) {
         this.lobbyId = lobbyId;
         this.players = players;
+        this.game = game;
     }
 
     public LobbyJpaEntity() {
@@ -38,6 +43,11 @@ public class LobbyJpaEntity {
         this.players = players;
     }
 
+    public LobbyGameJpaEntity getGame() {
+        return game;
+    }
 
-    // Getters and setters
+    public void setGame(LobbyGameJpaEntity game) {
+        this.game = game;
+    }
 }

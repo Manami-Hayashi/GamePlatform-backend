@@ -1,4 +1,4 @@
-package be.kdg.prog6.storeContext.adapter.out;
+package be.kdg.prog6.storeContext.adapters.out.db;
 
 import jakarta.persistence.*;
 
