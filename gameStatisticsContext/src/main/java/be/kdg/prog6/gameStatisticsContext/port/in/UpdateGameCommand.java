@@ -1,13 +1,12 @@
-package be.kdg.prog6.gameStatisticsContext.adapter.in;
+package be.kdg.prog6.gameStatisticsContext.port.in;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
-public record MatchSessionDto(
+public record UpdateGameCommand(
         int id,
-        UUID gameId,
-        List<UUID> players,
+        String gameId,
+        List<String> playerIds,
         LocalDateTime startTime,
         LocalDateTime endTime,
         boolean isActive,
@@ -15,7 +14,7 @@ public record MatchSessionDto(
         int score,
         int movesMade
 ) {
-    public MatchSessionDto {
+    public UpdateGameCommand {
         if (id < 0) {
             throw new IllegalArgumentException("Id must be positive");
         }
