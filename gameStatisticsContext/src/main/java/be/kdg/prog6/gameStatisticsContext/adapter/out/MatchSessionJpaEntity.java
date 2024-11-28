@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(catalog = "game_statistics", name = "match_history")
+@Table(catalog = "game_statistics", name = "match_session")
 public class MatchSessionJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class MatchSessionJpaEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID gameId;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "match_session_game_statistics",
             joinColumns = @JoinColumn(name = "match_session_id"),

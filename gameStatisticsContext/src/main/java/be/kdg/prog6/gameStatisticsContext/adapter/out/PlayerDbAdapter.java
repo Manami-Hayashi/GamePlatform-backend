@@ -12,21 +12,21 @@ import java.util.stream.Collectors;
 
 @Component
 public class PlayerDbAdapter implements LoadPlayerPort, LoadPlayersPort {
-    private final PlayerRepository playerRepository;
+    private final PlayerRepository playerRepo;
 
-    public PlayerDbAdapter(PlayerRepository playerRepository) {
-        this.playerRepository = playerRepository;
+    public PlayerDbAdapter(PlayerRepository playerRepo) {
+        this.playerRepo = playerRepo;
     }
 
     @Override
     public Optional<Player> loadPlayerById(UUID playerId) {
-        return playerRepository.findById(playerId)
+        return playerRepo.findById(playerId)
                 .map(this::toPlayer);
     }
 
     @Override
     public List<Player> loadPlayers() {
-        return playerRepository.findAll()
+        return playerRepo.findAll()
                 .stream()
                 .map(this::toPlayer)
                 .collect(Collectors.toList());

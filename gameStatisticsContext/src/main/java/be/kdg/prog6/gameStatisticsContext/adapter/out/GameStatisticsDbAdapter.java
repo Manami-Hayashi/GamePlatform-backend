@@ -11,22 +11,33 @@ import java.util.UUID;
 
 @Component
 public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, UpdateGameStatisticsPort {
-    private final GameStatisticsRepository gameStatisticsRepository;
+    private final GameStatisticsRepository gameStatisticsRepo;
 
-    public GameStatisticsDbAdapter(GameStatisticsRepository gameStatisticsRepository) {
-        this.gameStatisticsRepository = gameStatisticsRepository;
+    public GameStatisticsDbAdapter(GameStatisticsRepository gameStatisticsRepo) {
+        this.gameStatisticsRepo = gameStatisticsRepo;
     }
 
     @Override
     public Optional<GameStatistics> loadGameStatisticsByPlayerIdAndGameId(UUID playerId, UUID gameId) {
-        return gameStatisticsRepository.findByPlayerIdAndGameId(playerId, gameId).map(this::toGameStatistics);
+        return gameStatisticsRepo.findByPlayerIdAndGameId(playerId, gameId).map(this::toGameStatistics);
     }
 
     @Override
     public void updateGameStatistics(GameStatistics gameStatistics) {
-        GameStatisticsJpaEntity gameStatisticsJpaEntity = gameStatisticsRepository.findByPlayerIdAndGameId(gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id())
-                        .orElseThrow(() -> new IllegalArgumentException("Game statistics not found"));
-        gameStatisticsRepository.save(gameStatisticsJpaEntity);
+        GameStatisticsJpaEntity gameStatisticsJpaEntity = gameStatisticsRepo
+                .findByPlayerIdAndGameId(gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id())
+                .orElseThrow(() -> new IllegalArgumentException("Game statistics not found"));
+        gameStatisticsJpaEntity.setTotalScore(gameStatistics.getTotalScore());
+        gameStatisticsJpaEntity.setTotalGamesPlayed(gameStatistics.getTotalGamesPlayed());
+        gameStatisticsJpaEntity.setWins(gameStatistics.getWins());
+        gameStatisticsJpaEntity.setLosses(gameStatistics.getLosses());
+        gameStatisticsJpaEntity.setDraws(gameStatistics.getDraws());
+        gameStatisticsJpaEntity.setWinLossRatio(gameStatistics.getWinLossRatio());
+        gameStatisticsJpaEntity.setTotalTimePlayed(gameStatistics.getTotalTimePlayed());
+        gameStatisticsJpaEntity.setHighestScore(gameStatistics.getHighestScore());
+        gameStatisticsJpaEntity.setMovesMade(gameStatistics.getMovesMade());
+        gameStatisticsJpaEntity.setAverageGameDuration(gameStatistics.getAverageGameDuration());
+        gameStatisticsRepo.save(gameStatisticsJpaEntity);
     }
 
     private GameStatistics toGameStatistics(GameStatisticsJpaEntity gameStatsEntity) {

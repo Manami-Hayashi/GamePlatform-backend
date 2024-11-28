@@ -29,7 +29,7 @@ public class StatsPlayerJpaEntity {
     @Column(name = "location")
     private String location;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "player_id")
     private List<GameStatisticsJpaEntity> gameStatistics;
 

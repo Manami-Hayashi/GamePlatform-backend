@@ -56,7 +56,7 @@ public class GameStatisticsJpaEntity {
     @Column(name = "matches_played")
     private int matchesPlayed;
 
-    @ManyToMany(mappedBy = "gameStatistics", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "gameStatistics", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<MatchSessionJpaEntity> matchSessions;
 
     public GameStatisticsJpaEntity() {

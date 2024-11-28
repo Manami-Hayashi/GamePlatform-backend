@@ -38,16 +38,15 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
             throw new IllegalArgumentException("GameStatistics not found");
         }
         GameStatistics gameStatsP2 = optionalGameStatsP2.get();
-        createMatchSessionPort.createMatchSession(new MatchSession(matchSessionDto.id(), new GameId(matchSessionDto.gameId()), List.of(gameStatsP1, gameStatsP2), matchSessionDto.startTime(), matchSessionDto.endTime(), matchSessionDto.isActive(), winner, matchSessionDto.score(), matchSessionDto.movesMade()));
+
+        MatchSession matchSession = new MatchSession(matchSessionDto.id(), new GameId(matchSessionDto.gameId()), List.of(gameStatsP1, gameStatsP2), matchSessionDto.startTime(), matchSessionDto.endTime(), matchSessionDto.isActive(), winner, matchSessionDto.score(), matchSessionDto.movesMade());
+        createMatchSessionPort.createMatchSession(matchSession);
+
+        gameStatsP1.setTotalScore(gameStatsP1.getTotalScore() + matchSessionDto.score());
+        gameStatsP2.setTotalScore(gameStatsP2.getTotalScore() + matchSessionDto.score());
 
         gameStatsP1.setTotalGamesPlayed(gameStatsP1.getTotalGamesPlayed() + 1);
         gameStatsP2.setTotalGamesPlayed(gameStatsP2.getTotalGamesPlayed() + 1);
-
-        gameStatsP1.setTotalTimePlayed(gameStatsP1.getTotalTimePlayed() + matchSessionDto.endTime().getSecond() - matchSessionDto.startTime().getSecond());
-        gameStatsP2.setTotalTimePlayed(gameStatsP2.getTotalTimePlayed() + matchSessionDto.endTime().getSecond() - matchSessionDto.startTime().getSecond());
-
-        gameStatsP1.setMovesMade(gameStatsP1.getMovesMade() + matchSessionDto.movesMade());
-        gameStatsP2.setMovesMade(gameStatsP2.getMovesMade() + matchSessionDto.movesMade());
 
         if (winner == Winner.PLAYER1) {
             gameStatsP1.setWins(gameStatsP1.getWins() + 1);
@@ -60,6 +59,20 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
             gameStatsP2.setDraws(gameStatsP2.getDraws() + 1);
         }
         LOGGER.info("Winner: " + winner);
+
+        gameStatsP1.setWinLossRatio(gameStatsP1.getLosses() == 0 ? 0 : (double) gameStatsP1.getWins() / gameStatsP1.getLosses());
+        gameStatsP2.setWinLossRatio(gameStatsP2.getLosses() == 0 ? 0 : (double) gameStatsP2.getWins() / gameStatsP2.getLosses());
+        gameStatsP1.setTotalTimePlayed(gameStatsP1.getTotalTimePlayed() + matchSessionDto.endTime().getSecond() - matchSessionDto.startTime().getSecond());
+        gameStatsP2.setTotalTimePlayed(gameStatsP2.getTotalTimePlayed() + matchSessionDto.endTime().getSecond() - matchSessionDto.startTime().getSecond());
+
+        gameStatsP1.setHighestScore(Math.max(gameStatsP1.getHighestScore(), matchSessionDto.score()));
+        gameStatsP2.setHighestScore(Math.max(gameStatsP2.getHighestScore(), matchSessionDto.score()));
+
+        gameStatsP1.setMovesMade(gameStatsP1.getMovesMade() + matchSessionDto.movesMade());
+        gameStatsP2.setMovesMade(gameStatsP2.getMovesMade() + matchSessionDto.movesMade());
+
+        gameStatsP1.setAverageGameDuration(gameStatsP1.getTotalTimePlayed() / gameStatsP1.getTotalGamesPlayed());
+        gameStatsP2.setAverageGameDuration(gameStatsP2.getTotalTimePlayed() / gameStatsP2.getTotalGamesPlayed());
 
         updateGameStatisticsPort.updateGameStatistics(gameStatsP1);
         updateGameStatisticsPort.updateGameStatistics(gameStatsP2);
