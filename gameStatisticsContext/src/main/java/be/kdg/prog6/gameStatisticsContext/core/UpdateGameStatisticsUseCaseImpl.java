@@ -6,15 +6,16 @@ import be.kdg.prog6.gameStatisticsContext.port.in.UpdateGameStatisticsUseCase;
 import be.kdg.prog6.gameStatisticsContext.port.out.CreateMatchSessionPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.UpdateGameStatisticsPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Service
 public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseCase {
-    private final Logger LOGGER = Logger.getLogger(UpdateGameStatisticsUseCaseImpl.class.getName());
+    private final static Logger LOGGER = LoggerFactory.getLogger(UpdateGameStatisticsUseCaseImpl.class.getName());
     private final LoadGameStatisticsPort loadGameStatisticsPort;
     private final UpdateGameStatisticsPort updateGameStatisticsPort;
     private final CreateMatchSessionPort createMatchSessionPort;
@@ -58,7 +59,7 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
             gameStatsP1.setDraws(gameStatsP1.getDraws() + 1);
             gameStatsP2.setDraws(gameStatsP2.getDraws() + 1);
         }
-        LOGGER.info("Winner: " + winner);
+        LOGGER.info("Winner: {}", winner);
 
         gameStatsP1.setWinLossRatio(gameStatsP1.getLosses() == 0 ? 0 : (double) gameStatsP1.getWins() / gameStatsP1.getLosses());
         gameStatsP2.setWinLossRatio(gameStatsP2.getLosses() == 0 ? 0 : (double) gameStatsP2.getWins() / gameStatsP2.getLosses());
