@@ -30,5 +30,5 @@ Authorization: Bearer {{access_token}}
 
 ### Update game statistics
 
-GET http://localhost:8090/api/game-statistics/update
+POST http://localhost:8090/api/game-statistics/update
 Authorization: Bearer {{access_token}}

@@ -19,8 +19,13 @@ public class MatchSessionJpaEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID gameId;
 
-    @OneToMany(mappedBy = "matchHistory")
-    private Set<GameStatisticsMatchSessionJpaEntity> gameStatistics;
+    @ManyToMany
+    @JoinTable(
+            name = "match_session_game_statistics",
+            joinColumns = @JoinColumn(name = "match_session_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_statistics_id")
+    )
+    private Set<GameStatisticsJpaEntity> gameStatistics;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -43,7 +48,19 @@ public class MatchSessionJpaEntity {
     public MatchSessionJpaEntity() {
     }
 
-    public MatchSessionJpaEntity(UUID gameId, Set<GameStatisticsMatchSessionJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+    public MatchSessionJpaEntity(UUID gameId, Set<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+        this.gameId = gameId;
+        this.gameStatistics = gameStatistics;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isActive = isActive;
+        this.winner = winner;
+        this.score = score;
+        this.movesMade = movesMade;
+    }
+
+    public MatchSessionJpaEntity(int id, UUID gameId, Set<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+        this.id = id;
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
         this.startTime = startTime;
@@ -70,11 +87,11 @@ public class MatchSessionJpaEntity {
         this.gameId = gameId;
     }
 
-    public Set<GameStatisticsMatchSessionJpaEntity> getGameStatistics() {
+    public Set<GameStatisticsJpaEntity> getGameStatistics() {
         return gameStatistics;
     }
 
-    public void setGameStatistics(Set<GameStatisticsMatchSessionJpaEntity> gameStatistics) {
+    public void setGameStatistics(Set<GameStatisticsJpaEntity> gameStatistics) {
         this.gameStatistics = gameStatistics;
     }
 

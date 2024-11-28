@@ -4,33 +4,32 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.UUID;
 
 public class MatchSession {
-    private final UUID id;
+    private final int id;
     private final GameId gameId;
-    private final List<Player> players;
+    private final List<GameStatistics> gameStatistics;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private boolean isActive;
-    private Player winner;
+    private Winner winner;
     private int score;
     private int movesMade;
 
-    public MatchSession(final UUID id, final GameId gameId, final List<Player> players, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Player winner) {
+    public MatchSession(final int id, final GameId gameId, final List<GameStatistics> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Winner winner) {
         this.id = id;
         this.gameId = gameId;
-        this.players = players;
+        this.gameStatistics = gameStatistics;
         this.startTime = startTime;
         this.endTime = endTime;
         this.isActive = isActive;
         this.winner = winner;
     }
 
-    public MatchSession(final UUID id, final GameId gameId, final List<Player> players, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Player winner, int score, int movesMade) {
+    public MatchSession(final int id, final GameId gameId, final List<GameStatistics> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Winner winner, int score, int movesMade) {
         this.id = id;
         this.gameId = gameId;
-        this.players = players;
+        this.gameStatistics = gameStatistics;
         this.startTime = startTime;
         this.endTime = endTime;
         this.isActive = isActive;
@@ -39,7 +38,7 @@ public class MatchSession {
         this.movesMade = movesMade;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
@@ -47,8 +46,8 @@ public class MatchSession {
         return gameId;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<GameStatistics> getGameStatistics() {
+        return gameStatistics;
     }
 
     public LocalDateTime getStartTime() {
@@ -75,11 +74,11 @@ public class MatchSession {
         isActive = active;
     }
 
-    public Player getWinner() {
+    public Winner getWinner() {
         return winner;
     }
 
-    public void setWinner(Player winner) {
+    public void setWinner(Winner winner) {
         this.winner = winner;
     }
 

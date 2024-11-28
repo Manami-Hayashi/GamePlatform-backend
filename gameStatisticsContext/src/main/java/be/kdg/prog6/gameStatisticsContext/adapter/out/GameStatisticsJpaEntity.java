@@ -15,9 +15,9 @@ public class GameStatisticsJpaEntity {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "player_id")
-    private StatsPlayerJpaEntity player;
+    @Column(name = "player_id")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID playerId;
 
     @Column(name = "game_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
@@ -56,21 +56,21 @@ public class GameStatisticsJpaEntity {
     @Column(name = "matches_played")
     private int matchesPlayed;
 
-    @OneToMany(mappedBy = "gameStatistics")
-    private Set<GameStatisticsMatchSessionJpaEntity> matchSessions;
+    @ManyToMany(mappedBy = "gameStatistics", fetch = FetchType.LAZY)
+    private Set<MatchSessionJpaEntity> matchSessions;
 
     public GameStatisticsJpaEntity() {
     }
 
-    public GameStatisticsJpaEntity(StatsPlayerJpaEntity player, UUID gameId, int totalScore, int matchesPlayed) {
-        this.player = player;
+    public GameStatisticsJpaEntity(UUID playerId, UUID gameId, int totalScore, int matchesPlayed) {
+        this.playerId = playerId;
         this.gameId = gameId;
         this.totalScore = totalScore;
         this.matchesPlayed = matchesPlayed;
     }
 
-    public GameStatisticsJpaEntity(StatsPlayerJpaEntity player, UUID gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
-        this.player = player;
+    public GameStatisticsJpaEntity(UUID playerId, UUID gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
+        this.playerId = playerId;
         this.gameId = gameId;
         this.totalScore = totalScore;
         this.totalGamesPlayed = totalGamesPlayed;
@@ -88,8 +88,8 @@ public class GameStatisticsJpaEntity {
         return id;
     }
 
-    public StatsPlayerJpaEntity getPlayer() {
-        return player;
+    public UUID getPlayerId() {
+        return playerId;
     }
 
     public UUID getGameId() {

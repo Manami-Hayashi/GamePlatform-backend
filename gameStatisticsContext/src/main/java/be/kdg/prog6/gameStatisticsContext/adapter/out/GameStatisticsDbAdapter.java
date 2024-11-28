@@ -18,22 +18,20 @@ public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, UpdateGa
     }
 
     @Override
-    public Optional<GameStatistics> loadGameStatisticsByPlayerAndGameId(Player player, UUID gameId) {
-        StatsPlayerJpaEntity playerJpaEntity = new StatsPlayerJpaEntity(player.getId().id(), player.getName(), player.getAge(), player.getGender().name(), player.getLocation());
-        return gameStatisticsRepository.findByPlayerAndGameId(playerJpaEntity, gameId).map(this::toGameStatistics);
+    public Optional<GameStatistics> loadGameStatisticsByPlayerIdAndGameId(UUID playerId, UUID gameId) {
+        return gameStatisticsRepository.findByPlayerIdAndGameId(playerId, gameId).map(this::toGameStatistics);
     }
 
     @Override
     public void updateGameStatistics(GameStatistics gameStatistics) {
-        StatsPlayerJpaEntity playerJpaEntity = new StatsPlayerJpaEntity(gameStatistics.getPlayer().getId().id(), gameStatistics.getPlayer().getName(), gameStatistics.getPlayer().getAge(), gameStatistics.getPlayer().getGender().name(), gameStatistics.getPlayer().getLocation());
-        GameStatisticsJpaEntity gameStatisticsJpaEntity = gameStatisticsRepository.findByPlayerAndGameId(playerJpaEntity, gameStatistics.getGameId().id())
+        GameStatisticsJpaEntity gameStatisticsJpaEntity = gameStatisticsRepository.findByPlayerIdAndGameId(gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id())
                         .orElseThrow(() -> new IllegalArgumentException("Game statistics not found"));
         gameStatisticsRepository.save(gameStatisticsJpaEntity);
     }
 
     private GameStatistics toGameStatistics(GameStatisticsJpaEntity gameStatsEntity) {
         return new GameStatistics(
-                toPlayer(gameStatsEntity.getPlayer()),
+                new PlayerId(gameStatsEntity.getPlayerId()),
                 new GameId(gameStatsEntity.getGameId()),
                 gameStatsEntity.getTotalScore(),
                 gameStatsEntity.getTotalGamesPlayed(),

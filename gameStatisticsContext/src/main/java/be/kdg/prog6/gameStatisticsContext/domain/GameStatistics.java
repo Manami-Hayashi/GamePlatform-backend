@@ -4,7 +4,7 @@ import java.util.List;
 
 public class GameStatistics {
     private final GameId gameId;
-    private final Player player;
+    private final PlayerId playerId;
     private int totalScore;
     private int totalGamesPlayed;
     private int wins;
@@ -17,8 +17,8 @@ public class GameStatistics {
     private int averageGameDuration;
     private List<MatchSession> matchesPlayed;
 
-    public GameStatistics(Player player, GameId gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
-        this.player = player;
+    public GameStatistics(PlayerId playerId, GameId gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
+        this.playerId = playerId;
         this.gameId = gameId;
         this.totalScore = totalScore;
         this.totalGamesPlayed = totalGamesPlayed;
@@ -32,14 +32,13 @@ public class GameStatistics {
         this.averageGameDuration = averageGameDuration;
     }
 
-    public Player getPlayer() {
-        return player;
+    public PlayerId getPlayerId() {
+        return playerId;
     }
 
     public GameId getGameId() {
         return gameId;
     }
-
 
     public int getTotalScore() {
         return totalScore;
@@ -127,5 +126,9 @@ public class GameStatistics {
 
     public void setMatchesPlayed(List<MatchSession> matchesPlayed) {
         this.matchesPlayed = matchesPlayed;
+    }
+
+    public void addMatch(MatchSession matchSession) {
+        matchesPlayed.add(matchSession);
     }
 }

@@ -7,5 +7,7 @@ import java.util.UUID;
 
 
 public interface GameStatisticsRepository extends JpaRepository<GameStatisticsJpaEntity, Integer> {
-    Optional<GameStatisticsJpaEntity> findByPlayerAndGameId(StatsPlayerJpaEntity player, UUID gameId);
+    Optional<GameStatisticsJpaEntity> findByPlayerIdAndGameId(UUID player, UUID gameId);
+
+    UUID playerId(UUID playerId);
 }
