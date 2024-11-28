@@ -1,34 +1,31 @@
-package be.kdg.prog6.PlayerManagementContext.adapter.in;
+package be.kdg.prog6.gameManagementContext.adapters.in;
 
-import be.kdg.prog6.PlayerManagementContext.core.RegisterUseCaseImpl;
-import be.kdg.prog6.PlayerManagementContext.port.in.RegisterUserCommand;
 import be.kdg.prog6.common.events.UserRegistrationEvent;
+import be.kdg.prog6.gameManagementContext.ports.in.RegisterUseCase;
+import be.kdg.prog6.gameManagementContext.ports.in.RegisterUserCommand;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlayerEventListener {
-    private static final Logger logger = LoggerFactory.getLogger(PlayerEventListener.class);
-    private final RegisterUseCaseImpl registerUseCaseImpl;
+public class EventListener {
+    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(EventListener.class);
+    private final RegisterUseCase registerUseCaseImpl;
 
-    public PlayerEventListener(RegisterUseCaseImpl registerUseCaseImpl) {
-        logger.info("PlayerEventListener created");
+    public EventListener(RegisterUseCase registerUseCaseImpl) {
         this.registerUseCaseImpl = registerUseCaseImpl;
     }
 
-    @RabbitListener(queues = "user.registration.queue")
+    @RabbitListener(queues = "user.registration.queue3")
     public void handleUserRegistrationEvent(UserRegistrationEvent event) {
-        logger.info("Handling user registration event in the player mng for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
-
+        logger.info("Handling user registration event in the game for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
         String fullName = formatFullName(event.getFirstName(), event.getLastName());
 
         RegisterUserCommand command = new RegisterUserCommand( event.getUserId(),
                 fullName
         );
 
-        logger.info("Registering player with full name: {}", fullName);
+        logger.info("Registering player game mng with full name: {}", fullName);
 
         registerUseCaseImpl.registerPlayer(command);
     }
@@ -43,5 +40,4 @@ public class PlayerEventListener {
         }
         return firstName + " " + lastName;
     }
-
 }
