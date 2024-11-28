@@ -1,26 +1,25 @@
-package be.kdg.prog6.PlayerManagementContext.adapter.in;
+package be.kdg.prog6.lobbyManagementContext.adapters.in;
 
-import be.kdg.prog6.PlayerManagementContext.core.RegisterUseCaseImpl;
-import be.kdg.prog6.PlayerManagementContext.port.in.RegisterUserCommand;
 import be.kdg.prog6.common.events.UserRegistrationEvent;
+import be.kdg.prog6.lobbyManagementContext.ports.in.RegisterUseCase;
+import be.kdg.prog6.lobbyManagementContext.ports.in.RegisterUserCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlayerEventListener {
-    private static final Logger logger = LoggerFactory.getLogger(PlayerEventListener.class);
-    private final RegisterUseCaseImpl registerUseCaseImpl;
+public class LobbyEventListener {
+    private static final Logger logger = LoggerFactory.getLogger(LobbyEventListener.class);
+    private final RegisterUseCase registerUseCaseImpl;
 
-    public PlayerEventListener(RegisterUseCaseImpl registerUseCaseImpl) {
-        logger.info("PlayerEventListener created");
+    public LobbyEventListener(RegisterUseCase registerUseCaseImpl) {
         this.registerUseCaseImpl = registerUseCaseImpl;
     }
 
-    @RabbitListener(queues = "user.registration.queue")
+    @RabbitListener(queues = "user.registration.queue2")
     public void handleUserRegistrationEvent(UserRegistrationEvent event) {
-        logger.info("Handling user registration event for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
+        logger.info("Handling user registration event in the lobby for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
 
         String fullName = formatFullName(event.getFirstName(), event.getLastName());
 
@@ -28,7 +27,7 @@ public class PlayerEventListener {
                 fullName
         );
 
-        logger.info("Registering player with full name: {}", fullName);
+        logger.info("Registering player lobby with full name: {}", fullName);
 
         registerUseCaseImpl.registerPlayer(command);
     }
