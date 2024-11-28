@@ -2,21 +2,23 @@ package be.kdg.prog6.gameManagementContext.adapters.out.db;
 
 import be.kdg.prog6.gameManagementContext.domain.Game;
 import be.kdg.prog6.gameManagementContext.domain.GameId;
-import be.kdg.prog6.gameManagementContext.ports.out.LoadGamePort;
-import be.kdg.prog6.gameManagementContext.ports.out.LoadAllGamesPort;
-import be.kdg.prog6.gameManagementContext.ports.out.SaveGamePort;
-import be.kdg.prog6.gameManagementContext.ports.out.UpdateGamePort;
+import be.kdg.prog6.gameManagementContext.domain.Player;
+import be.kdg.prog6.gameManagementContext.ports.out.*;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPort, UpdateGamePort {
+public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPort, UpdateGamePort, GameMngPlayerCreatedPort {
     private final GameJpaRepository gameJpaRepository;
+    private final GameMngPlayerJpaRepository gameMngPlayerJpaRepository;
+    private final Logger logger = org.slf4j.LoggerFactory.getLogger(GameDBAdapter.class);
 
-    public GameDBAdapter(GameJpaRepository gameJpaRepository) {
+    public GameDBAdapter(GameJpaRepository gameJpaRepository, GameMngPlayerJpaRepository gameMngPlayerJpaRepository) {
         this.gameJpaRepository = gameJpaRepository;
+        this.gameMngPlayerJpaRepository = gameMngPlayerJpaRepository;
     }
 
     @Override
@@ -60,5 +62,18 @@ public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPo
     @Override
     public void updateGame(Game game) {
 
+    }
+
+    @Override
+    public void createPlayer(Player player) {
+        GameMngPlayerJpaEntity gameMngPlayerJpaEntity = new GameMngPlayerJpaEntity(
+                player.getPlayerId().id(),
+                player.getName(),
+                player.getAge(),
+                player.getGender(),
+                player.getLocation()
+        );
+        logger.info("creating new Player with name {}", player.getName());
+        gameMngPlayerJpaRepository.save(gameMngPlayerJpaEntity);
     }
 }
