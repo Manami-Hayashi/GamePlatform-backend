@@ -17,6 +17,9 @@ public class LobbyGameJpaEntity {
     @OneToMany(mappedBy = "game")
     private List<LobbyJpaEntity> lobbies;
 
+    @OneToMany(mappedBy = "game")
+    private List<LobbyPlayerJpaEntity> players;
+
 
 
     public LobbyGameJpaEntity(UUID gameId, String name) {
@@ -49,6 +52,14 @@ public class LobbyGameJpaEntity {
 
     public void setLobbies(List<LobbyJpaEntity> lobbies) {
         this.lobbies = lobbies;
+    }
+
+    public List<LobbyPlayerJpaEntity> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<LobbyPlayerJpaEntity> players) {
+        this.players = players;
     }
 
 

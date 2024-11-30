@@ -51,7 +51,7 @@ Content-Type: application/json
 {
   "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120001",
   "friendId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120002",
-  "gameId": "8cfeaa07-889e-43ee-90ea-a12e9e0e9012"
+  "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
 }
 
 
@@ -62,7 +62,7 @@ Content-Type: application/json
 
 {
   "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120003",
-   "gameId": "8cfeaa07-889e-43ee-90ea-a12e9e0e9012"
+   "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
 }
 
 ### Leave exiting lobby and create a new public lobby alone
@@ -72,7 +72,7 @@ Content-Type: application/json
 
 {
   "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120003",
-  "gameId": "54155b2a-2882-4c47-bbc7-8095a8596a11"
+  "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
 }
 
 
@@ -83,7 +83,7 @@ Content-Type: application/json
 
 {
   "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120004",
-    "gameId": "8cfeaa07-889e-43ee-90ea-a12e9e0e9012"
+    "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
 }
 
 ### See if Player 8 will now join who ever is still free
@@ -93,7 +93,7 @@ Content-Type: application/json
 
 {
   "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120008",
-    "gameId": "54155b2a-2882-4c47-bbc7-8095a8596a11"
+    "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
 }
 
 

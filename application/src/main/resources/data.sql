@@ -58,6 +58,8 @@ VALUES
 
 */
 
+
+Insert INTO lobby_management.game (game_id, name) VALUE (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'), 'Checkers');
 -- Insert dummy players with online status
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120001'), 'Player One', NOW());
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), 'Player Two', NOW());

@@ -85,17 +85,18 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
     @Override
     public Game loadLobbyGame(UUID gameId) {
         return lobbyGameJpaRepository.findById(gameId)
-                .map(gameEntity -> new Game(new GameId(gameEntity.getGameId()), gameEntity.getName()))
+                .map(this::toGame)
                 .orElse(null);
     }
 
     private Lobby toLobby(LobbyJpaEntity lobbyJpaEntity) {
+        GameId gameId = (lobbyJpaEntity.getGame() != null) ? new GameId(lobbyJpaEntity.getGame().getGameId()) : null;
         return new Lobby(
                 lobbyJpaEntity.getLobbyId(),
                 lobbyJpaEntity.getPlayers().stream()
                         .map(this::toPlayerId)
                         .collect(Collectors.toList()),
-                new GameId(lobbyJpaEntity.getGame().getGameId())
+                gameId
         );
     }
 
@@ -134,5 +135,9 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
                 playerJpaEntity.getLastActive(),
                 lobbyId
         );
+    }
+
+    private Game toGame(LobbyGameJpaEntity gameEntity) {
+        return new Game(new GameId(gameEntity.getGameId()), gameEntity.getName());
     }
 }

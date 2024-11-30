@@ -8,7 +8,7 @@ public class Lobby {
 
     private final UUID lobbyId;
     private final List<PlayerId> playerIds;
-    private final GameId gameId;
+    private  GameId gameId;
     private static final int MAX_PLAYERS = 2;
 
     public Lobby(UUID lobbyId, List<PlayerId> playerIds, GameId gameId) {
@@ -79,5 +79,9 @@ public class Lobby {
 
     public GameId getGameId() {
         return gameId;
+    }
+
+    public void setGameId(GameId gameId) {
+        this.gameId = gameId;
     }
 }

@@ -21,11 +21,16 @@ public class LobbyPlayerJpaEntity {
     @JoinColumn(name = "lobby_id")
     private LobbyJpaEntity lobby;
 
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private LobbyGameJpaEntity game;
+
     public LobbyPlayerJpaEntity(UUID playerId, String name, Instant lastActive, LobbyJpaEntity lobby) {
         this.playerId = playerId;
         this.name = name;
         this.lastActive = lastActive;
         this.lobby = lobby;
+
     }
 
     public LobbyPlayerJpaEntity() {
@@ -61,5 +66,13 @@ public class LobbyPlayerJpaEntity {
 
     public void setLobby(LobbyJpaEntity lobby) {
         this.lobby = lobby;
+    }
+
+    public LobbyGameJpaEntity getGame() {
+        return game;
+    }
+
+    public void setGame(LobbyGameJpaEntity game) {
+        this.game = game;
     }
 }
