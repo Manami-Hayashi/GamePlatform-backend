@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -57,7 +57,7 @@ public class GameStatisticsJpaEntity {
     private int matchesPlayed;
 
     @ManyToMany(mappedBy = "gameStatistics", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Set<MatchSessionJpaEntity> matchSessions;
+    private List<MatchSessionJpaEntity> matchSessions;
 
     public GameStatisticsJpaEntity() {
     }
