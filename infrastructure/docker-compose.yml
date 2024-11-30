@@ -59,7 +59,7 @@
       ports:
         - "8181:8080"
       volumes:
-        - C:\Users\alprn\Desktop\Integration 5\game-arena\application\build\libs\keycloak-event-listener-1.0.0.jar:/opt/keycloak/providers/keycloak-event-listener-1.0.0.jar
+        - /home/zamlamb/KdG/Integration5Backend/application/build/libs/keycloak-event-listener-1.0.0.jar:/opt/keycloak/providers/keycloak-event-listener-1.0.0.jar
       depends_on:
         - team3_rabbitmq
         - idp_mysql_team3

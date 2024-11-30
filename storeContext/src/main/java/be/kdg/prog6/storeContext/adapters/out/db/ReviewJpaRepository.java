@@ -1,4 +1,4 @@
-package be.kdg.prog6.storeContext.adapter.out;
+package be.kdg.prog6.storeContext.adapters.out.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
