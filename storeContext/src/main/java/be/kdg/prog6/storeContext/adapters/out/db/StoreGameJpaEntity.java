@@ -15,7 +15,7 @@ public class StoreGameJpaEntity {
     @Column(name="game_id")
     private UUID gameId;
 
-    @Column(name="name")
+    @Column(name="game_name")
     private String name;
 
     @Column(name="price")

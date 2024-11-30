@@ -1,6 +1,6 @@
 -- Insert dummy games into the 'game' table
-INSERT INTO store.game (game_id, name, price, description) VALUES
-                                                         (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers', 5.00, 'A classic strategy game for two players.'),
+INSERT INTO store.game (game_id, game_name, price, description) VALUES
+                                                         (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers', 0, 'A classic strategy game for two players.'),
                                                          (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120002'), 'Chess', 10.00, 'The timeless game of kings.'),
                                                          (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'Othello', 7.50, 'A fun and strategic board game.'),
                                                          (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 'Battle Ship', 8.99, "Sink your opponent's fleet.");

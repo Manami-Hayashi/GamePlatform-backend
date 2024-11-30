@@ -21,7 +21,7 @@ public class StorePlayerDBAdapter implements PlayerCreatedPort {
                 player.getPlayerId().id(),
                 player.getName()
         );
-        logger.info("creating new Player with name on store db {}", player.getName());
+        logger.info("creating new Player with gameName on store db {}", player.getName());
         // save to database
         storePlayerRepository.save(jpaEntity);
     }

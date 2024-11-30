@@ -6,14 +6,14 @@ import java.util.List;
 
 public class StoreGame {
     private GameId gameId;
-    private String name;
+    private String gameName;
     private BigDecimal price;
     private String description;
     private List<Review> reviews;
 
-    public StoreGame(GameId gameId, String name, BigDecimal price, String description, List<Review> reviews) {
+    public StoreGame(GameId gameId, String gameName, BigDecimal price, String description, List<Review> reviews) {
         this.gameId = gameId;
-        this.name = name;
+        this.gameName = gameName;
         this.price = price;
         this.description = description;
         this.reviews = reviews;
@@ -34,13 +34,13 @@ public class StoreGame {
         return reviews;
     }
 
-    public String getName() {
-        return name;
+    public String getGameName() {
+        return gameName;
     }
 
     public void setGameId(GameId gameId) {this.gameId = gameId;}
 
-    public void setName(String name) {this.name = name;}
+    public void setGameName(String gameName) {this.gameName = gameName;}
 
     public void setPrice(BigDecimal price) {this.price = price;}
 
