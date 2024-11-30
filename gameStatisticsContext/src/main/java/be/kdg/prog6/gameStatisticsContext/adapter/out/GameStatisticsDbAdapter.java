@@ -1,6 +1,8 @@
 package be.kdg.prog6.gameStatisticsContext.adapter.out;
 
 import be.kdg.prog6.gameStatisticsContext.domain.*;
+import be.kdg.prog6.gameStatisticsContext.port.out.LoadAllGameStatisticsPort;
+import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsByGameIdPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.UpdateGameStatisticsPort;
 import org.springframework.stereotype.Component;
@@ -10,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, UpdateGameStatisticsPort {
+public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, LoadGameStatisticsByGameIdPort, LoadAllGameStatisticsPort, UpdateGameStatisticsPort {
     private final GameStatisticsRepository gameStatisticsRepo;
 
     public GameStatisticsDbAdapter(GameStatisticsRepository gameStatisticsRepo) {
@@ -20,6 +22,22 @@ public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, UpdateGa
     @Override
     public Optional<GameStatistics> loadGameStatisticsByPlayerIdAndGameId(UUID playerId, UUID gameId) {
         return gameStatisticsRepo.findByPlayerIdAndGameId(playerId, gameId).map(this::toGameStatistics);
+    }
+
+    @Override
+    public List<GameStatistics> loadGameStatisticsByGameId(UUID gameId) {
+        return gameStatisticsRepo.findByGameId(gameId)
+                .stream()
+                .map(this::toGameStatistics)
+                .toList();
+    }
+
+    @Override
+    public List<GameStatistics> loadAllGameStatistics() {
+        return gameStatisticsRepo.findAll()
+                .stream()
+                .map(this::toGameStatistics)
+                .toList();
     }
 
     @Override
