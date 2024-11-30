@@ -68,8 +68,8 @@ INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120008'), 'Player Eight', NOW());
 
 -- Insert lobbies
-INSERT INTO lobby_management.lobby (lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
-INSERT INTO lobby_management.lobby (lobby_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120003'));
+INSERT INTO lobby_management.lobby (lobby_id, game_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'),UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
+INSERT INTO lobby_management.lobby (lobby_id, game_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120003'), UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'));
 
 -- Assign players to lobbies
 -- Lobby with 2 players

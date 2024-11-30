@@ -151,12 +151,14 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
     private Player toPlayer(LobbyPlayerJpaEntity playerJpaEntity) {
         LobbyJpaEntity lobby = playerJpaEntity.getLobby();
         UUID lobbyId = (lobby != null) ? lobby.getLobbyId() : null;
+        GameId gameId = (playerJpaEntity.getGame() != null) ? new GameId(playerJpaEntity.getGame().getGameId()) : null;
 
         return new Player(
                 new PlayerId(playerJpaEntity.getPlayerId()),
                 playerJpaEntity.getName(),
                 playerJpaEntity.getLastActive(),
-                lobbyId
+                lobbyId,
+                gameId
         );
     }
 
