@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 
 @Component
 public class AchievementDbAdapter implements LoadAchievementsPort {
-    private final AchievementRepository achievementRepository;
+    private final AchievementRepository achievementRepo;
 
-    public AchievementDbAdapter(AchievementRepository achievementRepository) {
-        this.achievementRepository = achievementRepository;
+    public AchievementDbAdapter(AchievementRepository achievementRepo) {
+        this.achievementRepo = achievementRepo;
     }
 
     @Override
     public List<Achievement> loadAchievements() {
-        return achievementRepository.findAll().stream().map(this::toAchievement).collect(Collectors.toList());
+        return achievementRepo.findAll().stream().map(this::toAchievement).collect(Collectors.toList());
     }
 
     private Achievement toAchievement(AchievementJpaEntity achievementJpaEntity) {

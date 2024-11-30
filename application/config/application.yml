@@ -17,16 +17,16 @@ spring:
     defer-datasource-initialization: true
 
   datasource:
-    url: "jdbc:mysql://localhost:13308"
+    url: "jdbc:mysql://localhost:13308/team3_db"
     username: user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  rabbitmq:
-    host: localhost
-    port: 5673
-    username: myuser
-    password: mypassword
+#  rabbitmq:
+#    host: localhost
+#    port: 5673
+#    username: myuser
+#    password: mypassword
 
   security:
     oauth2:

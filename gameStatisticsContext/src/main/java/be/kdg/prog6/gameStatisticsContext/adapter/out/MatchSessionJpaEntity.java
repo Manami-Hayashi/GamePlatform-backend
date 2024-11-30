@@ -5,13 +5,12 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(catalog = "game_statistics", name = "match_history")
-public class MatchHistoryJpaEntity {
+@Table(catalog = "game_statistics", name = "match_session")
+public class MatchSessionJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -20,8 +19,13 @@ public class MatchHistoryJpaEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID gameId;
 
-    @OneToMany(mappedBy = "matchHistory")
-    private Set<GameStatisticsMatchHistoryJpaEntity> gameStatistics;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "match_session_game_statistics",
+            joinColumns = @JoinColumn(name = "match_session_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_statistics_id")
+    )
+    private Set<GameStatisticsJpaEntity> gameStatistics;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -41,10 +45,22 @@ public class MatchHistoryJpaEntity {
     @Column(name = "moves_made")
     private int movesMade;
 
-    public MatchHistoryJpaEntity() {
+    public MatchSessionJpaEntity() {
     }
 
-    public MatchHistoryJpaEntity(UUID gameId, Set<GameStatisticsMatchHistoryJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+    public MatchSessionJpaEntity(UUID gameId, Set<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+        this.gameId = gameId;
+        this.gameStatistics = gameStatistics;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isActive = isActive;
+        this.winner = winner;
+        this.score = score;
+        this.movesMade = movesMade;
+    }
+
+    public MatchSessionJpaEntity(int id, UUID gameId, Set<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+        this.id = id;
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
         this.startTime = startTime;
@@ -71,11 +87,11 @@ public class MatchHistoryJpaEntity {
         this.gameId = gameId;
     }
 
-    public Set<GameStatisticsMatchHistoryJpaEntity> getGameStatistics() {
+    public Set<GameStatisticsJpaEntity> getGameStatistics() {
         return gameStatistics;
     }
 
-    public void setGameStatistics(Set<GameStatisticsMatchHistoryJpaEntity> gameStatistics) {
+    public void setGameStatistics(Set<GameStatisticsJpaEntity> gameStatistics) {
         this.gameStatistics = gameStatistics;
     }
 
