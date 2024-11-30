@@ -48,6 +48,10 @@ public class MatchWithRandomPlayerUseCaseImpl implements MatchWithRandomPlayerUs
         }
         LOGGER.info("Game {} loaded", game.getGameName());
 
+        // Set the game ID for the player
+        player.setGameId(new GameId(command.getGameId()));
+        LOGGER.info("game id {} is set for the player {}",player.getGameId(), player.getPlayerId());
+
         // Load lobbies for the specific game where all players are online
         List<Lobby> lobbies = loadAllLobbiesPort.loadAllLobbies().stream()
                 .filter(lobby -> game.getGameId().id().equals(command.getGameId()))

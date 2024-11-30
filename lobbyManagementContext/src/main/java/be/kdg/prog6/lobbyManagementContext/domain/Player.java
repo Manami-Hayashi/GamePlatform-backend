@@ -7,7 +7,8 @@ public class Player {
     private final PlayerId playerId;
     private final String name;
     private Instant lastActive;
-    private  UUID lobbyId;
+    private UUID lobbyId;
+    private GameId gameId;
 
     public Player(PlayerId playerId, String name, UUID lobbyId) {
         this.playerId = playerId;
@@ -53,4 +54,11 @@ public class Player {
         this.lobbyId = lobbyId;
     }
 
+    public GameId getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(GameId gameId) {
+        this.gameId = gameId;
+    }
 }

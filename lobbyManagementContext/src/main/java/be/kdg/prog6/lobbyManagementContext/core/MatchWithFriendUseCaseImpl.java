@@ -57,6 +57,11 @@ public class MatchWithFriendUseCaseImpl implements MatchWithFriendUseCase {
         Lobby privateLobby = createNewLobby(player.getPlayerId(), gameId);
         privateLobby.addPlayer(friend.getPlayerId());
 
+        player.setGameId(gameId);
+        LOGGER.info("game id {} is set for the player {}",player.getGameId(), player.getPlayerId());
+        friend.setGameId(gameId);
+        LOGGER.info("game id {} is set for the player {}",friend.getGameId(), friend.getPlayerId());
+
         player.setLobbyId(privateLobby.getLobbyId());
         friend.setLobbyId(privateLobby.getLobbyId());
 

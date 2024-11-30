@@ -52,6 +52,14 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
             playerJpaEntity.setLobby(null);
         }
 
+        if (player.getGameId() != null){
+            LobbyGameJpaEntity lobbyGameJpaEntity = lobbyGameJpaRepository.findById(player.getGameId().id())
+                    .orElseThrow(() -> new IllegalArgumentException("game not found for the player"));
+            playerJpaEntity.setGame(lobbyGameJpaEntity);
+        } else {
+            playerJpaEntity.setGame(null);
+        }
+
         lobbyPlayerJpaRepository.save(playerJpaEntity);
     }
 
@@ -118,6 +126,21 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
         playerJpaEntity.setPlayerId(playerId.id());
         playerJpaEntity.setLobby(lobbyJpaEntity);
         playerJpaEntity.setLastActive(Instant.now());
+
+        // Set the game for the player
+        if (lobbyJpaEntity.getGame() != null) {
+            playerJpaEntity.setGame(lobbyJpaEntity.getGame());
+        } else {
+            Player player = loadPlayer(playerId.id());
+            if (player != null && player.getGameId() != null) {
+                LobbyGameJpaEntity gameEntity = lobbyGameJpaRepository.findById(player.getGameId().id())
+                        .orElseThrow(() -> new IllegalArgumentException("Game not found for the player"));
+                playerJpaEntity.setGame(gameEntity);
+            } else {
+                playerJpaEntity.setGame(null);
+            }
+        }
+
         return playerJpaEntity;
     }
 
