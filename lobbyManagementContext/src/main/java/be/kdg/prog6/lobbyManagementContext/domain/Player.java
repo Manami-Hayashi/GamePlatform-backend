@@ -32,6 +32,11 @@ public class Player {
         this.gameId = gameId;
     }
 
+  public Player(PlayerId playerId, String name) {
+    this.playerId = playerId;
+    this.name = name;
+    this.lastActive = Instant.now();
+  }
 
 
     public PlayerId getPlayerId() {

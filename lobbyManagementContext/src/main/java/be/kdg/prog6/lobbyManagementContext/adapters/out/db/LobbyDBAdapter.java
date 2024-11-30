@@ -10,7 +10,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobbiesPort, LoadPlayerPort, UpdatePlayerPort, LobbyGameCreatedPort, LoadLobbyGamePort {
+public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobbiesPort, LoadPlayerPort, UpdatePlayerPort, LobbyGameCreatedPort, LoadLobbyGamePort, LobbyPlayerCreatedPort {
     private final LobbyJpaRepository lobbyJpaRepository;
     private final LobbyPlayerJpaRepository lobbyPlayerJpaRepository;
     private final LobbyGameJpaRepository lobbyGameJpaRepository;
@@ -164,5 +164,15 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
 
     private Game toGame(LobbyGameJpaEntity gameEntity) {
         return new Game(new GameId(gameEntity.getGameId()), gameEntity.getName());
+    }
+
+    @Override
+    public void createPlayer(Player player) {
+        LobbyPlayerJpaEntity jpaEntity = new LobbyPlayerJpaEntity(
+                player.getPlayerId().id(),
+                player.getName()
+        );
+        // save to database
+        lobbyPlayerJpaRepository.save(jpaEntity);
     }
 }

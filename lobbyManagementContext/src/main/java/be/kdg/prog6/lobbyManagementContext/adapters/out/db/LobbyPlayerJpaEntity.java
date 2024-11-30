@@ -36,6 +36,11 @@ public class LobbyPlayerJpaEntity {
     public LobbyPlayerJpaEntity() {
     }
 
+ public LobbyPlayerJpaEntity(UUID playerId, String name) {
+        this.playerId = playerId;
+        this.name = name;
+ }
+
     public UUID getPlayerId() {
         return playerId;
     }
