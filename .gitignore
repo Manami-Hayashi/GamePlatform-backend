@@ -7,6 +7,8 @@ infrastructure/rabbitmq/
 infrastructure/team3/
 
 
+
+
 ### Java ###
 # Compiled class file
 *.class

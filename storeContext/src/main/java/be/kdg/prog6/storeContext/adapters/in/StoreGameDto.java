@@ -1,4 +1,4 @@
-package be.kdg.prog6.storeContext.adapter.in;
+package be.kdg.prog6.storeContext.adapters.in;
 
 import be.kdg.prog6.storeContext.domain.Review;
 import be.kdg.prog6.storeContext.domain.StoreGame;

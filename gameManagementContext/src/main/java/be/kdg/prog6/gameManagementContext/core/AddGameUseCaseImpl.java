@@ -7,6 +7,7 @@ import be.kdg.prog6.gameManagementContext.ports.in.AddGameCommand;
 import be.kdg.prog6.gameManagementContext.ports.in.AddGameUseCase;
 import be.kdg.prog6.gameManagementContext.ports.out.SaveGamePort;
 import be.kdg.prog6.gameManagementContext.ports.out.UpdateGamePort;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class AddGameUseCaseImpl implements AddGameUseCase {
     }
 
     @Override
+    @Transactional
     public void addGame(AddGameCommand command) {
         // Create a new game using the provided details
         GameId gameId = new GameId(UUID.randomUUID());

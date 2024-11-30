@@ -117,26 +117,38 @@ public class RabbitMQTopology {
 
     // Admin adds a new name
     public static final String GAME_ADDED_EXCHANGE = "game.added.exchange";
-    public static final String GAME_ADDED_QUEUE = "game.added.queue";
-    public static final String GAME_ADDED_ROUTING_KEY = "game.added";
+    public static final String GAME_ADDED_QUEUE1 = "game.added.queue1";
+    public static final String GAME_ADDED_QUEUE2 = "game.added.queue2";
+
 
     @Bean
-    public TopicExchange gameAddedExchange() {
-        return new TopicExchange(GAME_ADDED_EXCHANGE);
+    public FanoutExchange gameAddedExchange() {
+        return new FanoutExchange(GAME_ADDED_EXCHANGE);
     }
 
     @Bean
-    public Queue gameAddedQueue() {
-        return new Queue(GAME_ADDED_QUEUE, true); // Durable queue
+    public Queue gameAddedQueue1() {
+        return new Queue(GAME_ADDED_QUEUE1, true); // Durable queue
     }
 
     @Bean
-    public Binding gameAddedBinding(Queue gameAddedQueue, TopicExchange gameAddedExchange) {
+    public Queue gameAddedQueue2() {
+        return new Queue(GAME_ADDED_QUEUE2, true); // Durable queue
+    }
+
+    @Bean
+    public Binding gameAddedBinding1(Queue gameAddedQueue1, FanoutExchange gameAddedExchange) {
         return BindingBuilder
-                .bind(gameAddedQueue)
-                .to(gameAddedExchange)
-                .with(GAME_ADDED_ROUTING_KEY);
+                .bind(gameAddedQueue1)
+                .to(gameAddedExchange);
     }
+
+    @Bean Binding gameAddedBinding2(Queue gameAddedQueue2, FanoutExchange gameAddedExchange) {
+        return BindingBuilder
+                .bind(gameAddedQueue2)
+                .to(gameAddedExchange);
+    }
+    
 
     // Define RabbitTemplate for internal communication with Keycloak (using the internalConnectionFactory)
     @Bean(name = "internalRabbitTemplate")
