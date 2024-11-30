@@ -34,7 +34,7 @@ VALUES
     ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-*/
+
 
 
 Insert INTO lobby_management.game (game_id, name) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'), 'Checkers');
