@@ -19,12 +19,12 @@ public class RegisterPlayerUseCaseImpl implements RegisterPlayerUseCase {
 
     @Override
     public void registerPlayer(RegisterUserCommand command) {
-        logger.info("Registering player with name on store: {}", command.name());
+        logger.info("Registering player with gameName on store: {}", command.gameName());
         PlayerId playerId = new PlayerId(command.playerId());
-        Player player = new Player(playerId, command.name());
+        Player player = new Player(playerId, command.gameName());
 
         playerCreatedPort.createPlayer(player);
-        logger.info("Player registered with id and name: {} {}", playerId, player.getName());
+        logger.info("Player registered with id and gameName: {} {}", playerId, player.getName());
     }
 
 }

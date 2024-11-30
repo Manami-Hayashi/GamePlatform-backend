@@ -115,7 +115,7 @@ public class RabbitMQTopology {
     }
 
 
-    // Admin adds a new name
+    // Admin adds a new gameName
     public static final String GAME_ADDED_EXCHANGE = "game.added.exchange";
     public static final String GAME_ADDED_QUEUE1 = "game.added.queue1";
     public static final String GAME_ADDED_QUEUE2 = "game.added.queue2";
