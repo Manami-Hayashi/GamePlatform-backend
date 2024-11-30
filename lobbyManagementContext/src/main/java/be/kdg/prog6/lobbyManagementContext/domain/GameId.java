@@ -2,7 +2,7 @@ package be.kdg.prog6.lobbyManagementContext.domain;
 
 import java.util.UUID;
 
-public record GameId(UUID id) {
+public record  GameId(UUID id) {
     public GameId {
         if (id == null) {
             throw new IllegalArgumentException("Id cannot be null");

@@ -20,7 +20,7 @@ public class PlayerEventListener {
 
     @RabbitListener(queues = "user.registration.queue")
     public void handleUserRegistrationEvent(UserRegistrationEvent event) {
-        logger.info("Handling user registration event for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
+        logger.info("Handling user registration event in the player mng for user: {} {} {}", event.getUserId(), event.getFirstName(), event.getLastName());
 
         String fullName = formatFullName(event.getFirstName(), event.getLastName());
 

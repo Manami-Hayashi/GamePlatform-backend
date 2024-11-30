@@ -1,0 +1,91 @@
+package be.kdg.prog6.gameStatisticsContext.adapter.out;
+
+import be.kdg.prog6.gameStatisticsContext.domain.*;
+import be.kdg.prog6.gameStatisticsContext.port.out.LoadAllGameStatisticsPort;
+import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsByGameIdPort;
+import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsPort;
+import be.kdg.prog6.gameStatisticsContext.port.out.UpdateGameStatisticsPort;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Component
+public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, LoadGameStatisticsByGameIdPort, LoadAllGameStatisticsPort, UpdateGameStatisticsPort {
+    private final GameStatisticsRepository gameStatisticsRepo;
+
+    public GameStatisticsDbAdapter(GameStatisticsRepository gameStatisticsRepo) {
+        this.gameStatisticsRepo = gameStatisticsRepo;
+    }
+
+    @Override
+    public Optional<GameStatistics> loadGameStatisticsByPlayerIdAndGameId(UUID playerId, UUID gameId) {
+        return gameStatisticsRepo.findByPlayerIdAndGameId(playerId, gameId).map(this::toGameStatistics);
+    }
+
+    @Override
+    public List<GameStatistics> loadGameStatisticsByGameId(UUID gameId) {
+        return gameStatisticsRepo.findByGameId(gameId)
+                .stream()
+                .map(this::toGameStatistics)
+                .toList();
+    }
+
+    @Override
+    public List<GameStatistics> loadAllGameStatistics() {
+        return gameStatisticsRepo.findAll()
+                .stream()
+                .map(this::toGameStatistics)
+                .toList();
+    }
+
+    @Override
+    public void updateGameStatistics(GameStatistics gameStatistics) {
+        GameStatisticsJpaEntity gameStatisticsJpaEntity = gameStatisticsRepo
+                .findByPlayerIdAndGameId(gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id())
+                .orElseThrow(() -> new IllegalArgumentException("Game statistics not found"));
+        gameStatisticsJpaEntity.setTotalScore(gameStatistics.getTotalScore());
+        gameStatisticsJpaEntity.setTotalGamesPlayed(gameStatistics.getTotalGamesPlayed());
+        gameStatisticsJpaEntity.setWins(gameStatistics.getWins());
+        gameStatisticsJpaEntity.setLosses(gameStatistics.getLosses());
+        gameStatisticsJpaEntity.setDraws(gameStatistics.getDraws());
+        gameStatisticsJpaEntity.setWinLossRatio(gameStatistics.getWinLossRatio());
+        gameStatisticsJpaEntity.setTotalTimePlayed(gameStatistics.getTotalTimePlayed());
+        gameStatisticsJpaEntity.setHighestScore(gameStatistics.getHighestScore());
+        gameStatisticsJpaEntity.setMovesMade(gameStatistics.getMovesMade());
+        gameStatisticsJpaEntity.setAverageGameDuration(gameStatistics.getAverageGameDuration());
+        gameStatisticsRepo.save(gameStatisticsJpaEntity);
+    }
+
+    private GameStatistics toGameStatistics(GameStatisticsJpaEntity gameStatsEntity) {
+        return new GameStatistics(
+                new PlayerId(gameStatsEntity.getPlayerId()),
+                new GameId(gameStatsEntity.getGameId()),
+                gameStatsEntity.getTotalScore(),
+                gameStatsEntity.getTotalGamesPlayed(),
+                gameStatsEntity.getWins(),
+                gameStatsEntity.getLosses(),
+                gameStatsEntity.getDraws(),
+                gameStatsEntity.getWinLossRatio(),
+                gameStatsEntity.getTotalTimePlayed(),
+                gameStatsEntity.getHighestScore(),
+                gameStatsEntity.getMovesMade(),
+                gameStatsEntity.getAverageGameDuration()
+        );
+    }
+
+    private Player toPlayer(StatsPlayerJpaEntity playerEntity) {
+        List<GameStatistics> gameStatistics = playerEntity.getGameStatistics()
+                .stream()
+                .map(this::toGameStatistics)
+                .toList();
+
+        return new Player(
+                new PlayerId(playerEntity.getId()),
+                playerEntity.getName(),
+                playerEntity.getAge(),
+                Gender.valueOf(playerEntity.getGender()),
+                playerEntity.getLocation());
+    }
+}

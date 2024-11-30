@@ -13,7 +13,7 @@ public class StoreGame {
 
     public StoreGame(GameId gameId, String gameName, BigDecimal price, String description, List<Review> reviews) {
         this.gameId = gameId;
-        this.gameName  = gameName;
+        this.gameName = gameName;
         this.price = price;
         this.description = description;
         this.reviews = reviews;
@@ -34,13 +34,13 @@ public class StoreGame {
         return reviews;
     }
 
-    public String getName() {
+    public String getGameName() {
         return gameName;
     }
 
     public void setGameId(GameId gameId) {this.gameId = gameId;}
 
-    public void setName(String gameName) {this.gameName = gameName;}
+    public void setGameName(String gameName) {this.gameName = gameName;}
 
     public void setPrice(BigDecimal price) {this.price = price;}
 

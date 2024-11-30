@@ -4,6 +4,7 @@ import java.util.List;
 
 public class GameStatistics {
     private final GameId gameId;
+    private final PlayerId playerId;
     private int totalScore;
     private int totalGamesPlayed;
     private int wins;
@@ -14,15 +15,10 @@ public class GameStatistics {
     private int highestScore;
     private int movesMade;
     private int averageGameDuration;
-    private List<MatchHistory> matchesPlayed;
+    private List<MatchSession> matchesPlayed;
 
-    public GameStatistics(final GameId gameId, int totalScore, List<MatchHistory> matchesPlayed) {
-        this.gameId = gameId;
-        this.totalScore = totalScore;
-        this.matchesPlayed = matchesPlayed;
-    }
-
-    public GameStatistics(GameId gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
+    public GameStatistics(PlayerId playerId, GameId gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
+        this.playerId = playerId;
         this.gameId = gameId;
         this.totalScore = totalScore;
         this.totalGamesPlayed = totalGamesPlayed;
@@ -34,6 +30,10 @@ public class GameStatistics {
         this.highestScore = highestScore;
         this.movesMade = movesMade;
         this.averageGameDuration = averageGameDuration;
+    }
+
+    public PlayerId getPlayerId() {
+        return playerId;
     }
 
     public GameId getGameId() {
@@ -120,11 +120,15 @@ public class GameStatistics {
         this.averageGameDuration = averageGameDuration;
     }
 
-    public List<MatchHistory> getMatchesPlayed() {
+    public List<MatchSession> getMatchesPlayed() {
         return matchesPlayed;
     }
 
-    public void setMatchesPlayed(List<MatchHistory> matchesPlayed) {
+    public void setMatchesPlayed(List<MatchSession> matchesPlayed) {
         this.matchesPlayed = matchesPlayed;
+    }
+
+    public void addMatch(MatchSession matchSession) {
+        matchesPlayed.add(matchSession);
     }
 }

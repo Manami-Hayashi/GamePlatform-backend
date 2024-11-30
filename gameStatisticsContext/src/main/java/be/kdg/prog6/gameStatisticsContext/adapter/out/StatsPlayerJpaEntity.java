@@ -1,10 +1,12 @@
 package be.kdg.prog6.gameStatisticsContext.adapter.out;
 
+import be.kdg.prog6.gameStatisticsContext.domain.Gender;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,13 +30,22 @@ public class StatsPlayerJpaEntity {
     @Column(name = "location")
     private String location;
 
-    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
-    private Set<GameStatisticsJpaEntity> gameStatistics = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "player_id")
+    private List<GameStatisticsJpaEntity> gameStatistics;
 
     public StatsPlayerJpaEntity() {
     }
 
-    public StatsPlayerJpaEntity(UUID id, String name, int age, String gender, String location, Set<GameStatisticsJpaEntity> gameStatistics) {
+    public StatsPlayerJpaEntity(UUID id, String name, int age, String gender, String location) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.location = location;
+    }
+
+    public StatsPlayerJpaEntity(UUID id, String name, int age, String gender, String location, List<GameStatisticsJpaEntity> gameStatistics) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -63,7 +74,7 @@ public class StatsPlayerJpaEntity {
         return location;
     }
 
-    public Set<GameStatisticsJpaEntity> getGameStatistics() {
+    public List<GameStatisticsJpaEntity> getGameStatistics() {
         return gameStatistics;
     }
 }
