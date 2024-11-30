@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(catalog="player_management", name="profile")
+@Table(catalog="player_management", name="profiles")
 public class ProfileJpaEntity {
 
     @Id

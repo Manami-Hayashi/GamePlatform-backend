@@ -55,3 +55,16 @@ VALUES
     ('9b836e39-e513-4750-b428-25d5576e4db7', 3),
     ('a1d91ef0-df88-4118-8c09-63d0b64b54fc', 4),
     ('b3fe1b6d-cf7f-4d87-9b30-b0337e601477', 4);
+
+-- Insert players for PlayerManagementContext
+INSERT INTO player_management.players (player_id, name)
+VALUES
+    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'William'),
+    (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Manami'),
+    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 'Noah');
+
+-- Insert profiles for the players
+INSERT INTO player_management.profiles (player_id, bio, avatar, location, birth_date)
+VALUES
+    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'Loves strategy games.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'New York', '1990-05-15'),
+    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'),  'Casual gamer.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'Los Angeles', '1992-12-05');

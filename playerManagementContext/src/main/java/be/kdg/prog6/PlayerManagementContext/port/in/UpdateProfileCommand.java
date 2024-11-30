@@ -29,4 +29,6 @@ public record UpdateProfileCommand (
             throw new IllegalArgumentException("Birthdate cannot be null");
         }
     }
+
+
 }
