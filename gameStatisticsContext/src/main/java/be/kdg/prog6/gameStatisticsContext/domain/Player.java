@@ -55,4 +55,8 @@ public class Player {
     public List<GameStatistics> getGameStatistics() {
         return gameStatistics;
     }
+
+    public int compareTo(Player player) {
+        return this.gameStatistics.size() - player.gameStatistics.size();
+    }
 }

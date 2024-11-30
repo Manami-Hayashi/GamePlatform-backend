@@ -28,6 +28,12 @@ GET http://localhost:8090/api/game-statistics/a7d9b1bc-b94d-4fa1-a1a0-65d7d43596
 Authorization: Bearer {{access_token}}
 
 
+### Get admin statistics
+
+GET http://localhost:8090/api/admin/statistics
+Authorization: Bearer {{access_token}}
+
+
 ### Update game statistics
 
 POST http://localhost:8090/api/game-statistics/update
