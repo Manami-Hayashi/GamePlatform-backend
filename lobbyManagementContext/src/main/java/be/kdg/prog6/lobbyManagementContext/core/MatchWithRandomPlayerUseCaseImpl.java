@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class MatchWithRandomPlayerUseCaseImpl implements MatchWithRandomPlayerUseCase {
@@ -73,6 +72,9 @@ public class MatchWithRandomPlayerUseCaseImpl implements MatchWithRandomPlayerUs
                     lobby.setGameId(new GameId(command.getGameId()));
                 }
 
+                if (player.getGameId() == null) {
+                    player.setGameId(new GameId(command.getGameId()));
+                }
                 player.setLobbyId(lobby.getLobbyId());
 
                 saveLobbyPort.saveLobby(lobby);

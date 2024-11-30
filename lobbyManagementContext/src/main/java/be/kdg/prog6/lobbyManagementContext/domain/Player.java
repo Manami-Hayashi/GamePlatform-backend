@@ -24,6 +24,14 @@ public class Player {
         this.lobbyId = lobbyId;
     }
 
+    public Player(PlayerId playerId, String name, Instant lastActive, UUID lobbyId, GameId gameId) {
+        this.playerId = playerId;
+        this.name = name;
+        this.lastActive = lastActive;
+        this.lobbyId = lobbyId;
+        this.gameId = gameId;
+    }
+
 
 
     public PlayerId getPlayerId() {
