@@ -8,15 +8,15 @@ import java.util.List;
 
 public class StoreGameDto {
     private String gameId;
-    private String name;
+    private String gameName;
     private BigDecimal price;
     private String description;
     private List<Review> reviews;
 
-    public StoreGameDto(String string, String name, BigDecimal price,
+    public StoreGameDto(String string, String gameName, BigDecimal price,
                         String description, List<Review> reviews) {
         this.gameId = string;
-        this.name = name;
+        this.gameName = gameName;
         this.price = price;
         this.description = description;
         this.reviews = reviews;
@@ -26,7 +26,7 @@ public class StoreGameDto {
     public StoreGameDto(StoreGame storeGame) {
         this(
             storeGame.getGameId().id().toString(),
-            storeGame.getName(),
+            storeGame.getGameName(),
             storeGame.getPrice(),
             storeGame.getDescription(),
             storeGame.getReviews()
@@ -38,9 +38,9 @@ public class StoreGameDto {
 
     public void setGameId(String gameId) {this.gameId = gameId;}
 
-    public String getName() {return name;}
+    public String getGameName() {return gameName;}
 
-    public void setName(String name) {this.name = name;}
+    public void setGameName(String gameName) {this.gameName = gameName;}
 
     public BigDecimal getPrice() {return price;}
 

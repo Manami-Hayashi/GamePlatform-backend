@@ -43,7 +43,7 @@ public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPo
     private StoreGame toDomain(StoreGameJpaEntity storeGameJpaEntity) {
         StoreGame game = new StoreGame();
         game.setGameId(new GameId(storeGameJpaEntity.getGameId()));
-        game.setName(storeGameJpaEntity.getName());
+        game.setGameName(storeGameJpaEntity.getName());
         game.setPrice(storeGameJpaEntity.getPrice());
         game.setDescription(storeGameJpaEntity.getDescription());
         if (!storeGameJpaEntity.getReviews().isEmpty()) {
@@ -69,7 +69,7 @@ public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPo
 
         StoreGameJpaEntity jpaEntity= new StoreGameJpaEntity(
                 newStoreGame.getGameId().id(),
-                newStoreGame.getName(),
+                newStoreGame.getGameName(),
                 newStoreGame.getPrice(),
                 newStoreGame.getDescription()
         );

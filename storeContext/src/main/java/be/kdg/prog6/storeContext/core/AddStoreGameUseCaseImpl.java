@@ -18,7 +18,7 @@ public class AddStoreGameUseCaseImpl implements AddStoreGameUseCase {
 
     @Override
     public void addStoreGame(StoreGame storeGame) {
-        logger.info("Adding new game to the store: {}", storeGame.getName());
+        logger.info("Adding new game to the store: {}", storeGame.getGameName());
         storeGameCreatedPort.createStoreGame(storeGame);
     }
 }
