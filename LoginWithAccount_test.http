@@ -1,0 +1,49 @@
+### Get access token with admin credentials
+
+POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id = backend &
+client_secret = lUwSgUy7uOS9C34OApToaD3KgY2CRQon &
+username = admin &
+password = password &
+grant_type = password &
+scope = openid
+
+//saving the access token
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
+
+
+### test PUT player profile
+PUT http://localhost:8090/api/players/14910372-c39d-7de7-b05a-93f8166cf7af/profile
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+    "bio": "Enthusiastic gamer and chess lover.",
+    "location": "New York",
+    "avatar": "https://img.freepik.com/premium-vector/man-wearing-headphones-showing-concept-vector-client-servicing-flat-icon-customer-care_142112-12791.jpg?w=826",
+    "birthDate": "1990-05-15"
+}
+
+### test GET player profile
+GET http://localhost:8090/api/players/14910372-c39d-7de7-b05a-93f8166cf7af/profile
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Fetch games owned by Player William
+GET http://localhost:8090/api/players/12d242be-ab1e-11ef-9cd2-0242ac120002/gamesOwned
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+### Fetch games owned by Player Manami
+GET http://localhost:8090/api/players/14910372-c39d-7de7-b05a-93f8166cf7af/gamesOwned
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+### Fetch games owned by a non-existing player
+GET http://localhost:8090/api/players/00000000-0000-0000-0000-000000000000/gamesOwned
+Accept: application/json

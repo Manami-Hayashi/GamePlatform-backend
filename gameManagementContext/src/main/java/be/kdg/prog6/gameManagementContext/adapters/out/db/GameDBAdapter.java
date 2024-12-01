@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Component("gameManagementDBAdapter")
 public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPort, UpdateGamePort, GameMngPlayerCreatedPort {
     private final GameJpaRepository gameJpaRepository;
     private final GameMngPlayerJpaRepository gameMngPlayerJpaRepository;
