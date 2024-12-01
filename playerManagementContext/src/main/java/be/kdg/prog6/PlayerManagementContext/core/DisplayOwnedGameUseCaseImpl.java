@@ -4,6 +4,7 @@ import be.kdg.prog6.PlayerManagementContext.domain.Game;
 import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 import be.kdg.prog6.PlayerManagementContext.port.in.DisplayOwnedGameUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.out.GameLoadedPort;
+import be.kdg.prog6.PlayerManagementContext.port.out.PlayerLoadedPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

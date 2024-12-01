@@ -27,12 +27,12 @@ public class StoreRegisterUserEventListener {
                 fullName
         );
 
-        logger.info("Registering player store with full name: {}", fullName);
+        logger.info("Registering player store with full gameName: {}", fullName);
 
         registerUseCaseImpl.registerPlayer(command);
     }
 
-    // Helper method to format the full name
+    // Helper method to format the full gameName
     private String formatFullName(String firstName, String lastName) {
         if (firstName == null || firstName.isEmpty()) {
             return lastName != null ? lastName : "";

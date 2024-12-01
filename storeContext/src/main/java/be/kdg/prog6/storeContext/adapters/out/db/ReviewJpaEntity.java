@@ -15,7 +15,7 @@ public class ReviewJpaEntity {
     @Column(name="player_id")
     private UUID playerId;
 
-//    @Column(name="game_id")
+//    @Column(gameName="game_id")
 //    private UUID gameId;
 
     @ManyToOne(fetch = FetchType.LAZY)
