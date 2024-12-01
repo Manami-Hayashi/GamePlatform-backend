@@ -5,6 +5,7 @@ import be.kdg.prog6.PlayerManagementContext.domain.GameId;
 import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 import be.kdg.prog6.PlayerManagementContext.port.out.GameCreatedPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.GameLoadedPort;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,7 @@ public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
                 game.isFavorite()
         );
 
-        PlayerJpaEntity playerJpaEntity = playerJpaRepository.findById(playerId.id())
+        PlayerJpaEntity playerJpaEntity = playerJpaRepository.findByIdWithGameOwned(playerId)
                 .orElseThrow(() -> new IllegalArgumentException("Player not found"));
 
         gameOwnedJpaEntity.setPlayer(playerJpaEntity);
@@ -47,6 +48,7 @@ public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
 
 
     @Override
+    @Transactional
     public List<Game> loadGames(PlayerId playerId) {
         PlayerJpaEntity playerJpaEntity = playerJpaRepository.findById(playerId.id())
                 .orElseThrow(() -> new IllegalArgumentException("Player not found"));
