@@ -11,5 +11,15 @@ public class Game {
         this.isFavorite = isFavorite;
     }
 
+    public GameId getGameId() {return gameId;}
 
+    public void setGameId(GameId gameId) {this.gameId = gameId;}
+
+    public String getGameName() {return gameName;}
+
+    public void setGameName(String gameName) {this.gameName = gameName;}
+
+    public boolean isFavorite() {return isFavorite;}
+
+    public void setFavorite(boolean favorite) {isFavorite = favorite;}
 }

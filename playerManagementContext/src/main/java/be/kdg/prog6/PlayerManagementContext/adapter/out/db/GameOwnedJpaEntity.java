@@ -1,26 +1,29 @@
 package be.kdg.prog6.PlayerManagementContext.adapter.out.db;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-import java.rmi.server.UID;
 import java.util.UUID;
 
 @Entity
 @Table(catalog="player_management", name="games")
-public class GameJpaEntity {
+public class GameOwnedJpaEntity {
 
     @Id
     private UUID gameId;
+    @Column(name="game_name")
     private String gameName;
+    @Column(name="is_favorite")
     private boolean isFavorite;
 
-    public GameJpaEntity() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "player_id")
+    private PlayerJpaEntity player;
+
+    public GameOwnedJpaEntity() {
     }
 
-    public GameJpaEntity(UUID gameId, String gameName, boolean isFavorite) {
-        this.gameId = gameId;
+    public GameOwnedJpaEntity(UUID gameId, String gameName, boolean isFavorite) {
+        this.gameId = UUID.randomUUID();
         this.gameName = gameName;
         this.isFavorite = isFavorite;
     }
@@ -36,4 +39,8 @@ public class GameJpaEntity {
     public boolean isFavorite() {return isFavorite;}
 
     public void setFavorite(boolean favorite) {isFavorite = favorite;}
+
+    public PlayerJpaEntity getPlayer() {return player;}
+
+    public void setPlayer(PlayerJpaEntity player) {this.player = player;}
 }

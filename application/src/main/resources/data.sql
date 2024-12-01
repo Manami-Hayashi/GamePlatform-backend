@@ -64,6 +64,16 @@ VALUES
     (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Manami'),
     (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 'Noah');
 
+-- Insert additional dummy games into the 'games' table
+INSERT INTO player_management.games (game_id, game_name, is_favorite, player_id)
+VALUES
+    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120003'), 'Othello', 1, UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002')),
+    (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7b2'), 'Checkers', 0, UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002')),
+    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120004'), 'Battle Ship', 1, UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002')),
+    (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120005'), 'Chess', 0, UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af')),
+    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120006'), 'Monopoly', 1, UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'));
+
+
 -- Insert profiles for the players
 INSERT INTO player_management.profiles (player_id, bio, avatar, location, birth_date)
 VALUES
