@@ -7,39 +7,29 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
 public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatchSessionPort {
     private final MatchSessionRepository matchSessionRepo;
     private final GameStatisticsRepository gameStatisticsRepo;
-    private final GameStatisticsDbAdapter gameStatisticsDbAdapter;
 
-    public MatchSessionDbAdapter(MatchSessionRepository matchSessionRepo, GameStatisticsRepository gameStatisticsRepo, GameStatisticsDbAdapter gameStatisticsDbAdapter) {
+    public MatchSessionDbAdapter(MatchSessionRepository matchSessionRepo, GameStatisticsRepository gameStatisticsRepo) {
         this.matchSessionRepo = matchSessionRepo;
         this.gameStatisticsRepo = gameStatisticsRepo;
-        this.gameStatisticsDbAdapter = gameStatisticsDbAdapter;
     }
 
+    @Transactional
     @Override
     public List<MatchSession> loadMatchSessionsByGameStatistics(GameStatistics gameStatistics) {
-        List<GameStatisticsJpaEntity> gameStatisticsJpaEntities = List.of(new GameStatisticsJpaEntity(
-                gameStatistics.getPlayerId().id(),
-                gameStatistics.getGameId().id(),
-                gameStatistics.getTotalScore(),
-                gameStatistics.getTotalGamesPlayed(),
-                gameStatistics.getWins(),
-                gameStatistics.getLosses(),
-                gameStatistics.getDraws(),
-                gameStatistics.getWinLossRatio(),
-                gameStatistics.getTotalTimePlayed(),
-                gameStatistics.getHighestScore(),
-                gameStatistics.getMovesMade(),
-                gameStatistics.getAverageGameDuration()
-        ));
-        //gameStatisticsRepo.save(gameStatisticsJpaEntities.iterator().next());
-        List<MatchSessionJpaEntity> matchSessionJpaEntities = matchSessionRepo.findAllByGameStatisticsIn(gameStatisticsJpaEntities);
+        Optional<GameStatisticsJpaEntity> gameStatisticsJpaEntityOpt = gameStatisticsRepo.findByPlayerIdAndGameId(
+                gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id());
+        if (gameStatisticsJpaEntityOpt.isEmpty()) {
+            throw new IllegalArgumentException("GameStatistics not found");
+        }
+        GameStatisticsJpaEntity gameStatisticsJpaEntity = gameStatisticsJpaEntityOpt.get();
+        List<MatchSessionJpaEntity> matchSessionJpaEntities = matchSessionRepo.findAllByGameStatisticsIn(List.of(gameStatisticsJpaEntity));
         return matchSessionJpaEntities.stream().map(this::toMatchSession).toList();
     }
 
@@ -48,26 +38,16 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
     public void createMatchSession(MatchSession matchSession) {
         List<GameStatisticsJpaEntity> gameStatisticsJpaEntities = matchSession.getGameStatistics().stream()
                 .map(gameStatistics -> {
-                    GameStatisticsJpaEntity gameStatisticsJpaEntity = new GameStatisticsJpaEntity(
-                            gameStatistics.getPlayerId().id(),
-                            gameStatistics.getGameId().id(),
-                            gameStatistics.getTotalScore(),
-                            gameStatistics.getTotalGamesPlayed(),
-                            gameStatistics.getWins(),
-                            gameStatistics.getLosses(),
-                            gameStatistics.getDraws(),
-                            gameStatistics.getWinLossRatio(),
-                            gameStatistics.getTotalTimePlayed(),
-                            gameStatistics.getHighestScore(),
-                            gameStatistics.getMovesMade(),
-                            gameStatistics.getAverageGameDuration()
-                    );
-                    return gameStatisticsRepo.save(gameStatisticsJpaEntity);
+                    Optional<GameStatisticsJpaEntity> gameStatisticsJpaEntityOpt = gameStatisticsRepo.findByPlayerIdAndGameId(
+                            gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id());
+                    if (gameStatisticsJpaEntityOpt.isEmpty()) {
+                        throw new IllegalArgumentException("GameStatistics not found");
+                    }
+                    return gameStatisticsJpaEntityOpt.get();
                 })
                 .collect(Collectors.toList());
 
         MatchSessionJpaEntity matchSessionJpaEntity = new MatchSessionJpaEntity(
-                matchSession.getId(),
                 matchSession.getGameId().id(),
                 gameStatisticsJpaEntities,
                 matchSession.getStartTime(),
