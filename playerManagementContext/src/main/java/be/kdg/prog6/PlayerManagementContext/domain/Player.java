@@ -28,8 +28,15 @@ public class Player {
     }
 
     public void toggleFavoriteGame(Game game) {
-
+        for (Game ownedGame : gamesOwned) {
+            if (ownedGame.getGameId().equals(game.getGameId())) {
+                ownedGame.setFavorite(!ownedGame.isFavorite());
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Game is not owned by the player.");
     }
+
 
     public void selectGame(Game game) {
 
