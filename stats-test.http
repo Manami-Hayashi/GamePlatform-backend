@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = hjMbDSS6bsMYLsFiiH6ETl7YWSgi3oyv &
+client_secret = s7b2bA6t0UpwKVcfvKSYg2txVr0cHILS &
 username = admin &
 password = password &
 grant_type = password &
@@ -31,6 +31,12 @@ Authorization: Bearer {{access_token}}
 ### Get admin statistics
 
 GET http://localhost:8090/api/admin/statistics
+Authorization: Bearer {{access_token}}
+
+
+### Get match history
+
+GET http://localhost:8090/api/match-history/a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634
 Authorization: Bearer {{access_token}}
 
 

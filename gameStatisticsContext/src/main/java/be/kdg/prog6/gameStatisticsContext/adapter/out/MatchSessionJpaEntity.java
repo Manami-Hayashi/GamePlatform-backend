@@ -5,7 +5,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +25,7 @@ public class MatchSessionJpaEntity {
             joinColumns = @JoinColumn(name = "match_session_id"),
             inverseJoinColumns = @JoinColumn(name = "game_statistics_id")
     )
-    private Set<GameStatisticsJpaEntity> gameStatistics;
+    private List<GameStatisticsJpaEntity> gameStatistics;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -48,7 +48,7 @@ public class MatchSessionJpaEntity {
     public MatchSessionJpaEntity() {
     }
 
-    public MatchSessionJpaEntity(UUID gameId, Set<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+    public MatchSessionJpaEntity(UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
         this.startTime = startTime;
@@ -59,7 +59,7 @@ public class MatchSessionJpaEntity {
         this.movesMade = movesMade;
     }
 
-    public MatchSessionJpaEntity(int id, UUID gameId, Set<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+    public MatchSessionJpaEntity(int id, UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
         this.id = id;
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
@@ -87,11 +87,11 @@ public class MatchSessionJpaEntity {
         this.gameId = gameId;
     }
 
-    public Set<GameStatisticsJpaEntity> getGameStatistics() {
+    public List<GameStatisticsJpaEntity> getGameStatistics() {
         return gameStatistics;
     }
 
-    public void setGameStatistics(Set<GameStatisticsJpaEntity> gameStatistics) {
+    public void setGameStatistics(List<GameStatisticsJpaEntity> gameStatistics) {
         this.gameStatistics = gameStatistics;
     }
 

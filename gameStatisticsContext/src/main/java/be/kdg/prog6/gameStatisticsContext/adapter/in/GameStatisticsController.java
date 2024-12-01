@@ -24,7 +24,7 @@ public class GameStatisticsController {
 
     @GetMapping("/{playerId}")
     public List<GameStatisticsDto> getScoreboards(@PathVariable String playerId) {
-        List<GameStatistics> gameStatistics = getScoreboardUseCase.getScoreboard(new PlayerId(UUID.fromString(playerId)));
+        List<GameStatistics> gameStatistics = getScoreboardUseCase.getMatchHistory(new PlayerId(UUID.fromString(playerId)));
         List<GameStatisticsDto> gameStatisticsDtos = new ArrayList<>();
         for (GameStatistics gameStatistic : gameStatistics) {
             gameStatisticsDtos.add(new GameStatisticsDto(
