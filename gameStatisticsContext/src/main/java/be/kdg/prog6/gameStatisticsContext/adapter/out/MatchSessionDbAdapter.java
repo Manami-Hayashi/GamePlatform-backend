@@ -54,7 +54,8 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
                 matchSession.getEndTime(),
                 matchSession.isActive(),
                 matchSession.getWinner().name(),
-                matchSession.getScore(),
+                matchSession.getScoreP1(),
+                matchSession.getScoreP2(),
                 matchSession.getMovesMade()
         );
         matchSessionRepo.save(matchSessionJpaEntity);
@@ -71,7 +72,8 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
                 matchSessionJpaEntity.getEndTime(),
                 matchSessionJpaEntity.isActive(),
                 Winner.valueOf(matchSessionJpaEntity.getWinner()),
-                matchSessionJpaEntity.getScore(),
+                matchSessionJpaEntity.getScoreP1(),
+                matchSessionJpaEntity.getScoreP2(),
                 matchSessionJpaEntity.getMovesMade()
         );
     }

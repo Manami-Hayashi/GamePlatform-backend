@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record MatchSessionDto(
+public record UpdateGameStatisticsDto(
         int id,
         UUID gameId,
-        List<String> players,
+        List<UUID> playerIds,
         LocalDateTime startTime,
         LocalDateTime endTime,
         boolean isActive,
@@ -16,7 +16,7 @@ public record MatchSessionDto(
         int scoreP2,
         int movesMade
 ) {
-    public MatchSessionDto {
+    public UpdateGameStatisticsDto {
         if (id < 0) {
             throw new IllegalArgumentException("Id must be positive");
         }

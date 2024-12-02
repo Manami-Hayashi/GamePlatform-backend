@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @FunctionalInterface
 public interface GetMatchHistoryUseCase {
-    List<MatchSession> getMatchHistory(UUID playerId);
+    List<GetMatchHistoryCommand> getMatchHistory(UUID playerId);
 }
