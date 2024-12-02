@@ -23,7 +23,7 @@ public class GameOwnedJpaEntity {
     }
 
     public GameOwnedJpaEntity(UUID gameId, String gameName, boolean isFavorite) {
-        this.gameId = UUID.randomUUID();
+        this.gameId = gameId;
         this.gameName = gameName;
         this.isFavorite = isFavorite;
     }

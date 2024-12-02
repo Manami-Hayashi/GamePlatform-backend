@@ -35,12 +35,12 @@ Authorization: Bearer {{access_token}}
 
 
 ### Fetch games owned by Player William
-GET http://localhost:8090/api/players/12d242be-ab1e-11ef-9cd2-0242ac120002/gamesOwned
+GET http://localhost:8090/api/players/e4e685be-ed89-42fb-a681-f272149c8218/gamesOwned
 Accept: application/json
 Authorization: Bearer {{access_token}}
 
 ### Fetch games owned by Player Manami
-GET http://localhost:8090/api/players/14910372-c39d-7de7-b05a-93f8166cf7af/gamesOwned
+GET http://localhost:8090/api/players/2aeeaba5-355f-42a7-b215-44d4d0ebfd83/gamesOwned
 Accept: application/json
 Authorization: Bearer {{access_token}}
 

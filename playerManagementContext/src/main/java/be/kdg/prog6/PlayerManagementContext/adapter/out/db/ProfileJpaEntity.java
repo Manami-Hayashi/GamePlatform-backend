@@ -13,6 +13,7 @@ import java.util.UUID;
 public class ProfileJpaEntity {
 
     @Id
+    @Column
     UUID playerId;
 
     @Column(name="bio")
