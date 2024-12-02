@@ -54,6 +54,7 @@ Authorization: Bearer {{access_token}}
   "endTime": "2024-11-05T12:30:00",
   "isActive": true,
   "winner": "PLAYER1",
-  "score": 10,
+  "scoreP1": 10,
+  "scoreP2": 5,
   "movesMade": 10
 }

@@ -39,8 +39,11 @@ public class MatchSessionJpaEntity {
     @Column(name = "winner")
     private String winner;
 
-    @Column(name = "score")
-    private int score;
+    @Column(name = "score_p1")
+    private int scoreP1;
+
+    @Column(name = "score_p2")
+    private int scoreP2;
 
     @Column(name = "moves_made")
     private int movesMade;
@@ -48,18 +51,19 @@ public class MatchSessionJpaEntity {
     public MatchSessionJpaEntity() {
     }
 
-    public MatchSessionJpaEntity(UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+    public MatchSessionJpaEntity(UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int scoreP1, int scoreP2, int movesMade) {
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
         this.startTime = startTime;
         this.endTime = endTime;
         this.isActive = isActive;
         this.winner = winner;
-        this.score = score;
+        this.scoreP1 = scoreP1;
+        this.scoreP2 = scoreP2;
         this.movesMade = movesMade;
     }
 
-    public MatchSessionJpaEntity(int id, UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int score, int movesMade) {
+    public MatchSessionJpaEntity(int id, UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int scoreP1, int scoreP2, int movesMade) {
         this.id = id;
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
@@ -67,7 +71,8 @@ public class MatchSessionJpaEntity {
         this.endTime = endTime;
         this.isActive = isActive;
         this.winner = winner;
-        this.score = score;
+        this.scoreP1 = scoreP1;
+        this.scoreP2 = scoreP2;
         this.movesMade = movesMade;
     }
 
@@ -127,12 +132,20 @@ public class MatchSessionJpaEntity {
         this.winner = winner;
     }
 
-    public int getScore() {
-        return score;
+    public int getScoreP1() {
+        return scoreP1;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setScoreP1(int scoreP1) {
+        this.scoreP1 = scoreP1;
+    }
+
+    public int getScoreP2() {
+        return scoreP2;
+    }
+
+    public void setScoreP2(int scoreP2) {
+        this.scoreP2 = scoreP2;
     }
 
     public int getMovesMade() {

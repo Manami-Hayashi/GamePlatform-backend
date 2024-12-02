@@ -11,13 +11,13 @@ public class GameStatistics {
     private int losses;
     private int draws;
     private double winLossRatio;
-    private int totalTimePlayed;
+    private double totalTimePlayed;
     private int highestScore;
     private int movesMade;
-    private int averageGameDuration;
+    private double averageGameDuration;
     private List<MatchSession> matchesPlayed;
 
-    public GameStatistics(PlayerId playerId, GameId gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
+    public GameStatistics(PlayerId playerId, GameId gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, double totalTimePlayed, int highestScore, int movesMade, double averageGameDuration) {
         this.playerId = playerId;
         this.gameId = gameId;
         this.totalScore = totalScore;
@@ -88,11 +88,11 @@ public class GameStatistics {
         this.winLossRatio = winLossRatio;
     }
 
-    public int getTotalTimePlayed() {
+    public double getTotalTimePlayed() {
         return totalTimePlayed;
     }
 
-    public void setTotalTimePlayed(int totalTimePlayed) {
+    public void setTotalTimePlayed(double totalTimePlayed) {
         this.totalTimePlayed = totalTimePlayed;
     }
 
@@ -112,11 +112,11 @@ public class GameStatistics {
         this.movesMade = movesMade;
     }
 
-    public int getAverageGameDuration() {
+    public double getAverageGameDuration() {
         return averageGameDuration;
     }
 
-    public void setAverageGameDuration(int averageGameDuration) {
+    public void setAverageGameDuration(double averageGameDuration) {
         this.averageGameDuration = averageGameDuration;
     }
 
