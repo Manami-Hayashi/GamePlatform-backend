@@ -11,6 +11,7 @@ dependencies {
     implementation project(':gameStatisticsContext')
     implementation project(':lobbyManagementContext')
     implementation project(':storeContext')
+    implementation project(':chatbotContext')
 
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
