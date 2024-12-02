@@ -7,20 +7,20 @@ import java.util.UUID;
 public class GameSession {
     private final UUID sessionId;
     private final GameId gameId;
-    private final List<Player> players;
+    private final List<PlayerId> playerIds;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private boolean isActive;
-    private Player winner;
+    private PlayerId winner;
 
-    public GameSession(UUID sessionId, GameId gameId, List<Player> players, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Player winner) {
+    public GameSession(UUID sessionId, GameId gameId, List<PlayerId> playerIds) {
         this.sessionId = sessionId;
         this.gameId = gameId;
-        this.players = players;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.isActive = isActive;
-        this.winner = winner;
+        this.playerIds = playerIds;
+        this.startTime = null;
+        this.endTime = null;
+        this.isActive = false;
+        this.winner = null;
     }
 
     public void startSession() {
@@ -28,7 +28,7 @@ public class GameSession {
         this.isActive = true;
     }
 
-    public void endSession(Player winner) {
+    public void endSession(PlayerId winner) {
         this.endTime = LocalDateTime.now();
         this.isActive = false;
         this.winner = winner;
@@ -38,12 +38,12 @@ public class GameSession {
         return isActive;
     }
 
-    public Player getWinner() {
+    public PlayerId getWinner() {
         return winner;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<PlayerId> getPlayerIds() {
+        return playerIds;
     }
 
     public LocalDateTime getStartTime() {
@@ -61,7 +61,4 @@ public class GameSession {
     public GameId getGameId() {
         return gameId;
     }
-
-
-
 }

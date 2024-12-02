@@ -4,6 +4,7 @@ import be.kdg.prog6.lobbyManagementContext.domain.Game;
 import be.kdg.prog6.lobbyManagementContext.ports.in.GameIdResponse;
 import be.kdg.prog6.lobbyManagementContext.ports.in.GetGameIdByNameUseCase;
 import be.kdg.prog6.lobbyManagementContext.ports.out.LoadLobbyGameByNamePort;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ public class GetGameIdByNameUseCaseImpl implements GetGameIdByNameUseCase {
     }
 
     @Override
+    @Transactional
     public GameIdResponse getGameIdByName(String gameName) {
         Game game = loadLobbyGamePort.loadLobbyGameByName(gameName);
         if (game == null) {
