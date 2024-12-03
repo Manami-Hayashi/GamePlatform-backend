@@ -35,8 +35,8 @@ public class GetAdminStatisticsUseCaseImpl implements GetAdminStatisticsUseCase 
         for (GameId gameId : gameIds) {
             List<GameStatistics> gameStatistics = loadGameStatisticsByGameIdPort.loadGameStatisticsByGameId(gameId.id());
             int totalScore = gameStatistics.stream().mapToInt(GameStatistics::getTotalScore).sum();
-            int totalGamesPlayed = gameStatistics.size();
-            long totalTimePlayed = gameStatistics.stream().mapToLong(GameStatistics::getTotalTimePlayed).sum();
+            int totalGamesPlayed = gameStatistics.stream().mapToInt(GameStatistics::getTotalGamesPlayed).sum() / 2;
+            double totalTimePlayed = gameStatistics.stream().mapToDouble(GameStatistics::getTotalTimePlayed).sum() / 2;
             int highestScore = gameStatistics.stream().mapToInt(GameStatistics::getHighestScore).max().orElse(0);
             int movesMade = gameStatistics.stream().mapToInt(GameStatistics::getMovesMade).sum();
             double averageGameDuration = gameStatistics.stream().mapToDouble(GameStatistics::getAverageGameDuration).average().orElse(0);

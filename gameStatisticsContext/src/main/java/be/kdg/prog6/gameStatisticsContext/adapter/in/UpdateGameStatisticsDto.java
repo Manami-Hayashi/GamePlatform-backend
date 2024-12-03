@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record MatchSessionDto(
-        UUID id,
-        UUID gameId,
-        List<String> players,
+public record UpdateGameStatisticsDto(
+        String id,
+        String gameId,
+        List<UUID> playerIds,
         LocalDateTime startTime,
         LocalDateTime endTime,
         boolean isActive,
@@ -17,15 +17,15 @@ public record MatchSessionDto(
         int movesMadeP1,
         int movesMadeP2
 ) {
-    public MatchSessionDto {
+    public UpdateGameStatisticsDto {
         if (id == null) {
             throw new IllegalArgumentException("Id must not be null");
         }
         if (gameId == null) {
             throw new IllegalArgumentException("GameId must not be null");
         }
-        if (players == null) {
-            throw new IllegalArgumentException("Players must not be null");
+        if (playerIds == null) {
+            throw new IllegalArgumentException("PlayerIds must not be null");
         }
         if (startTime == null) {
             throw new IllegalArgumentException("StartTime must not be null");
