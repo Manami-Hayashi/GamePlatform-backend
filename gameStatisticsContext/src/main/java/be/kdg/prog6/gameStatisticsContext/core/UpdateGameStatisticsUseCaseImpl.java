@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseCase {
@@ -41,7 +40,7 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         }
         GameStatistics gameStatsP2 = optionalGameStatsP2.get();
 
-        MatchSession matchSession = new MatchSession(updateGameStatisticsDto.id(), new GameId(updateGameStatisticsDto.gameId()), List.of(gameStatsP1, gameStatsP2), updateGameStatisticsDto.startTime(), updateGameStatisticsDto.endTime(), updateGameStatisticsDto.isActive(), winner, updateGameStatisticsDto.scoreP1(), updateGameStatisticsDto.scoreP2(), updateGameStatisticsDto.movesMade());
+        MatchSession matchSession = new MatchSession(updateGameStatisticsDto.id(), new GameId(updateGameStatisticsDto.gameId()), List.of(gameStatsP1, gameStatsP2), updateGameStatisticsDto.startTime(), updateGameStatisticsDto.endTime(), updateGameStatisticsDto.isActive(), winner, updateGameStatisticsDto.scoreP1(), updateGameStatisticsDto.scoreP2(), updateGameStatisticsDto.movesMadeP1(), updateGameStatisticsDto.movesMadeP2());
         createMatchSessionPort.createMatchSession(matchSession);
 
         gameStatsP1.setTotalScore(gameStatsP1.getTotalScore() + updateGameStatisticsDto.scoreP1());
@@ -70,8 +69,8 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         gameStatsP1.setHighestScore(Math.max(gameStatsP1.getHighestScore(), updateGameStatisticsDto.scoreP1()));
         gameStatsP2.setHighestScore(Math.max(gameStatsP2.getHighestScore(), updateGameStatisticsDto.scoreP1()));
 
-        gameStatsP1.setMovesMade(gameStatsP1.getMovesMade() + updateGameStatisticsDto.movesMade());
-        gameStatsP2.setMovesMade(gameStatsP2.getMovesMade() + updateGameStatisticsDto.movesMade());
+        gameStatsP1.setMovesMade(gameStatsP1.getMovesMade() + updateGameStatisticsDto.movesMadeP1());
+        gameStatsP2.setMovesMade(gameStatsP2.getMovesMade() + updateGameStatisticsDto.movesMadeP2());
 
         gameStatsP1.setAverageGameDuration(gameStatsP1.getTotalGamesPlayed() == 0 ? 0 : gameStatsP1.getTotalTimePlayed() / gameStatsP1.getTotalGamesPlayed() * 60);
         gameStatsP2.setAverageGameDuration(gameStatsP1.getTotalGamesPlayed() == 0 ? 0 : gameStatsP2.getTotalTimePlayed() / gameStatsP2.getTotalGamesPlayed() * 60);

@@ -14,7 +14,8 @@ public record MatchSessionDto(
         String winner,
         int scoreP1,
         int scoreP2,
-        int movesMade
+        int movesMadeP1,
+        int movesMadeP2
 ) {
     public MatchSessionDto {
         if (id < 0) {

@@ -56,5 +56,6 @@ Authorization: Bearer {{access_token}}
   "winner": "PLAYER1",
   "scoreP1": 10,
   "scoreP2": 5,
-  "movesMade": 10
+  "movesMadeP1": 10,
+  "movesMadeP2": 10
 }

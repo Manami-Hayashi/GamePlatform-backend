@@ -57,8 +57,9 @@ public class GameStatisticsController {
         String winner = updateGameCommand.winner();
         int scoreP1 = updateGameCommand.scoreP1();
         int scoreP2 = updateGameCommand.scoreP2();
-        int movesMade = updateGameCommand.movesMade();
-        UpdateGameStatisticsDto updateGameStatisticsDto = new UpdateGameStatisticsDto(id, gameId, players, startTime, endTime, isActive, winner, scoreP1, scoreP2, movesMade);
+        int movesMadeP1 = updateGameCommand.movesMadeP1();
+        int movesMadeP2 = updateGameCommand.movesMadeP2();
+        UpdateGameStatisticsDto updateGameStatisticsDto = new UpdateGameStatisticsDto(id, gameId, players, startTime, endTime, isActive, winner, scoreP1, scoreP2, movesMadeP1, movesMadeP2);
         updateGameStatisticsUseCase.updateGameStatistics(updateGameStatisticsDto);
     }
 }

@@ -71,7 +71,8 @@ public class GetMatchHistoryUseCaseImpl implements GetMatchHistoryUseCase {
                                 winner,
                                 matchSession.getScoreP1(),
                                 matchSession.getScoreP2(),
-                                matchSession.getMovesMade()
+                                matchSession.getMovesMadeP1(),
+                                matchSession.getMovesMadeP2()
                         ));
                     }
                 }
