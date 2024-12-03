@@ -48,14 +48,17 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
                 .collect(Collectors.toList());
 
         MatchSessionJpaEntity matchSessionJpaEntity = new MatchSessionJpaEntity(
+                matchSession.getId(),
                 matchSession.getGameId().id(),
                 gameStatisticsJpaEntities,
                 matchSession.getStartTime(),
                 matchSession.getEndTime(),
                 matchSession.isActive(),
                 matchSession.getWinner().name(),
-                matchSession.getScore(),
-                matchSession.getMovesMade()
+                matchSession.getScoreP1(),
+                matchSession.getScoreP2(),
+                matchSession.getMovesMadeP1(),
+                matchSession.getMovesMadeP2()
         );
         matchSessionRepo.save(matchSessionJpaEntity);
     }
@@ -71,8 +74,10 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
                 matchSessionJpaEntity.getEndTime(),
                 matchSessionJpaEntity.isActive(),
                 Winner.valueOf(matchSessionJpaEntity.getWinner()),
-                matchSessionJpaEntity.getScore(),
-                matchSessionJpaEntity.getMovesMade()
+                matchSessionJpaEntity.getScoreP1(),
+                matchSessionJpaEntity.getScoreP2(),
+                matchSessionJpaEntity.getMovesMadeP1(),
+                matchSessionJpaEntity.getMovesMadeP2()
         );
     }
 

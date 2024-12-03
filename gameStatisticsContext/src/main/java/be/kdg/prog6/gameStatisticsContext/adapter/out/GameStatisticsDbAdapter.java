@@ -7,6 +7,7 @@ import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.UpdateGameStatisticsPort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -84,7 +85,7 @@ public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, LoadGame
         return new Player(
                 new PlayerId(playerEntity.getId()),
                 playerEntity.getName(),
-                playerEntity.getAge(),
+                LocalDate.parse(playerEntity.getBirthDate()),
                 Gender.valueOf(playerEntity.getGender()),
                 playerEntity.getLocation());
     }

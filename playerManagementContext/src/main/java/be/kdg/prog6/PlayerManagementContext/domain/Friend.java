@@ -9,4 +9,16 @@ public class Friend {
         this.isFavorite = isFavorite;
     }
 
+    public PlayerId getFriendId() {
+        return friendId;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
 }

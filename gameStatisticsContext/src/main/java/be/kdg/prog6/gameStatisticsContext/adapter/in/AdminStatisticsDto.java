@@ -6,7 +6,7 @@ public record AdminStatisticsDto(
         UUID gameId,
         int totalScore,
         int totalGamesPlayed,
-        long totalTimePlayed,
+        double totalTimePlayed,
         int highestScore,
         int movesMade,
         double averageGameDuration,
