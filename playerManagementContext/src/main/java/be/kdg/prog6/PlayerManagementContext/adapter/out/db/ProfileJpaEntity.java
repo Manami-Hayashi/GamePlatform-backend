@@ -1,15 +1,33 @@
-package be.kdg.prog6.PlayerManagementContext.domain;
+package be.kdg.prog6.PlayerManagementContext.adapter.out.db;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
-public class Profile {
-    private PlayerId playerId;
+@Entity
+@Table(catalog="player_management", name="profiles")
+public class ProfileJpaEntity {
+
+    @Id
+    UUID playerId;
+
+    @Column(name="bio")
     private String bio;
+    @Column(name="avatar")
     private String avatar;
+    @Column(name="location")
     private String location;
+    @Column(name="birth_date")
     private LocalDate birthDate;
 
-    public Profile(PlayerId playerId, String bio, String avatar, String location, LocalDate birthDate) {
+    public ProfileJpaEntity() {
+    }
+
+    public ProfileJpaEntity(UUID playerId, String bio, String avatar, String location, LocalDate birthDate) {
         this.playerId = playerId;
         this.bio = bio;
         this.avatar = avatar;
@@ -17,16 +35,9 @@ public class Profile {
         this.birthDate = birthDate;
     }
 
-    public void updateProfile(String bio, String avatar, String location, LocalDate birthDate) {
-        this.bio = bio;
-        this.avatar = avatar;
-        this.location = location;
-        this.birthDate = birthDate;
-    }
+    public UUID getPlayerId() {return playerId;}
 
-    public PlayerId getPlayerId() {return playerId;}
-
-    public void setPlayerId(PlayerId playerId) {this.playerId = playerId;}
+    public void setPlayerId(UUID playerId) {this.playerId = playerId;}
 
     public String getBio() {return bio;}
 
