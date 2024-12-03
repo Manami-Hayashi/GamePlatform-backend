@@ -1,10 +1,8 @@
 package be.kdg.prog6.PlayerManagementContext.adapter.out.db;
 
-import be.kdg.prog6.PlayerManagementContext.domain.Friend;
-import be.kdg.prog6.PlayerManagementContext.domain.GameId;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,21 +10,17 @@ import java.util.UUID;
 @Table(catalog="player_management", name="players")
 public class PlayerJpaEntity{
     @Id
-    @Column(name="player_id")
+    @Column(name = "player_id")
     private UUID playerId;
 
     @Column(name="name")
     private String name;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<GameOwnedJpaEntity> gameOwned;
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<GameOwnedJpaEntity> gamesOwned = new ArrayList<>();
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<FriendJpaEntity> friends;
-
-    @OneToMany
-    @JoinColumn(name="player_id")
-    private List<GameOwnedJpaEntity> favoriteGames;
 
     public PlayerJpaEntity() {
     }
@@ -36,11 +30,18 @@ public class PlayerJpaEntity{
         this.name = name;
     }
 
-    public PlayerJpaEntity(UUID id, String name, List<FriendJpaEntity> friends, List<GameOwnedJpaEntity> favoriteGames) {
+    public PlayerJpaEntity(UUID id, String name, List<FriendJpaEntity> friends) {
         this.playerId = id;
         this.name = name;
         this.friends = friends;
-        this.favoriteGames = favoriteGames;
+    }
+
+    // Constructor for Player entity
+    public PlayerJpaEntity(UUID playerId, String name, List<FriendJpaEntity> friends, List<GameOwnedJpaEntity> gamesOwned) {
+        this.playerId = playerId;
+        this.name = name;
+        this.friends = friends;
+        this.gamesOwned = gamesOwned;
     }
 
     public UUID getPlayerId() {
@@ -51,8 +52,23 @@ public class PlayerJpaEntity{
         return name;
     }
 
-    public List<GameOwnedJpaEntity> getGameOwned() {return gameOwned;}
+    public List<GameOwnedJpaEntity> getGameOwned() {return gamesOwned;}
 
-    public void setGameOwned(List<GameOwnedJpaEntity> gameOwned) {this.gameOwned = gameOwned;}
+    public void setGamesOwned(List<GameOwnedJpaEntity> gameOwned) {
+        this.gamesOwned = gameOwned != null ? gameOwned : new ArrayList<>();
+    }
 
+    public List<FriendJpaEntity> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<FriendJpaEntity> friends) {
+        this.friends = friends != null ? friends : new ArrayList<>();
+    }
+
+    // Method to add a favorite game (optional)
+    public void addFavoriteGame(GameOwnedJpaEntity game) {
+        // You can add a specific "favorite" check here if needed
+        this.gamesOwned.add(game);
+    }
 }

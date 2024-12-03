@@ -50,7 +50,7 @@ public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
     @Override
     @Transactional
     public List<Game> loadGames(PlayerId playerId) {
-        PlayerJpaEntity playerJpaEntity = playerJpaRepository.findById(String.valueOf(playerId.id()))
+        PlayerJpaEntity playerJpaEntity = playerJpaRepository.findById(playerId.id())
                 .orElseThrow(() -> new IllegalArgumentException("Player not found"));
 
         List<Game> gamesOwned = playerJpaEntity.getGameOwned().stream()

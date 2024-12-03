@@ -36,12 +36,14 @@ public class FavoriteGameUseCaseImpl implements FavoriteGameUseCase {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Game with ID " + gameId + " is not owned by the player."));
 
+        logger.info("games: {}", games.size());
+        logger.info("Game to toggle: {}", gameToToggle.getGameName());
 
         // Step 3: Delegate the toggling logic to the Player entity
         player.toggleFavoriteGame(gameToToggle);
 
 
-        logger.info("Favorite game toggled for player with ID {} game: {}", playerId.id(), gameToToggle.getGameName());
+        logger.info("Favorite game toggled for player with ID {} game name: {}", playerId.id(), gameToToggle.getGameName());
         // Persist the updated Player entity back to the database
         updatePlayerPort.updatePlayer(player);
 

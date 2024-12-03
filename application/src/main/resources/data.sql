@@ -60,22 +60,22 @@ INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id, gam
 -- Insert players for PlayerManagementContext
 INSERT INTO player_management.players (player_id, name)
 VALUES
-    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'William'),
-    (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Manami'),
-    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 'Noah');
+    (UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218'), 'William'),
+    (UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83'), 'Manami'),
+    (UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162'), 'Noah');
 
 -- Insert additional dummy games into the 'games' table
 INSERT INTO player_management.games (game_id, game_name, is_favorite, player_id)
 VALUES
-    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120003'), 'Othello', 1, UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002')),
-    (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7b2'), 'Checkers', 0, UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002')),
-    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120004'), 'Battle Ship', 1, UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002')),
-    (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120005'), 'Chess', 0, UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af')),
-    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120006'), 'Monopoly', 1, UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'));
-
+    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120003'), 'Othello', 1, UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218')),
+    (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7b2'), 'Checkers', 0, UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218')),
+    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120004'), 'Battle Ship', 1, UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83')),
+    (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120005'), 'Chess', 0, UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83')),
+    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120006'), 'Monopoly', 1, UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162')),
+    (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7b2'), 'Checkers', 1, UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162'));
 
 -- Insert profiles for the players
 INSERT INTO player_management.profiles (player_id, bio, avatar, location, birth_date)
 VALUES
-    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'Loves strategy games.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'New York', '1990-05-15'),
-    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'),  'Casual gamer.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'Los Angeles', '1992-12-05');
+    (UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218'), 'Loves strategy games.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'New York', '1990-05-15'),
+    (UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83'),  'Casual gamer.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'Los Angeles','1992-12-05');
