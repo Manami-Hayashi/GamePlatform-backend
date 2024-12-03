@@ -20,4 +20,5 @@ public class Friend {
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }
+
 }
