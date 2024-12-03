@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Player {
-    private PlayerId playerId;
+    private final PlayerId playerId;
     private String name;
 
     private List<Friend> friends;
@@ -15,6 +15,20 @@ public class Player {
         this.name = name;
     }
 
+    public PlayerId getPlayerId() {return playerId;}
+
+    public String getName() {return name;}
+
+    public void setName(String name) {this.name = name;}
+
+    public List<Friend> getFriends() {return friends;}
+
+    public void setFriends(List<Friend> friends) {this.friends = friends;}
+
+    public List<Game> getGamesOwned() {return gamesOwned;}
+
+    public void setGamesOwned(List<Game> gamesOwned) {this.gamesOwned = gamesOwned;}
+
     public void addFriend(Friend friend) {
         friends.add(friend);
     }
@@ -24,7 +38,7 @@ public class Player {
     }
 
     public void toggleFavoriteFriend(Friend friend) {
-
+        friend.setFavorite(!friend.isFavorite());
     }
 
     public void toggleFavoriteGame(Game game) {
@@ -39,20 +53,5 @@ public class Player {
         int age = LocalDate.now().getYear() - birthDate.getYear();
         return age;
     }
-
-    public PlayerId getPlayerId() {return playerId;}
-
-    public String getName() {return name;}
-
-    public void setName(String name) {this.name = name;}
-
-
-    public List<Friend> getFriends() {return friends;}
-
-    public void setFriends(List<Friend> friends) {this.friends = friends;}
-
-    public List<Game> getGamesOwned() {return gamesOwned;}
-
-    public void setGamesOwned(List<Game> gamesOwned) {this.gamesOwned = gamesOwned;}
 
 }
