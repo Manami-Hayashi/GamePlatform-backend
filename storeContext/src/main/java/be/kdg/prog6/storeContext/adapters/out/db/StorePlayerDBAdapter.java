@@ -1,5 +1,6 @@
-package be.kdg.prog6.storeContext.adapter.out;
+package be.kdg.prog6.storeContext.adapters.out.db;
 
+import be.kdg.prog6.storeContext.adapters.out.db.StorePlayerRepository;
 import be.kdg.prog6.storeContext.domain.Player;
 import be.kdg.prog6.storeContext.port.out.PlayerCreatedPort;
 import org.slf4j.Logger;

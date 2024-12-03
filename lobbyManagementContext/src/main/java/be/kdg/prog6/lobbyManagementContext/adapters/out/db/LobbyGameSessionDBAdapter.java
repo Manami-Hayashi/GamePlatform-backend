@@ -33,12 +33,14 @@ public class LobbyGameSessionDBAdapter implements SaveGameSessionPort, UpdateGam
         saveGameSession(gameSession);
 
         // Send request to another service on port 8081
-        String url = "http://localhost:8081/api/connect";
+        String url = "http://localhost:8081/api/checkers/connect";
         Map<String, Object> request = new HashMap<>();
         request.put("sessionId", gameSession.getSessionId());
-        request.put("playerIds", gameSession.getPlayerIds().stream().map(PlayerId::id).toList());
+        request.put("player1Id", gameSession.getPlayerIds().get(0).id());
+        request.put("player2Id", gameSession.getPlayerIds().get(1).id());
 
         restTemplate.postForObject(url, request, Void.class);
+
     }
 
     private LobbyGameSessionJpaEntity toJpaEntity(GameSession gameSession) {
