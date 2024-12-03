@@ -10,7 +10,7 @@ public record GameStatisticsDto(
         int losses,
         int draws,
         double winLossRatio,
-        long totalTimePlayed,
+        double totalTimePlayed,
         int highestScore,
         int movesMade,
         double averageGameDuration

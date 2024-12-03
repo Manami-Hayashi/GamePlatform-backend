@@ -42,7 +42,7 @@ public class GameStatisticsJpaEntity {
     private double winLossRatio;
 
     @Column(name = "total_time_played")
-    private int totalTimePlayed;
+    private double totalTimePlayed;
 
     @Column(name = "highest_score")
     private int highestScore;
@@ -51,10 +51,7 @@ public class GameStatisticsJpaEntity {
     private int movesMade;
 
     @Column(name = "average_game_duration")
-    private int averageGameDuration;
-
-    @Column(name = "matches_played")
-    private int matchesPlayed;
+    private double averageGameDuration;
 
     @ManyToMany(mappedBy = "gameStatistics", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<MatchSessionJpaEntity> matchSessions;
@@ -62,14 +59,7 @@ public class GameStatisticsJpaEntity {
     public GameStatisticsJpaEntity() {
     }
 
-    public GameStatisticsJpaEntity(UUID playerId, UUID gameId, int totalScore, int matchesPlayed) {
-        this.playerId = playerId;
-        this.gameId = gameId;
-        this.totalScore = totalScore;
-        this.matchesPlayed = matchesPlayed;
-    }
-
-    public GameStatisticsJpaEntity(UUID playerId, UUID gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, int totalTimePlayed, int highestScore, int movesMade, int averageGameDuration) {
+    public GameStatisticsJpaEntity(UUID playerId, UUID gameId, int totalScore, int totalGamesPlayed, int wins, int losses, int draws, double winLossRatio, double totalTimePlayed, int highestScore, int movesMade, double averageGameDuration) {
         this.playerId = playerId;
         this.gameId = gameId;
         this.totalScore = totalScore;
@@ -148,11 +138,11 @@ public class GameStatisticsJpaEntity {
         this.winLossRatio = winLossRatio;
     }
 
-    public int getTotalTimePlayed() {
+    public double getTotalTimePlayed() {
         return totalTimePlayed;
     }
 
-    public void setTotalTimePlayed(int totalTimePlayed) {
+    public void setTotalTimePlayed(double totalTimePlayed) {
         this.totalTimePlayed = totalTimePlayed;
     }
 
@@ -172,19 +162,11 @@ public class GameStatisticsJpaEntity {
         this.movesMade = movesMade;
     }
 
-    public int getAverageGameDuration() {
+    public double getAverageGameDuration() {
         return averageGameDuration;
     }
 
-    public void setAverageGameDuration(int averageGameDuration) {
+    public void setAverageGameDuration(double averageGameDuration) {
         this.averageGameDuration = averageGameDuration;
-    }
-
-    public int getMatchesPlayed() {
-        return matchesPlayed;
-    }
-
-    public void setMatchesPlayed(int matchesPlayed) {
-        this.matchesPlayed = matchesPlayed;
     }
 }

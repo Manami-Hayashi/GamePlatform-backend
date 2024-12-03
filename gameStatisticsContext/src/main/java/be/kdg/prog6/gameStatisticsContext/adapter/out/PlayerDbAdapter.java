@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,7 +46,7 @@ public class PlayerDbAdapter implements LoadPlayerPort, LoadPlayersPort, StatsPl
         return new Player(
                 new PlayerId(playerEntity.getId()),
                 playerEntity.getName(),
-                playerEntity.getAge(),
+                LocalDate.parse(playerEntity.getBirthDate()),
                 Gender.valueOf(playerEntity.getGender()),
                 playerEntity.getLocation(),
                 gameStatistics
@@ -76,7 +77,7 @@ public class PlayerDbAdapter implements LoadPlayerPort, LoadPlayersPort, StatsPl
         StatsPlayerJpaEntity playerJpaEntity = new StatsPlayerJpaEntity(
                 player.getId().id(),
                 player.getName(),
-                player.getAge(),
+                player.getBirthDate().toString(),
                 genderString,
                 player.getLocation()
         );
