@@ -21,7 +21,7 @@ public class GetGameRulesUseCaseImpl implements GetGameRulesUseCase {
     // Load the game rules from the Json file
     private void loadGameRules() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File jsonFile = new File("");
+        File jsonFile = new File("resources/checkers_rules.json");
         this.chatbotGameRule = objectMapper.readValue(jsonFile, ChatbotGameRule.class);
 
     }
