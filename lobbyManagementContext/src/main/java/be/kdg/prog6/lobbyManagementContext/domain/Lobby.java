@@ -12,13 +12,16 @@ public class Lobby {
     private GameId gameId;
     private static final int MAX_PLAYERS = 2;
 
-    public Lobby(UUID lobbyId, List<PlayerId> playerIds, GameId gameId) {
+    public Lobby(UUID lobbyId, List<PlayerId> playerIds, List<PlayerId> readyPlayers, GameId gameId) {
         this.lobbyId = lobbyId;
         this.playerIds = new ArrayList<>(playerIds);
-        this.readyPlayers = new ArrayList<>();
+        this.readyPlayers = new ArrayList<>(readyPlayers);
         this.gameId = gameId;
     }
-    
+
+    public Lobby(UUID lobbyId, List<PlayerId> playerIds, GameId gameId) {
+        this(lobbyId, playerIds, new ArrayList<>(), gameId);
+    }
 
     public Lobby(UUID lobbyId, GameId gameId) {
         this(lobbyId, new ArrayList<>(), gameId);
@@ -60,6 +63,10 @@ public class Lobby {
 
     public boolean allPlayersReady() {
         return readyPlayers.size() == playerIds.size();
+    }
+
+    public boolean isPlayerReady(PlayerId playerId) {
+        return readyPlayers.contains(playerId);
     }
 
     public UUID getLobbyId() {

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "game_sessions")
+@Table(catalog = "lobby_management", name = "game_sessions")
 public class LobbyGameSessionJpaEntity {
     @Id
     @Column(name = "session_id")

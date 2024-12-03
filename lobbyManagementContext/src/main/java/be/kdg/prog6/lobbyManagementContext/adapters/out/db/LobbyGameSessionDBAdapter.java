@@ -3,21 +3,42 @@ package be.kdg.prog6.lobbyManagementContext.adapters.out.db;
 import be.kdg.prog6.lobbyManagementContext.domain.GameSession;
 import be.kdg.prog6.lobbyManagementContext.domain.PlayerId;
 import be.kdg.prog6.lobbyManagementContext.ports.out.SaveGameSessionPort;
+import be.kdg.prog6.lobbyManagementContext.ports.out.UpdateGameSessionPort;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
-public class LobbyGameSessionDBAdapter implements SaveGameSessionPort {
-    private final LobbyGameSessionJpaRepository LobbygameSessionJpaRepository;
+public class LobbyGameSessionDBAdapter implements SaveGameSessionPort, UpdateGameSessionPort {
+    private final LobbyGameSessionJpaRepository lobbyGameSessionJpaRepository;
+    private final RestTemplate restTemplate;
 
-    public LobbyGameSessionDBAdapter(LobbyGameSessionJpaRepository lobbygameSessionJpaRepository) {
-        LobbygameSessionJpaRepository = lobbygameSessionJpaRepository;
 
+    public LobbyGameSessionDBAdapter(LobbyGameSessionJpaRepository lobbyGameSessionJpaRepository, RestTemplate restTemplate) {
+        this.lobbyGameSessionJpaRepository = lobbyGameSessionJpaRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Override
     public void saveGameSession(GameSession gameSession) {
         LobbyGameSessionJpaEntity entity = toJpaEntity(gameSession);
-        LobbygameSessionJpaRepository.save(entity);
+        lobbyGameSessionJpaRepository.save(entity);
+    }
+
+    @Override
+    public void updateGameSession(GameSession gameSession) {
+        // Save the game session to the database
+        saveGameSession(gameSession);
+
+        // Send request to another service on port 8081
+        String url = "http://localhost:8081/api/connect";
+        Map<String, Object> request = new HashMap<>();
+        request.put("sessionId", gameSession.getSessionId());
+        request.put("playerIds", gameSession.getPlayerIds().stream().map(PlayerId::id).toList());
+
+        restTemplate.postForObject(url, request, Void.class);
     }
 
     private LobbyGameSessionJpaEntity toJpaEntity(GameSession gameSession) {

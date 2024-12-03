@@ -1,9 +1,7 @@
 package be.kdg.prog6.lobbyManagementContext.ports.in;
 
-import be.kdg.prog6.lobbyManagementContext.domain.GameSession;
-import be.kdg.prog6.lobbyManagementContext.domain.PlayerId;
+import java.util.UUID;
 
-@FunctionalInterface
 public interface StartGameUseCase {
-    GameSession readyUp(PlayerId playerId);
+    ReadyUpResponse readyUp(UUID lobbyId);
 }

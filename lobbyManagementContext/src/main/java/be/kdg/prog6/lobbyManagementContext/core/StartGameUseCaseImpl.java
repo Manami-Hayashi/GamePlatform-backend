@@ -3,63 +3,52 @@ package be.kdg.prog6.lobbyManagementContext.core;
 import be.kdg.prog6.common.exceptions.GameSessionNotReadyException;
 import be.kdg.prog6.lobbyManagementContext.domain.GameSession;
 import be.kdg.prog6.lobbyManagementContext.domain.Lobby;
-import be.kdg.prog6.lobbyManagementContext.domain.PlayerId;
+import be.kdg.prog6.lobbyManagementContext.ports.in.ReadyUpResponse;
 import be.kdg.prog6.lobbyManagementContext.ports.in.StartGameUseCase;
-import be.kdg.prog6.lobbyManagementContext.ports.out.LoadLobbyByPlayerIdPort;
-import be.kdg.prog6.lobbyManagementContext.ports.out.SaveGameSessionPort;
-import be.kdg.prog6.lobbyManagementContext.ports.out.SaveLobbyPort;
-import jakarta.transaction.Transactional;
+import be.kdg.prog6.lobbyManagementContext.ports.out.CheckAllPlayersReadyPort;
+import be.kdg.prog6.lobbyManagementContext.ports.out.LoadLobbyPort;
+import be.kdg.prog6.lobbyManagementContext.ports.out.UpdateGameSessionPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
+// StartGameUseCaseImpl.java
 @Service
 public class StartGameUseCaseImpl implements StartGameUseCase {
+    private static final Logger logger = LoggerFactory.getLogger(StartGameUseCaseImpl.class);
 
-    private final LoadLobbyByPlayerIdPort loadLobbyByPlayerIdPort;
-    private final SaveLobbyPort saveLobbyPort;
-    private final SaveGameSessionPort saveGameSessionPort;
-    private final RestTemplate restTemplate;
+    private final LoadLobbyPort loadLobbyPort;
+    private final UpdateGameSessionPort updateGameSessionPort;
+    private final CheckAllPlayersReadyPort checkAllPlayersReadyPort;
 
-    public StartGameUseCaseImpl(LoadLobbyByPlayerIdPort loadLobbyByPlayerIdPort, SaveLobbyPort saveLobbyPort, SaveGameSessionPort saveGameSessionPort, RestTemplate restTemplate) {
-        this.loadLobbyByPlayerIdPort = loadLobbyByPlayerIdPort;
-        this.saveLobbyPort = saveLobbyPort;
-        this.saveGameSessionPort = saveGameSessionPort;
-        this.restTemplate = restTemplate;
+    public StartGameUseCaseImpl(LoadLobbyPort loadLobbyPort, UpdateGameSessionPort updateGameSessionPort, CheckAllPlayersReadyPort checkAllPlayersReadyPort) {
+        this.loadLobbyPort = loadLobbyPort;
+        this.updateGameSessionPort = updateGameSessionPort;
+        this.checkAllPlayersReadyPort = checkAllPlayersReadyPort;
     }
 
     @Override
     @Transactional
-    public GameSession readyUp(PlayerId playerId) {
-        Lobby lobby = loadLobbyByPlayerIdPort.loadLobbyByPlayerId(playerId.id());
+    public ReadyUpResponse readyUp(UUID lobbyId) {
+        Lobby lobby = loadLobbyPort.loadLobby(lobbyId);
 
         if (!lobby.isFull()) {
+            logger.error("Lobby is not full for lobby ID: {}", lobbyId);
             throw new GameSessionNotReadyException("Lobby is not full.");
         }
 
-        lobby.readyUp(playerId);
-        saveLobbyPort.saveLobby(lobby);
-
-        if (lobby.allPlayersReady()) {
+        if (checkAllPlayersReadyPort.areAllPlayersReady(lobbyId)) {
             GameSession gameSession = new GameSession(UUID.randomUUID(), lobby.getGameId(), lobby.getPlayerIds());
             gameSession.startSession();
-            saveGameSessionPort.saveGameSession(gameSession);
-
-            // Send request to another service on port 8081
-            String url = "http://localhost:8081/connect";
-            Map<String, Object> request = new HashMap<>();
-            request.put("sessionId", gameSession.getSessionId());
-            request.put("gameId", gameSession.getGameId().id());
-            request.put("playerIds", gameSession.getPlayerIds().stream().map(PlayerId::id).toList());
-
-            restTemplate.postForObject(url, request, Void.class);
-
-            return gameSession;
+            updateGameSessionPort.updateGameSession(gameSession);
+            logger.info("Game session started for lobby {}", lobby.getLobbyId());
+            return new ReadyUpResponse(true, gameSession);
         }
 
-        throw new GameSessionNotReadyException("Not all players are ready.");
+        logger.info("Not all players are ready in lobby {}", lobby.getLobbyId());
+        return new ReadyUpResponse(false, null);
     }
-} //make a service yes yes, inside the adpater out like u did before, updategamesesion which will do both the to outgame and to the frontend
+}
