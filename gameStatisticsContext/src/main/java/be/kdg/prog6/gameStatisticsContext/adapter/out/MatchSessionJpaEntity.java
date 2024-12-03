@@ -12,8 +12,8 @@ import java.util.UUID;
 @Table(catalog = "game_statistics", name = "match_session")
 public class MatchSessionJpaEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID id;
 
     @Column(name = "game_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
@@ -45,25 +45,16 @@ public class MatchSessionJpaEntity {
     @Column(name = "score_p2")
     private int scoreP2;
 
-    @Column(name = "moves_made")
-    private int movesMade;
+    @Column(name = "moves_made_P1")
+    private int movesMadeP1;
+
+    @Column(name = "moves_made_P2")
+    private int movesMadeP2;
 
     public MatchSessionJpaEntity() {
     }
 
-    public MatchSessionJpaEntity(UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int scoreP1, int scoreP2, int movesMade) {
-        this.gameId = gameId;
-        this.gameStatistics = gameStatistics;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.isActive = isActive;
-        this.winner = winner;
-        this.scoreP1 = scoreP1;
-        this.scoreP2 = scoreP2;
-        this.movesMade = movesMade;
-    }
-
-    public MatchSessionJpaEntity(int id, UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int scoreP1, int scoreP2, int movesMade) {
+    public MatchSessionJpaEntity(UUID id, UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int scoreP1, int scoreP2, int movesMadeP1, int movesMadeP2) {
         this.id = id;
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
@@ -73,14 +64,15 @@ public class MatchSessionJpaEntity {
         this.winner = winner;
         this.scoreP1 = scoreP1;
         this.scoreP2 = scoreP2;
-        this.movesMade = movesMade;
+        this.movesMadeP1 = movesMadeP1;
+        this.movesMadeP2 = movesMadeP2;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -148,11 +140,19 @@ public class MatchSessionJpaEntity {
         this.scoreP2 = scoreP2;
     }
 
-    public int getMovesMade() {
-        return movesMade;
+    public int getMovesMadeP1() {
+        return movesMadeP1;
     }
 
-    public void setMovesMade(int movesMade) {
-        this.movesMade = movesMade;
+    public void setMovesMadeP1(int movesMade) {
+        this.movesMadeP1 = movesMade;
+    }
+
+    public int getMovesMadeP2() {
+        return movesMadeP2;
+    }
+
+    public void setMovesMadeP2(int movesMade) {
+        this.movesMadeP2 = movesMade;
     }
 }

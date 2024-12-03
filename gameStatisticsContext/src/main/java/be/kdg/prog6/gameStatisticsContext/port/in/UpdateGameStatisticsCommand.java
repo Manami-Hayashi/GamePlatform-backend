@@ -1,12 +1,12 @@
-package be.kdg.prog6.gameStatisticsContext.adapter.in;
+package be.kdg.prog6.gameStatisticsContext.port.in;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record UpdateGameStatisticsDto(
-        String id,
-        String gameId,
+public record UpdateGameStatisticsCommand(
+        UUID id,
+        UUID gameId,
         List<UUID> playerIds,
         LocalDateTime startTime,
         LocalDateTime endTime,
@@ -17,7 +17,7 @@ public record UpdateGameStatisticsDto(
         int movesMadeP1,
         int movesMadeP2
 ) {
-    public UpdateGameStatisticsDto {
+    public UpdateGameStatisticsCommand {
         if (id == null) {
             throw new IllegalArgumentException("Id must not be null");
         }

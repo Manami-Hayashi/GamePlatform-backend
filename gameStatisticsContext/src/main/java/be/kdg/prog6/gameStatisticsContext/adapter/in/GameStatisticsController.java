@@ -2,7 +2,7 @@ package be.kdg.prog6.gameStatisticsContext.adapter.in;
 
 import be.kdg.prog6.gameStatisticsContext.domain.*;
 import be.kdg.prog6.gameStatisticsContext.port.in.GetScoreboardUseCase;
-import be.kdg.prog6.gameStatisticsContext.port.in.UpdateGameCommand;
+import be.kdg.prog6.gameStatisticsContext.port.in.UpdateGameStatisticsCommand;
 import be.kdg.prog6.gameStatisticsContext.port.in.UpdateGameStatisticsUseCase;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,20 +45,21 @@ public class GameStatisticsController {
     }
 
     @PostMapping("/update")
-    public void updateGameStatistics(@RequestBody UpdateGameCommand updateGameCommand) {
-        int id = updateGameCommand.id();
-        UUID gameId = UUID.fromString(updateGameCommand.gameId());
+    public void updateGameStatistics(@RequestBody UpdateGameStatisticsDto updateGameStatisticsDto) {
+        UUID id = UUID.randomUUID();
+        UUID gameId = UUID.fromString(updateGameStatisticsDto.gameId());
         List<UUID> players = new ArrayList<>();
-        players.add(updateGameCommand.playerIds().get(0));
-        players.add(updateGameCommand.playerIds().get(1));
-        LocalDateTime startTime = updateGameCommand.startTime();
-        LocalDateTime endTime = updateGameCommand.endTime();
-        boolean isActive = updateGameCommand.isActive();
-        String winner = updateGameCommand.winner();
-        int scoreP1 = updateGameCommand.scoreP1();
-        int scoreP2 = updateGameCommand.scoreP2();
-        int movesMade = updateGameCommand.movesMade();
-        UpdateGameStatisticsDto updateGameStatisticsDto = new UpdateGameStatisticsDto(id, gameId, players, startTime, endTime, isActive, winner, scoreP1, scoreP2, movesMade);
-        updateGameStatisticsUseCase.updateGameStatistics(updateGameStatisticsDto);
+        players.add(updateGameStatisticsDto.playerIds().get(0));
+        players.add(updateGameStatisticsDto.playerIds().get(1));
+        LocalDateTime startTime = updateGameStatisticsDto.startTime();
+        LocalDateTime endTime = updateGameStatisticsDto.endTime();
+        boolean isActive = updateGameStatisticsDto.isActive();
+        String winner = updateGameStatisticsDto.winner();
+        int scoreP1 = updateGameStatisticsDto.scoreP1();
+        int scoreP2 = updateGameStatisticsDto.scoreP2();
+        int movesMadeP1 = updateGameStatisticsDto.movesMadeP1();
+        int movesMadeP2 = updateGameStatisticsDto.movesMadeP2();
+        UpdateGameStatisticsCommand updateGameStatisticsCommand = new UpdateGameStatisticsCommand(id, gameId, players, startTime, endTime, isActive, winner, scoreP1, scoreP2, movesMadeP1, movesMadeP2);
+        updateGameStatisticsUseCase.updateGameStatistics(updateGameStatisticsCommand);
     }
 }
