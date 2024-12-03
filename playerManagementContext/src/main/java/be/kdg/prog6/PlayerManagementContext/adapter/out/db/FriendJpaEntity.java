@@ -8,7 +8,10 @@ import java.util.UUID;
 @Table(catalog="player_management", name="friends")
 public class FriendJpaEntity {
     @Id
-    @Column(name = "player_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
+
+    @Column(name = "friend_player_id")
     private UUID playerId;
 
     @Column(name = "is_favorite")
@@ -24,6 +27,16 @@ public class FriendJpaEntity {
     public FriendJpaEntity(UUID playerId, boolean isFavorite) {
         this.playerId = playerId;
         this.isFavorite = isFavorite;
+    }
+
+    public FriendJpaEntity(UUID playerId, boolean isFavorite, PlayerJpaEntity player) {
+        this.playerId = playerId;
+        this.isFavorite = isFavorite;
+        this.player = player;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public UUID getPlayerId() {
