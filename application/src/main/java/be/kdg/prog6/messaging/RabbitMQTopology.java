@@ -114,6 +114,24 @@ public class RabbitMQTopology {
                 .to(userRegistrationExchange);
     }
 
+    public static final String GAME_PURCHASED_EXCHANGE = "game.purchased.exchange";
+    public static final String GAME_PURCHASED_QUEUE = "game.purchased.queue";
+
+    @Bean
+    public FanoutExchange gamePurchasedExchange() {
+        return new FanoutExchange(GAME_PURCHASED_EXCHANGE);
+    }
+
+    @Bean
+    public Queue gamePurchasedQueue() {
+        return new Queue(GAME_PURCHASED_QUEUE);
+    }
+
+    @Bean
+    public Binding gamePurchasedBinding(Queue gamePurchasedQueue, FanoutExchange gamePurchasedExchange) {
+        return BindingBuilder.bind(gamePurchasedQueue).to(gamePurchasedExchange);
+    }
+
 
     // Admin adds a new gameName
     public static final String GAME_ADDED_EXCHANGE = "game.added.exchange";

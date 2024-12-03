@@ -73,11 +73,12 @@ public class PlayerDbAdapter implements LoadPlayerPort, LoadPlayersPort, StatsPl
     @Override
     public void createPlayer(Player player) {
         String genderString = (player.getGender() != null) ? player.getGender().toString() : "UNKNOWN";
+        LocalDate birthDate = (player.getBirthDate() != null) ? player.getBirthDate() : LocalDate.now();
 
         StatsPlayerJpaEntity playerJpaEntity = new StatsPlayerJpaEntity(
                 player.getId().id(),
                 player.getName(),
-                player.getBirthDate().toString(),
+                birthDate.toString(),
                 genderString,
                 player.getLocation()
         );
