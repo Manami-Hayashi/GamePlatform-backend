@@ -1,0 +1,33 @@
+package be.kdg.prog6.PlayerManagementContext.adapter.out.db;
+
+import be.kdg.prog6.PlayerManagementContext.domain.Friend;
+import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
+import be.kdg.prog6.PlayerManagementContext.port.out.LoadFriendsPort;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+@Service
+public class FriendDbAdapter implements LoadFriendsPort {
+    private final FriendJpaRepository friendJpaRepository;
+
+    public FriendDbAdapter(FriendJpaRepository friendJpaRepository) {
+        this.friendJpaRepository = friendJpaRepository;
+    }
+
+    @Override
+    public List<Friend> loadFriends(UUID playerId) {
+        List<FriendJpaEntity> friendJpaEntities = friendJpaRepository.findByPlayerId(playerId);
+        return toFriends(friendJpaEntities);
+    }
+
+    private List<Friend> toFriends(List<FriendJpaEntity> friendJpaEntities) {
+        List<Friend> friends = new ArrayList<>();
+        for (FriendJpaEntity friendJpaEntity : friendJpaEntities) {
+            friends.add(new Friend(new PlayerId(friendJpaEntity.getPlayerId()), friendJpaEntity.isFavorite()));
+        }
+        return friends;
+    }
+}

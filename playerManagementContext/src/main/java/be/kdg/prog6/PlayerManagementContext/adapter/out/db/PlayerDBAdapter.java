@@ -127,7 +127,7 @@ public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, Upd
 
     private Friend toFriend(FriendJpaEntity friendJpaEntity) {
         return new Friend(
-                new PlayerId(friendJpaEntity.getFriendId()),
+                new PlayerId(friendJpaEntity.getPlayerId()),
                 friendJpaEntity.isFavorite()
         );
     }

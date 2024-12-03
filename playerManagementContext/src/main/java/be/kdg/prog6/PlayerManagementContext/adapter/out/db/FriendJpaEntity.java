@@ -7,10 +7,9 @@ import java.util.UUID;
 @Entity
 @Table(catalog="player_management", name="friends")
 public class FriendJpaEntity {
-
     @Id
-    @Column(name = "friend_id")
-    private UUID friendId;
+    @Column(name = "player_id")
+    private UUID playerId;
 
     @Column(name = "is_favorite")
     private boolean isFavorite;
@@ -22,13 +21,13 @@ public class FriendJpaEntity {
     public FriendJpaEntity() {
     }
 
-    public FriendJpaEntity(UUID friendId, boolean isFavorite) {
-        this.friendId = friendId;
+    public FriendJpaEntity(UUID playerId, boolean isFavorite) {
+        this.playerId = playerId;
         this.isFavorite = isFavorite;
     }
 
-    public UUID getFriendId() {
-        return friendId;
+    public UUID getPlayerId() {
+        return playerId;
     }
 
     public boolean isFavorite() {
@@ -39,8 +38,8 @@ public class FriendJpaEntity {
         isFavorite = favorite;
     }
 
-    public void setFriendId(UUID friendId) {
-        this.friendId = friendId;
+    public void setPlayerId(UUID friendId) {
+        this.playerId = friendId;
     }
 
     public PlayerJpaEntity getPlayer() {
