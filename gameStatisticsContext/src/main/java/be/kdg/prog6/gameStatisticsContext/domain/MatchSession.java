@@ -4,9 +4,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class MatchSession {
-    private final int id;
+    private final UUID id;
     private final GameId gameId;
     private final List<GameStatistics> gameStatistics;
     private LocalDateTime startTime;
@@ -18,7 +19,7 @@ public class MatchSession {
     private int movesMadeP1;
     private int movesMadeP2;
 
-    public MatchSession(final int id, final GameId gameId, final List<GameStatistics> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Winner winner) {
+    public MatchSession(final UUID id, final GameId gameId, final List<GameStatistics> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Winner winner) {
         this.id = id;
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
@@ -28,7 +29,7 @@ public class MatchSession {
         this.winner = winner;
     }
 
-    public MatchSession(final int id, final GameId gameId, final List<GameStatistics> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Winner winner, int scoreP1, int scoreP2, int movesMadeP1, int movesMadeP2) {
+    public MatchSession(final UUID id, final GameId gameId, final List<GameStatistics> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, Winner winner, int scoreP1, int scoreP2, int movesMadeP1, int movesMadeP2) {
         this.id = id;
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
@@ -42,7 +43,7 @@ public class MatchSession {
         this.movesMadeP2 = movesMadeP2;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 

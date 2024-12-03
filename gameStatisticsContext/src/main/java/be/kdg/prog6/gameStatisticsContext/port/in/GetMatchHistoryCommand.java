@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 public record GetMatchHistoryCommand(
-        int id,
+        UUID id,
         UUID gameId,
         List<String> players,
         LocalDateTime startTime,

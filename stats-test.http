@@ -47,7 +47,7 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "id": 1,
+  "id": "fb4f83cb-6e15-4842-9688-39d53c6a4547",
   "gameId": "14910372-c39d-7de7-b05a-93f8166cf7af",
   "playerIds": ["a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634", "b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d"],
   "startTime": "2024-11-05T12:00:00",

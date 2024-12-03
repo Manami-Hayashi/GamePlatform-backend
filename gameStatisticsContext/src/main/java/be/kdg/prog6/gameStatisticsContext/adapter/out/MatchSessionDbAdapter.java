@@ -48,6 +48,7 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
                 .collect(Collectors.toList());
 
         MatchSessionJpaEntity matchSessionJpaEntity = new MatchSessionJpaEntity(
+                matchSession.getId(),
                 matchSession.getGameId().id(),
                 gameStatisticsJpaEntities,
                 matchSession.getStartTime(),

@@ -12,8 +12,8 @@ import java.util.UUID;
 @Table(catalog = "game_statistics", name = "match_session")
 public class MatchSessionJpaEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID id;
 
     @Column(name = "game_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
@@ -54,7 +54,8 @@ public class MatchSessionJpaEntity {
     public MatchSessionJpaEntity() {
     }
 
-    public MatchSessionJpaEntity(UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int scoreP1, int scoreP2, int movesMadeP1, int movesMadeP2) {
+    public MatchSessionJpaEntity(UUID id, UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int scoreP1, int scoreP2, int movesMadeP1, int movesMadeP2) {
+        this.id = id;
         this.gameId = gameId;
         this.gameStatistics = gameStatistics;
         this.startTime = startTime;
@@ -67,24 +68,11 @@ public class MatchSessionJpaEntity {
         this.movesMadeP2 = movesMadeP2;
     }
 
-    public MatchSessionJpaEntity(int id, UUID gameId, List<GameStatisticsJpaEntity> gameStatistics, LocalDateTime startTime, LocalDateTime endTime, boolean isActive, String winner, int scoreP1, int scoreP2, int movesMadeP1) {
-        this.id = id;
-        this.gameId = gameId;
-        this.gameStatistics = gameStatistics;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.isActive = isActive;
-        this.winner = winner;
-        this.scoreP1 = scoreP1;
-        this.scoreP2 = scoreP2;
-        this.movesMadeP1 = movesMadeP1;
-    }
-
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
