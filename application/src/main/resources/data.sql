@@ -12,11 +12,11 @@ INSERT INTO store.reviews (review_id, player_id, game_id, rating, comment, creat
                                                                                      (UUID_TO_BIN('5314ba14-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 2, 'Could be better.', '2024-01-04 08:45:00'),
                                                                                      (UUID_TO_BIN('585d9478-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 5, 'Absolutely love it!', '2024-01-05 19:00:00');
 
-INSERT INTO game_statistics.players (id, name, age, gender, location)
-VALUES ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'Josh', 25, "MALE", 'New York'),
-       ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', 'Alice', 30, "FEMALE", 'Los Angeles'),
-       ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', 'Will', 22, "MALE", 'Chicago'),
-       ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', 'Mary', 28, "FEMALE", 'Houston');
+INSERT INTO game_statistics.players (id, name, birth_date, gender, location)
+VALUES ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'Josh', '1990-01-01', 'MALE', 'New York'),
+       ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', 'Alice', '2001-08-06', 'FEMALE', 'Los Angeles'),
+       ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', 'Will', '2003-09-10', 'MALE', 'Chicago'),
+       ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', 'Mary', '1996-02-09', 'FEMALE', 'Houston');
 
 -- Insert into achievements
 INSERT INTO game_statistics.achievements (player_id, game_id, name, description, is_locked)
@@ -27,12 +27,12 @@ VALUES
     ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1);
 
 -- Insert sample data for game_statistics
-INSERT INTO game_statistics.game_statistics (player_id, game_id, total_score, total_games_played, wins, losses, draws, win_loss_ratio, total_time_played, highest_score, moves_made, average_game_duration, matches_played)
+INSERT INTO game_statistics.game_statistics (player_id, game_id, total_score, total_games_played, wins, losses, draws, win_loss_ratio, total_time_played, highest_score, moves_made, average_game_duration)
 VALUES
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 
 

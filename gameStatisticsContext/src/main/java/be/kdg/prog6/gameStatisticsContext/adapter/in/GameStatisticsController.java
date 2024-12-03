@@ -24,7 +24,7 @@ public class GameStatisticsController {
 
     @GetMapping("/{playerId}")
     public List<GameStatisticsDto> getScoreboards(@PathVariable String playerId) {
-        List<GameStatistics> gameStatistics = getScoreboardUseCase.getScoreboard(new PlayerId(UUID.fromString(playerId)));
+        List<GameStatistics> gameStatistics = getScoreboardUseCase.getMatchHistory(new PlayerId(UUID.fromString(playerId)));
         List<GameStatisticsDto> gameStatisticsDtos = new ArrayList<>();
         for (GameStatistics gameStatistic : gameStatistics) {
             gameStatisticsDtos.add(new GameStatisticsDto(
@@ -49,15 +49,16 @@ public class GameStatisticsController {
         int id = updateGameCommand.id();
         UUID gameId = UUID.fromString(updateGameCommand.gameId());
         List<UUID> players = new ArrayList<>();
-        players.add(UUID.fromString(updateGameCommand.playerIds().get(0)));
-        players.add(UUID.fromString(updateGameCommand.playerIds().get(1)));
+        players.add(updateGameCommand.playerIds().get(0));
+        players.add(updateGameCommand.playerIds().get(1));
         LocalDateTime startTime = updateGameCommand.startTime();
         LocalDateTime endTime = updateGameCommand.endTime();
         boolean isActive = updateGameCommand.isActive();
         String winner = updateGameCommand.winner();
-        int score = updateGameCommand.score();
+        int scoreP1 = updateGameCommand.scoreP1();
+        int scoreP2 = updateGameCommand.scoreP2();
         int movesMade = updateGameCommand.movesMade();
-        MatchSessionDto matchSessionDto = new MatchSessionDto(id, gameId, players, startTime, endTime, isActive, winner, score, movesMade);
-        updateGameStatisticsUseCase.updateGameStatistics(matchSessionDto);
+        UpdateGameStatisticsDto updateGameStatisticsDto = new UpdateGameStatisticsDto(id, gameId, players, startTime, endTime, isActive, winner, scoreP1, scoreP2, movesMade);
+        updateGameStatisticsUseCase.updateGameStatistics(updateGameStatisticsDto);
     }
 }
