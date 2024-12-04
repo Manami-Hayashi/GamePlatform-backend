@@ -5,9 +5,21 @@ import java.util.Map;
 
 public class ChatRequest {
     private String userInput;
-    private List<Map<String, String>> chatHistory;
+    private List<Message> chatHistory;
 
     // Constructors, getters, and setters
+
+    public ChatRequest() {
+    }
+
+    public ChatRequest(String userInput) {
+        this.userInput = userInput;
+    }
+
+    public ChatRequest(String userInput, List<Message> chatHistory) {
+        this.userInput = userInput;
+        this.chatHistory = chatHistory;
+    }
 
     public String getUserInput() {
         return userInput;
@@ -17,11 +29,11 @@ public class ChatRequest {
         this.userInput = userInput;
     }
 
-    public List<Map<String, String>> getChatHistory() {
+    public List<Message> getChatHistory() {
         return chatHistory;
     }
 
-    public void setChatHistory(List<Map<String, String>> chatHistory) {
+    public void setChatHistory(List<Message> chatHistory) {
         this.chatHistory = chatHistory;
     }
 
