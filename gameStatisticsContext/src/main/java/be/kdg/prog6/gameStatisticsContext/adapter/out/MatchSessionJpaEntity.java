@@ -21,6 +21,7 @@ public class MatchSessionJpaEntity {
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
+            catalog = "game_statistics",
             name = "match_session_game_statistics",
             joinColumns = @JoinColumn(name = "match_session_id"),
             inverseJoinColumns = @JoinColumn(name = "game_statistics_id")
