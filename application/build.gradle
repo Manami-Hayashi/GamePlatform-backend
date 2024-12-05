@@ -11,6 +11,7 @@ dependencies {
     implementation project(':gameStatisticsContext')
     implementation project(':lobbyManagementContext')
     implementation project(':storeContext')
+    implementation project(':chatbotContext')
 
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -43,6 +44,8 @@ dependencies {
 
     // JSON support (optional, if used in listener logic)
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+
+    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
 }
 
 
