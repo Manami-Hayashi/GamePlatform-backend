@@ -17,7 +17,7 @@ public class LobbyGameSessionJpaEntity {
     private UUID gameId;
 
     @ElementCollection
-    @CollectionTable(name = "game_session_players", joinColumns = @JoinColumn(name = "session_id"))
+    @CollectionTable(catalog = "lobby_management", name = "game_session_players", joinColumns = @JoinColumn(name = "session_id"))
     @Column(name = "player_id")
     private List<UUID> playerIds;
 
