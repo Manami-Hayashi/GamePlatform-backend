@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +39,7 @@ public class GetResponseUseCaseImpl implements GetResponseUseCase {
         // Call Python FastAPI backend
         String botResponse = callPythonBackend(userInput, messages);
 
-        // Add bot response to the message history (Optional, if you store it)
+        // Add bot response to the message history
         Message botMessage = new Message("assistant", botResponse);
         messages.add(botMessage);
 

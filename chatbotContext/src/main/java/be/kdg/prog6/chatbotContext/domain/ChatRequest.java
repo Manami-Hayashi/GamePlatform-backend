@@ -1,14 +1,10 @@
 package be.kdg.prog6.chatbotContext.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 public class ChatRequest {
     private String userInput;
     private List<Message> chatHistory;
-
-    // Constructors, getters, and setters
 
     public ChatRequest() {
     }

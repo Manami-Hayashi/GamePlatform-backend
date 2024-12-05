@@ -35,7 +35,7 @@ public class ChatbotController {
         try {
             // Extract the chat history as a list of message content
             List<String> chatHistory = payload.getChatHistory().stream()
-                    .map(Message::getContent) // Assuming Message has a getContent method
+                    .map(Message::getContent)
                     .collect(Collectors.toList());
 
             // Pass userInput and chatHistory to the use case
