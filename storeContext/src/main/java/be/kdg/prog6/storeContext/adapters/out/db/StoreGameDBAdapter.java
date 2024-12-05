@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -40,12 +41,26 @@ public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPo
 
     }
 
+    @Override
+    public StoreGame findById(GameId gameId) {
+        logger.info("Finding game by ID: {}", gameId);
+        Optional<StoreGameJpaEntity> storeGameJpaEntity = storeGameJpaRepository.findByIdWithReviews(gameId.id());
+        if (storeGameJpaEntity.isPresent()) {
+            logger.info("Game found: {}", storeGameJpaEntity.get().getName());
+            return toDomain(storeGameJpaEntity.get());
+        } else {
+            logger.warn("Game not found for ID: {}", gameId);
+            return null;
+        }
+    }
+
     private StoreGame toDomain(StoreGameJpaEntity storeGameJpaEntity) {
         StoreGame game = new StoreGame();
         game.setGameId(new GameId(storeGameJpaEntity.getGameId()));
         game.setGameName(storeGameJpaEntity.getName());
         game.setPrice(storeGameJpaEntity.getPrice());
         game.setDescription(storeGameJpaEntity.getDescription());
+        // Add reviews if present
         if (!storeGameJpaEntity.getReviews().isEmpty()) {
             List<Review> reviewList = storeGameJpaEntity.getReviews()
                     .stream()
@@ -59,7 +74,6 @@ public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPo
                     ))
                     .toList();
             game.setReviews(reviewList);
-            return game;
         }
         return game;
     }
