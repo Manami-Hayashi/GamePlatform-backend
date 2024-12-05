@@ -2,7 +2,8 @@ package be.kdg.prog6.PlayerManagementContext.adapter.in;
 
 import be.kdg.prog6.PlayerManagementContext.domain.Friend;
 import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
-import be.kdg.prog6.PlayerManagementContext.port.in.AddFriendUseCase;
+import be.kdg.prog6.PlayerManagementContext.port.in.AcceptFriendRequestUseCase;
+import be.kdg.prog6.PlayerManagementContext.port.in.SendFriendRequestUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.in.ToggleFavoritePlayerUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.in.GetFriendsUseCase;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,14 @@ import java.util.UUID;
 public class FriendController {
     private final GetFriendsUseCase getFriendsUseCase;
     private final ToggleFavoritePlayerUseCase toggleFavoritePlayerUseCase;
-    private final AddFriendUseCase addFriendUseCase;
+    private final SendFriendRequestUseCase sendFriendRequestUseCase;
+    private final AcceptFriendRequestUseCase acceptFriendRequestUseCase;
 
-    public FriendController(GetFriendsUseCase getFriendsUseCase, ToggleFavoritePlayerUseCase toggleFavoritePlayerUseCase, AddFriendUseCase addFriendUseCase) {
+    public FriendController(GetFriendsUseCase getFriendsUseCase, ToggleFavoritePlayerUseCase toggleFavoritePlayerUseCase, SendFriendRequestUseCase sendFriendRequestUseCase, AcceptFriendRequestUseCase acceptFriendRequestUseCase) {
         this.getFriendsUseCase = getFriendsUseCase;
         this.toggleFavoritePlayerUseCase = toggleFavoritePlayerUseCase;
-        this.addFriendUseCase = addFriendUseCase;
+        this.sendFriendRequestUseCase = sendFriendRequestUseCase;
+        this.acceptFriendRequestUseCase = acceptFriendRequestUseCase;
     }
 
     @GetMapping("/{playerId}")
@@ -40,10 +43,17 @@ public class FriendController {
         toggleFavoritePlayerUseCase.toggleFavoritePlayer(new PlayerId(playerId), new PlayerId(friendId));
     }
 
-    @PostMapping("/{playerId}/add-friend/{friendId}")
-    public void addFriend (
+    @PostMapping("/{playerId}/send-request/{friendId}")
+    public void sendFriendRequest(
             @PathVariable UUID playerId,
             @PathVariable UUID friendId) {
-        addFriendUseCase.addFriend(new PlayerId(playerId), new PlayerId(friendId));
+        sendFriendRequestUseCase.sendFriendRequest(new PlayerId(playerId), new PlayerId(friendId));
+    }
+
+    @PostMapping("/{playerId}/accept-request/{friendId}")
+    public void acceptFriendRequest(
+            @PathVariable UUID playerId,
+            @PathVariable UUID friendId) {
+        acceptFriendRequestUseCase.acceptFriendRequest(new PlayerId(playerId), new PlayerId(friendId));
     }
 }

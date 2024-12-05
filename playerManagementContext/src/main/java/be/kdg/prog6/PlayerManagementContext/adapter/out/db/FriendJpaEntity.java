@@ -20,6 +20,9 @@ public class FriendJpaEntity {
     @Column(name = "is_favorite")
     private boolean isFavorite;
 
+    @Column(name = "friend_request_status")
+    private String friendRequestStatus;
+
     @ManyToOne
     @JoinColumn(name = "player_id")
     private PlayerJpaEntity player;
@@ -27,27 +30,11 @@ public class FriendJpaEntity {
     public FriendJpaEntity() {
     }
 
-    public FriendJpaEntity(UUID playerId, boolean isFavorite) {
-        this.playerId = playerId;
-        this.isFavorite = isFavorite;
-    }
-
-    public FriendJpaEntity(UUID playerId, boolean isFavorite, PlayerJpaEntity player) {
-        this.playerId = playerId;
-        this.isFavorite = isFavorite;
-        this.player = player;
-    }
-
-    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite) {
+    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite, String friendRequestStatus, PlayerJpaEntity player) {
         this.playerId = playerId;
         this.name = name;
         this.isFavorite = isFavorite;
-    }
-
-    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite, PlayerJpaEntity player) {
-        this.playerId = playerId;
-        this.name = name;
-        this.isFavorite = isFavorite;
+        this.friendRequestStatus = friendRequestStatus;
         this.player = player;
     }
 
@@ -73,6 +60,14 @@ public class FriendJpaEntity {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public String getFriendRequestStatus() {
+        return friendRequestStatus;
+    }
+
+    public void setFriendRequestStatus(String accepted) {
+        friendRequestStatus = accepted;
     }
 
     public void setPlayerId(UUID friendId) {

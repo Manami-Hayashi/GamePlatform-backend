@@ -9,4 +9,6 @@ import java.util.UUID;
 @Repository
 public interface FriendJpaRepository extends JpaRepository<FriendJpaEntity, UUID> {
     List<FriendJpaEntity> findByPlayerId(UUID playerId);
+
+    FriendJpaEntity findByPlayerIdAndPlayer(UUID friendId, PlayerJpaEntity player);
 }

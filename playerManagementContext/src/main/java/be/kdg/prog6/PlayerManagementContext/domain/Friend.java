@@ -4,23 +4,27 @@ public class Friend {
     private final PlayerId friendId;
     private String name;
     private boolean isFavorite;
+    private FriendRequestStatus friendRequestStatus;
     private Player player;
 
     public Friend(PlayerId friendId, boolean isFavorite) {
         this.friendId = friendId;
         this.isFavorite = isFavorite;
+        this.friendRequestStatus = FriendRequestStatus.NONE;
     }
 
     public Friend(PlayerId friendId, String name, boolean isFavorite) {
         this.friendId = friendId;
         this.name = name;
         this.isFavorite = isFavorite;
+        this.friendRequestStatus = FriendRequestStatus.NONE;
     }
 
     public Friend(PlayerId friendId, String name) {
         this.friendId = friendId;
         this.name = name;
         this.isFavorite = false;
+        this.friendRequestStatus = FriendRequestStatus.NONE;
     }
 
     public Friend(PlayerId friendId, String name, boolean isFavorite, Player player) {
@@ -42,6 +46,12 @@ public class Friend {
         this.player = player;
     }
 
+    public Friend(PlayerId friendId, String name, FriendRequestStatus friendRequestStatus) {
+        this.friendId = friendId;
+        this.name = name;
+        this.friendRequestStatus = friendRequestStatus;
+    }
+
     public PlayerId getFriendId() {
         return friendId;
     }
@@ -60,6 +70,14 @@ public class Friend {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public FriendRequestStatus getFriendRequestStatus() {
+        return friendRequestStatus;
+    }
+
+    public void setFriendRequestStatus(FriendRequestStatus friendRequestStatus) {
+        this.friendRequestStatus = friendRequestStatus;
     }
 
     public Player getPlayer() {

@@ -1,17 +1,11 @@
 package be.kdg.prog6.PlayerManagementContext.adapter.in;
 
-import be.kdg.prog6.PlayerManagementContext.domain.Friend;
 import be.kdg.prog6.PlayerManagementContext.domain.Player;
-import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
-import be.kdg.prog6.PlayerManagementContext.port.in.AddFriendUseCase;
-import be.kdg.prog6.PlayerManagementContext.port.in.GetFriendsUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.in.GetPlayersUseCase;
-import be.kdg.prog6.PlayerManagementContext.port.in.ToggleFavoritePlayerUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/players")

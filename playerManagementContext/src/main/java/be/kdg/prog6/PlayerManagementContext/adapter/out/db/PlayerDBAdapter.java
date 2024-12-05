@@ -150,6 +150,7 @@ public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, Loa
                 friend.getFriendId().id(),
                 friend.getName(),
                 friend.isFavorite(),
+                friend.getFriendRequestStatus().toString(),
                 playerJpaEntity
         );
     }
