@@ -10,6 +10,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
+    implementation 'com.stripe:stripe-java:20.120.0' // Add this line
+
     runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.testcontainers:mysql:1.20.2'
 }

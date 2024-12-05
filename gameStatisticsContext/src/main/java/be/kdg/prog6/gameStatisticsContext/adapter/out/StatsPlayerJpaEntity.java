@@ -1,14 +1,11 @@
 package be.kdg.prog6.gameStatisticsContext.adapter.out;
 
-import be.kdg.prog6.gameStatisticsContext.domain.Gender;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
