@@ -3,6 +3,7 @@ package be.kdg.prog6.lobbyManagementContext.core;
 import be.kdg.prog6.lobbyManagementContext.domain.Lobby;
 import be.kdg.prog6.lobbyManagementContext.ports.in.CheckReadyStatusUseCase;
 import be.kdg.prog6.lobbyManagementContext.ports.out.LoadLobbyByPlayerIdPort;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -17,6 +18,7 @@ public class CheckReadyStatusUseCaseImpl implements CheckReadyStatusUseCase {
     }
 
     @Override
+    @Transactional
     public boolean checkReadyStatus(UUID playerId) {
         Lobby lobby = loadLobbyByPlayerIdPort.loadLobbyByPlayerId(playerId);
         return lobby != null && lobby.allPlayersReady();

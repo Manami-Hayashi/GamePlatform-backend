@@ -20,6 +20,11 @@ public class LobbyGameJpaEntity {
     @OneToMany(mappedBy = "game")
     private List<LobbyPlayerJpaEntity> players;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "player_id")
+    private LobbyPlayerJpaEntity player;
+
+
 
 
     public LobbyGameJpaEntity(UUID gameId, String name) {
@@ -62,5 +67,11 @@ public class LobbyGameJpaEntity {
         this.players = players;
     }
 
+    public LobbyPlayerJpaEntity getPlayer() {
+        return player;
+    }
 
+    public void setPlayer(LobbyPlayerJpaEntity player) {
+        this.player = player;
+    }
 }

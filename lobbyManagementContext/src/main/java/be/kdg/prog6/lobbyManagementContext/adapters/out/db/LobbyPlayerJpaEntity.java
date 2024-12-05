@@ -4,6 +4,7 @@ package be.kdg.prog6.lobbyManagementContext.adapters.out.db;
 import be.kdg.prog6.lobbyManagementContext.domain.PlayerId;
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,6 +27,9 @@ public class LobbyPlayerJpaEntity {
     @ManyToOne
     @JoinColumn(name = "game_id")
     private LobbyGameJpaEntity game;
+
+    @OneToMany(mappedBy = "player")
+    private List<LobbyGameJpaEntity> games;
 
     @Column(name = "ready")
     private Boolean ready = false; // Use Boolean instead of boolean

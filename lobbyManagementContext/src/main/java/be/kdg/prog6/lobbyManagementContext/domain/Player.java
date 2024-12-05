@@ -70,7 +70,7 @@ public class Player {
     }
 
     public boolean isOnline() {
-        return Instant.now().minusSeconds(300).isBefore(lastActive); // 5 minutes timeout
+        return Instant.now().minusSeconds(600).isBefore(lastActive); // 10 minutes timeout
     }
 
     public Instant getLastActive() {
