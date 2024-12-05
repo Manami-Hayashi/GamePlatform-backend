@@ -1,6 +1,7 @@
 package be.kdg.prog6.PlayerManagementContext.adapter.out.db;
 
 import be.kdg.prog6.PlayerManagementContext.domain.*;
+import be.kdg.prog6.PlayerManagementContext.port.out.LoadPlayersPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.PlayerCreatedPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.PlayerLoadedPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.UpdatePlayerPort;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 
 @Repository
-public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, UpdatePlayerPort {
+public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, LoadPlayersPort, UpdatePlayerPort {
 
     private static final Logger logger = LoggerFactory.getLogger(PlayerDBAdapter.class);
     private final PlayerJpaRepository playerJpaRepository;
@@ -56,6 +57,14 @@ public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, Upd
             throw new IllegalArgumentException("Player not found");
         }
         return toPlayer(playerJpaEntity);
+    }
+
+    @Override
+    public List<Player> loadPlayers() {
+        List<PlayerJpaEntity> playerJpaEntities = playerJpaRepository.findAll();
+        return playerJpaEntities.stream()
+                .map(this::toPlayer)
+                .toList();
     }
 
     @Override
@@ -127,17 +136,24 @@ public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, Upd
 
     private Friend toFriend(FriendJpaEntity friendJpaEntity) {
         return new Friend(
-                new PlayerId(friendJpaEntity.getPlayerId()),
+                new PlayerId(friendJpaEntity.getPlayer().getPlayerId()),
                 friendJpaEntity.isFavorite()
         );
     }
 
     private FriendJpaEntity toFriendJpaEntity(Friend friend) {
+        PlayerJpaEntity playerJpaEntity = new PlayerJpaEntity(
+                friend.getPlayer().getPlayerId().id(),
+                friend.getPlayer().getName()
+        );
         return new FriendJpaEntity(
                 friend.getFriendId().id(),
-                friend.isFavorite()
+                friend.getName(),
+                friend.isFavorite(),
+                playerJpaEntity
         );
     }
+
     private GameOwnedJpaEntity toGameOwnedJpaEntity(Game game) {
         return new GameOwnedJpaEntity(
                 game.getGameId().id(),

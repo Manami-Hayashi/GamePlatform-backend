@@ -14,6 +14,9 @@ public class FriendJpaEntity {
     @Column(name = "friend_player_id")
     private UUID playerId;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "is_favorite")
     private boolean isFavorite;
 
@@ -35,12 +38,33 @@ public class FriendJpaEntity {
         this.player = player;
     }
 
+    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite) {
+        this.playerId = playerId;
+        this.name = name;
+        this.isFavorite = isFavorite;
+    }
+
+    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite, PlayerJpaEntity player) {
+        this.playerId = playerId;
+        this.name = name;
+        this.isFavorite = isFavorite;
+        this.player = player;
+    }
+
     public int getId() {
         return id;
     }
 
     public UUID getPlayerId() {
         return playerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isFavorite() {
