@@ -1,7 +1,8 @@
 package be.kdg.prog6.chatbotContext.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
-import java.util.Map;
 
 public class ChatRequest {
     private String userInput;

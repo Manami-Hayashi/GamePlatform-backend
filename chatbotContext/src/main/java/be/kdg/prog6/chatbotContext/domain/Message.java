@@ -1,19 +1,19 @@
 package be.kdg.prog6.chatbotContext.domain;
 
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Message {
+    @JsonProperty("role")
     private String role;
+    @JsonProperty("content")
     private String content;
-    private LocalDateTime timestamp;
 
     public Message() {
     }
 
-    public Message(String role, String content, LocalDateTime timestamp) {
+    public Message(String role, String content) {
         this.role = role;
         this.content = content;
-        this.timestamp = timestamp;
     }
 
     public String getRole() {
@@ -32,11 +32,12 @@ public class Message {
         this.content = content;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    @Override
+    public String toString() {
+        return "Message{" +
+                "role='" + role + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
 }

@@ -24,7 +24,7 @@ public class ChatbotController {
 
     @PostMapping("/ask")
     public ResponseEntity<Map<String, String>> handleChat(@RequestBody ChatRequest payload) {
-        logger.info("Received payload: {}", payload);
+        logger.info("Raw request body: {}", payload);
 
         // Validate the request payload
         if (payload.getUserInput() == null || payload.getChatHistory() == null) {
