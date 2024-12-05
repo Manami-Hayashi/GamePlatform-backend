@@ -14,3 +14,102 @@ scope = openid
 > {%
     client.global.set("access_token", response.body.access_token);
 %}
+
+
+
+### Match players in a lobby if they are friends and dont have a match
+POST http://localhost:8090/api/lobby/match/friend
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120001",
+  "friendId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120002",
+  "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
+}
+
+
+### Match a player with a random player in a lobby
+POST http://localhost:8090/api/lobby/match/random
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120003",
+  "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
+}
+
+### Leave exiting lobby and create a new public lobby alone
+POST http://localhost:8090/api/lobby/match/random
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120003",
+  "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
+}
+
+
+### See if we can Match player 4 with either 3 or 7
+POST http://localhost:8090/api/lobby/match/random
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120004",
+  "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
+}
+
+### See if Player 8 will now join who ever is still free
+POST http://localhost:8090/api/lobby/match/random
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "playerId": "39b5b7d0-ab1e-11ef-9cd2-0242ac120008",
+  "gameId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
+}
+
+### Convert Game Name to ID
+POST http://localhost:8090/api/lobby/games/convert-name-to-id
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "gameName": "Checkers"
+}
+
+### Get Friends
+GET http://localhost:8090/api/lobby/friends
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+
+
+
+### Ready up player 1
+POST http://localhost:8090/api/ready-up
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "id": "49b5b7d0-ab1e-11ef-9cd2-0242ac120006"
+}
+
+### Ready up player 2
+POST http://localhost:8090/api/ready-up
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "id": "49b5b7d0-ab1e-11ef-9cd2-0242ac120005"
+}
+
+### Start game session
+POST http://localhost:8090/api/start-session
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "lobbyId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
+}
