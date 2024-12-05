@@ -7,4 +7,6 @@ include 'playerManagementContext'
 include 'lobbyManagementContext'
 include 'gameStatisticsContext'
 include 'storeContext'
+include 'chatbot'
+include 'chatbotContext'
 
