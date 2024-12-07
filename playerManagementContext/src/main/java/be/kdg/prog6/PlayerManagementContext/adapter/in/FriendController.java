@@ -5,7 +5,7 @@ import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 import be.kdg.prog6.PlayerManagementContext.port.in.AcceptFriendRequestUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.in.SendFriendRequestUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.in.ToggleFavoritePlayerUseCase;
-import be.kdg.prog6.PlayerManagementContext.port.in.GetFriendsUseCase;
+import be.kdg.prog6.PlayerManagementContext.port.in.ShowFriendsUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +15,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/friends")
 public class FriendController {
-    private final GetFriendsUseCase getFriendsUseCase;
+    private final ShowFriendsUseCase showFriendsUseCase;
     private final ToggleFavoritePlayerUseCase toggleFavoritePlayerUseCase;
     private final SendFriendRequestUseCase sendFriendRequestUseCase;
     private final AcceptFriendRequestUseCase acceptFriendRequestUseCase;
 
-    public FriendController(GetFriendsUseCase getFriendsUseCase, ToggleFavoritePlayerUseCase toggleFavoritePlayerUseCase, SendFriendRequestUseCase sendFriendRequestUseCase, AcceptFriendRequestUseCase acceptFriendRequestUseCase) {
-        this.getFriendsUseCase = getFriendsUseCase;
+    public FriendController(ShowFriendsUseCase showFriendsUseCase, ToggleFavoritePlayerUseCase toggleFavoritePlayerUseCase, SendFriendRequestUseCase sendFriendRequestUseCase, AcceptFriendRequestUseCase acceptFriendRequestUseCase) {
+        this.showFriendsUseCase = showFriendsUseCase;
         this.toggleFavoritePlayerUseCase = toggleFavoritePlayerUseCase;
         this.sendFriendRequestUseCase = sendFriendRequestUseCase;
         this.acceptFriendRequestUseCase = acceptFriendRequestUseCase;
@@ -29,7 +29,7 @@ public class FriendController {
 
     @GetMapping("/{playerId}")
     public ResponseEntity<List<FriendDto>> getFriends(@PathVariable UUID playerId) {
-        List<Friend> friends = getFriendsUseCase.getFriends(new PlayerId(playerId));
+        List<Friend> friends = showFriendsUseCase.getFriends(new PlayerId(playerId));
         List<FriendDto> friendDtos = friends.stream()
                 .map(friend -> new FriendDto(friend.getFriendId().id().toString(), friend.getName(), friend.isFavorite()))
                 .toList();

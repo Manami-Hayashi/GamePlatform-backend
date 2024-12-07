@@ -5,6 +5,6 @@ import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 
 import java.util.List;
 
-public interface GetFriendsUseCase {
+public interface ShowFriendsUseCase {
     List<Friend> getFriends(PlayerId playerId);
 }

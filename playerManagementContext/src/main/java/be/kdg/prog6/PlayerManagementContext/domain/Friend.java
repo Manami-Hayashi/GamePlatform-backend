@@ -27,10 +27,11 @@ public class Friend {
         this.friendRequestStatus = FriendRequestStatus.NONE;
     }
 
-    public Friend(PlayerId friendId, String name, boolean isFavorite, Player player) {
+    public Friend(PlayerId friendId, String name, FriendRequestStatus friendRequestStatus, Player player) {
         this.friendId = friendId;
         this.name = name;
-        this.isFavorite = isFavorite;
+        this.friendRequestStatus = friendRequestStatus;
+        this.isFavorite = false;
         this.player = player;
     }
 

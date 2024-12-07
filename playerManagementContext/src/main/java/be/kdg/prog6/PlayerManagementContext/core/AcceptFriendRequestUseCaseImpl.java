@@ -7,10 +7,13 @@ import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 import be.kdg.prog6.PlayerManagementContext.port.in.AcceptFriendRequestUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.out.PlayerLoadedPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.UpdateFriendPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AcceptFriendRequestUseCaseImpl implements AcceptFriendRequestUseCase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AcceptFriendRequestUseCaseImpl.class);
     private final PlayerLoadedPort playerLoadedPort;
     private final UpdateFriendPort updateFriendPort;
 
