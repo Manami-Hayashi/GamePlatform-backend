@@ -28,7 +28,7 @@ public class StartGameUseCaseImpl implements StartGameUseCase {
         this.updateGameSessionPort = updateGameSessionPort;
         this.checkAllPlayersReadyPort = checkAllPlayersReadyPort;
     }
-//yes
+
     @Override
     @Transactional
     public ReadyUpResponse readyUp(UUID lobbyId) {
