@@ -105,6 +105,11 @@ Content-Type: application/json
   "id": "49b5b7d0-ab1e-11ef-9cd2-0242ac120005"
 }
 
+### check ready status
+GET http://localhost:8090/api/ready-status/49b5b7d0-ab1e-11ef-9cd2-0242ac120006
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
 ### Start game session
 POST http://localhost:8090/api/start-session
 Authorization: Bearer {{access_token}}
@@ -113,3 +118,4 @@ Content-Type: application/json
 {
   "lobbyId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
 }
+
