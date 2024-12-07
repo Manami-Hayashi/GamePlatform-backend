@@ -116,6 +116,8 @@ public class RabbitMQTopology {
 
     public static final String GAME_PURCHASED_EXCHANGE = "game.purchased.exchange";
     public static final String GAME_PURCHASED_QUEUE = "game.purchased.queue";
+    public static  final String GAME_PURCHASED_QUEUE2 = "game.purhcased.queue2";
+
 
     @Bean
     public FanoutExchange gamePurchasedExchange() {
@@ -128,8 +130,18 @@ public class RabbitMQTopology {
     }
 
     @Bean
+    public Queue gamePurchasedQueue2(){
+        return new Queue(GAME_PURCHASED_QUEUE2);
+    }
+
+    @Bean
     public Binding gamePurchasedBinding(Queue gamePurchasedQueue, FanoutExchange gamePurchasedExchange) {
         return BindingBuilder.bind(gamePurchasedQueue).to(gamePurchasedExchange);
+    }
+
+    @Bean
+    public Binding gamePurchasedBinding2(Queue gamePurchasedQueue2, FanoutExchange gamePurchasedExchange) {
+        return BindingBuilder.bind(gamePurchasedQueue2).to(gamePurchasedExchange);
     }
 
 

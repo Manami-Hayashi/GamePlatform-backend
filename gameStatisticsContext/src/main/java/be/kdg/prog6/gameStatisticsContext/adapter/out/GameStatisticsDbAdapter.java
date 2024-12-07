@@ -5,6 +5,8 @@ import be.kdg.prog6.gameStatisticsContext.port.out.LoadAllGameStatisticsPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsByGameIdPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.UpdateGameStatisticsPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -14,6 +16,7 @@ import java.util.UUID;
 
 @Component
 public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, LoadGameStatisticsByGameIdPort, LoadAllGameStatisticsPort, UpdateGameStatisticsPort {
+    private static final Logger log = LoggerFactory.getLogger(GameStatisticsDbAdapter.class);
     private final GameStatisticsRepository gameStatisticsRepo;
 
     public GameStatisticsDbAdapter(GameStatisticsRepository gameStatisticsRepo) {
@@ -43,9 +46,17 @@ public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, LoadGame
 
     @Override
     public void updateGameStatistics(GameStatistics gameStatistics) {
+        // Check if the GameStatistics exists for the given player and game
         GameStatisticsJpaEntity gameStatisticsJpaEntity = gameStatisticsRepo
                 .findByPlayerIdAndGameId(gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id())
-                .orElseThrow(() -> new IllegalArgumentException("Game statistics not found"));
+                .orElseGet(() -> {
+                    // If not found, create a new GameStatisticsJpaEntity
+                    GameStatisticsJpaEntity newEntity = new GameStatisticsJpaEntity();
+                    newEntity.setPlayerId(gameStatistics.getPlayerId().id());
+                    newEntity.setGameId(gameStatistics.getGameId().id());
+                    return newEntity;
+                });
+
         gameStatisticsJpaEntity.setTotalScore(gameStatistics.getTotalScore());
         gameStatisticsJpaEntity.setTotalGamesPlayed(gameStatistics.getTotalGamesPlayed());
         gameStatisticsJpaEntity.setWins(gameStatistics.getWins());
@@ -57,6 +68,7 @@ public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, LoadGame
         gameStatisticsJpaEntity.setMovesMade(gameStatistics.getMovesMade());
         gameStatisticsJpaEntity.setAverageGameDuration(gameStatistics.getAverageGameDuration());
         gameStatisticsRepo.save(gameStatisticsJpaEntity);
+        log.info("GameStatistics updated for player {} and game {}", gameStatistics.getPlayerId(), gameStatistics.getGameId());
     }
 
     private GameStatistics toGameStatistics(GameStatisticsJpaEntity gameStatsEntity) {

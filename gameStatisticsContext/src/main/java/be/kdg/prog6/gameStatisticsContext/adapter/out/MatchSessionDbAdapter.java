@@ -4,6 +4,8 @@ import be.kdg.prog6.gameStatisticsContext.domain.*;
 import be.kdg.prog6.gameStatisticsContext.port.out.CreateMatchSessionPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.LoadMatchSessionsPort;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatchSessionPort {
+    private static final Logger log = LoggerFactory.getLogger(MatchSessionDbAdapter.class);
     private final MatchSessionRepository matchSessionRepo;
     private final GameStatisticsRepository gameStatisticsRepo;
 
@@ -36,7 +39,14 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
     @Transactional
     @Override
     public void createMatchSession(MatchSession matchSession) {
-        List<GameStatisticsJpaEntity> gameStatisticsJpaEntities = matchSession.getGameStatistics().stream()
+        // Check if gameStatistics is null or empty, and initialize it if necessary
+        List<GameStatistics> gameStatisticsList = matchSession.getGameStatistics();
+
+        if (gameStatisticsList == null || gameStatisticsList.isEmpty()) {
+            throw new IllegalArgumentException("Game statistics cannot be null or empty");
+        }
+
+        List<GameStatisticsJpaEntity> gameStatisticsJpaEntities = gameStatisticsList.stream()
                 .map(gameStatistics -> {
                     Optional<GameStatisticsJpaEntity> gameStatisticsJpaEntityOpt = gameStatisticsRepo.findByPlayerIdAndGameId(
                             gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id());
@@ -60,6 +70,7 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
                 matchSession.getMovesMadeP1(),
                 matchSession.getMovesMadeP2()
         );
+        log.info("Saving match session to database with id: {}", matchSession.getId());
         matchSessionRepo.save(matchSessionJpaEntity);
     }
 

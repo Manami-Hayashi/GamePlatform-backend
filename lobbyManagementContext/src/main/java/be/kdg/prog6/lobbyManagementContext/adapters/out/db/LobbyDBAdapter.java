@@ -11,7 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobbiesPort, LoadPlayerPort, UpdatePlayerPort, LobbyGameCreatedPort, LoadLobbyGamePort, LobbyPlayerCreatedPort, LoadAllPlayersPort, LoadLobbyGameByNamePort, LoadLobbyByPlayerIdPort, CheckAllPlayersReadyPort {
+public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobbiesPort, LoadPlayerPort, UpdatePlayerPort, LobbyGameCreatedPort, LoadLobbyGamePort, LobbyPlayerCreatedPort, LoadAllPlayersPort, LoadLobbyGameByNamePort, LoadLobbyByPlayerIdPort, CheckAllPlayersReadyPort, LobbyGamePurchasedPort {
     private final LobbyJpaRepository lobbyJpaRepository;
     private final LobbyPlayerJpaRepository lobbyPlayerJpaRepository;
     private final LobbyGameJpaRepository lobbyGameJpaRepository;
@@ -209,5 +209,18 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
         return lobbyJpaEntity.getPlayers().stream()
                 .filter(player -> player.getLobby().getLobbyId().equals(lobbyId))
                 .allMatch(LobbyPlayerJpaEntity::getReady);
+    }
+
+    @Override
+    public void purchaseLobbyGame(PlayerId playerId, Game game) {
+        LobbyPlayerJpaEntity playerJpaEntity = lobbyPlayerJpaRepository.findById(playerId.id())
+                .orElseThrow(() -> new IllegalArgumentException("Player not found"));
+
+        LobbyGameJpaEntity gameJpaEntity = new LobbyGameJpaEntity();
+        gameJpaEntity.setGameId(game.getGameId().id());
+        gameJpaEntity.setName(game.getGameName());
+        gameJpaEntity.setPlayer(playerJpaEntity);
+
+        lobbyGameJpaRepository.save(gameJpaEntity);
     }
 }
