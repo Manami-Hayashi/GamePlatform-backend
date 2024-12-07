@@ -20,7 +20,7 @@ public class PlayerJpaEntity{
     private List<GameOwnedJpaEntity> gamesOwned = new ArrayList<>();
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<FriendJpaEntity> friends = new ArrayList<>();
+    private List<FriendJpaEntity> friends;
 
     public PlayerJpaEntity() {
     }

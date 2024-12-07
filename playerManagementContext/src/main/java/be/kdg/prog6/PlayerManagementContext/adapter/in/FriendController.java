@@ -28,8 +28,8 @@ public class FriendController {
     }
 
     @GetMapping("/{playerId}")
-    public ResponseEntity<List<FriendDto>> getFriends(@PathVariable UUID playerId) {
-        List<Friend> friends = showFriendsUseCase.getFriends(new PlayerId(playerId));
+    public ResponseEntity<List<FriendDto>> getFriends(@PathVariable String playerId) {
+        List<Friend> friends = showFriendsUseCase.getFriends(new PlayerId(UUID.fromString(playerId)));
         List<FriendDto> friendDtos = friends.stream()
                 .map(friend -> new FriendDto(friend.getFriendId().id().toString(), friend.getName(), friend.isFavorite()))
                 .toList();
@@ -38,22 +38,22 @@ public class FriendController {
 
     @PostMapping("/{playerId}/toggle-favorite/{friendId}")
     public void toggleFavoritePlayer (
-            @PathVariable UUID playerId,
-            @PathVariable UUID friendId) {
-        toggleFavoritePlayerUseCase.toggleFavoritePlayer(new PlayerId(playerId), new PlayerId(friendId));
+            @PathVariable String playerId,
+            @PathVariable String friendId) {
+        toggleFavoritePlayerUseCase.toggleFavoritePlayer(new PlayerId(UUID.fromString(playerId)), new PlayerId(UUID.fromString(friendId)));
     }
 
     @PostMapping("/{playerId}/send-request/{friendId}")
     public void sendFriendRequest(
-            @PathVariable UUID playerId,
-            @PathVariable UUID friendId) {
-        sendFriendRequestUseCase.sendFriendRequest(new PlayerId(playerId), new PlayerId(friendId));
+            @PathVariable String playerId,
+            @PathVariable String friendId) {
+        sendFriendRequestUseCase.sendFriendRequest(new PlayerId(UUID.fromString(playerId)), new PlayerId(UUID.fromString(friendId)));
     }
 
     @PostMapping("/{playerId}/accept-request/{friendId}")
     public void acceptFriendRequest(
-            @PathVariable UUID playerId,
-            @PathVariable UUID friendId) {
-        acceptFriendRequestUseCase.acceptFriendRequest(new PlayerId(playerId), new PlayerId(friendId));
+            @PathVariable String playerId,
+            @PathVariable String friendId) {
+        acceptFriendRequestUseCase.acceptFriendRequest(new PlayerId(UUID.fromString(playerId)), new PlayerId(UUID.fromString(friendId)));
     }
 }

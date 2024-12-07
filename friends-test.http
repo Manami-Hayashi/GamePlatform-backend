@@ -15,6 +15,11 @@ scope = openid
     client.global.set("access_token", response.body.access_token);
 %}
 
+### Get players
+
+GET http://localhost:8090/api/players/155f3e06-bdd0-496c-919c-c3ee90dfe162
+Authorization: Bearer {{access_token}}
+
 
 ### Get friends
 

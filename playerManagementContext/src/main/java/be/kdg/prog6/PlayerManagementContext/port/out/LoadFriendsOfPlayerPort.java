@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 @FunctionalInterface
-public interface LoadFriendsPort {
-    List<Friend> loadFriends();
+public interface LoadFriendsOfPlayerPort {
+    List<Friend> loadFriendsOfPlayer(UUID playerId);
 }

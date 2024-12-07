@@ -53,6 +53,21 @@ public class Friend {
         this.friendRequestStatus = friendRequestStatus;
     }
 
+    public Friend(PlayerId friendId, String name, boolean isFavorite, FriendRequestStatus friendRequestStatus) {
+        this.friendId = friendId;
+        this.name = name;
+        this.isFavorite = isFavorite;
+        this.friendRequestStatus = friendRequestStatus;
+    }
+
+    public Friend(PlayerId friendId, String name, boolean isFavorite, FriendRequestStatus friendRequestStatus, Player player) {
+        this.friendId = friendId;
+        this.name = name;
+        this.isFavorite = isFavorite;
+        this.friendRequestStatus = friendRequestStatus;
+        this.player = player;
+    }
+
     public PlayerId getFriendId() {
         return friendId;
     }
