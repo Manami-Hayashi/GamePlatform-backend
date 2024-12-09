@@ -3,6 +3,8 @@ package be.kdg.prog6.lobbyManagementContext.adapters.out.db;
 
 import be.kdg.prog6.lobbyManagementContext.domain.*;
 import be.kdg.prog6.lobbyManagementContext.ports.out.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -17,6 +19,7 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
     private final LobbyJpaRepository lobbyJpaRepository;
     private final LobbyPlayerJpaRepository lobbyPlayerJpaRepository;
     private final LobbyGameJpaRepository lobbyGameJpaRepository;
+    private final Logger logger = LoggerFactory.getLogger(LobbyDBAdapter.class);
 
     public LobbyDBAdapter(LobbyJpaRepository lobbyJpaRepository, LobbyPlayerJpaRepository lobbyPlayerJpaRepository, LobbyGameJpaRepository lobbyGameJpaRepository) {
         this.lobbyJpaRepository = lobbyJpaRepository;
