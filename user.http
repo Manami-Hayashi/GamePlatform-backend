@@ -85,6 +85,10 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 
+### Get Lobby
+GET http://localhost:8090/api/lobby/get-lobby-id/49b5b7d0-ab1e-11ef-9cd2-0242ac120006
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
 
 
 ### Ready up player 1
@@ -118,4 +122,5 @@ Content-Type: application/json
 {
   "lobbyId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
 }
+
 

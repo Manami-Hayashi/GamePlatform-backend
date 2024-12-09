@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import java.util.Comparator;
+
 @Component
-public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobbiesPort, LoadPlayerPort, UpdatePlayerPort, LobbyGameCreatedPort, LoadLobbyGamePort, LobbyPlayerCreatedPort, LoadAllPlayersPort, LoadLobbyGameByNamePort, LoadLobbyByPlayerIdPort, CheckAllPlayersReadyPort, LobbyGamePurchasedPort {
+public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobbiesPort, LoadPlayerPort, UpdatePlayerPort, LobbyGameCreatedPort, LoadLobbyGamePort, LobbyPlayerCreatedPort, LoadAllPlayersPort, LoadLobbyGameByNamePort, LoadLobbyByPlayerIdPort, CheckAllPlayersReadyPort, LobbyGamePurchasedPort, LoadLatestLobbyPort{
     private final LobbyJpaRepository lobbyJpaRepository;
     private final LobbyPlayerJpaRepository lobbyPlayerJpaRepository;
     private final LobbyGameJpaRepository lobbyGameJpaRepository;
@@ -113,6 +115,7 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
     private LobbyJpaEntity toLobbyJpaEntity(Lobby lobby) {
         LobbyJpaEntity lobbyJpaEntity = new LobbyJpaEntity();
         lobbyJpaEntity.setLobbyId(lobby.getLobbyId());
+        lobbyJpaEntity.setCreationTime(Instant.now());
         lobbyJpaEntity.setPlayers(
                 lobby.getPlayerIds().stream()
                         .map(playerId -> toLobbyPlayerJpaEntity(playerId, lobbyJpaEntity))
@@ -222,5 +225,13 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
         gameJpaEntity.setPlayer(playerJpaEntity);
 
         lobbyGameJpaRepository.save(gameJpaEntity);
+    }
+
+    @Override
+    public Lobby loadLatestLobby() {
+        return lobbyJpaRepository.findAll().stream()
+                .max(Comparator.comparing(LobbyJpaEntity::getCreationTime))
+                .map(this::toLobby)
+                .orElse(null);
     }
 }

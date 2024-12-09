@@ -15,13 +15,15 @@ public class LobbyController {
     private final MatchWithFriendUseCase matchWithFriendUseCase;
     private final GetGameIdByNameUseCase getGameIdByNameUseCase;
     private final GetFriendsUseCase getFriendsUseCase;
+    private final GetLobbyIdUseCase getLobbyIdUseCase;
 
     @Autowired
-    public LobbyController(MatchWithRandomPlayerUseCase matchWithRandomPlayerUseCase, MatchWithFriendUseCase matchWithFriendUseCase, GetGameIdByNameUseCase getGameIdByNameUseCase, GetFriendsUseCase getFriendsUseCase) {
+    public LobbyController(MatchWithRandomPlayerUseCase matchWithRandomPlayerUseCase, MatchWithFriendUseCase matchWithFriendUseCase, GetGameIdByNameUseCase getGameIdByNameUseCase, GetFriendsUseCase getFriendsUseCase, GetLobbyIdUseCase getLobbyIdUseCase) {
         this.matchWithRandomPlayerUseCase = matchWithRandomPlayerUseCase;
         this.matchWithFriendUseCase = matchWithFriendUseCase;
         this.getGameIdByNameUseCase = getGameIdByNameUseCase;
         this.getFriendsUseCase = getFriendsUseCase;
+        this.getLobbyIdUseCase = getLobbyIdUseCase;
     }
 
     @PostMapping("/match/random")
@@ -44,6 +46,11 @@ public class LobbyController {
     @GetMapping("/friends")
     public List<Player> getFriends() {
         return getFriendsUseCase.getFriends();
+    }
+
+    @GetMapping("/get-lobby-id/{playerId}")
+    public UUID getLobbyId(@PathVariable UUID playerId) {
+        return getLobbyIdUseCase.getLobbyId(playerId);
     }
 
 
