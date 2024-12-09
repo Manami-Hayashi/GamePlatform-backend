@@ -17,7 +17,7 @@ scope = openid
 
 ### Get players
 
-GET http://localhost:8090/api/players/155f3e06-bdd0-496c-919c-c3ee90dfe162
+GET http://localhost:8090/api/players
 Authorization: Bearer {{access_token}}
 
 

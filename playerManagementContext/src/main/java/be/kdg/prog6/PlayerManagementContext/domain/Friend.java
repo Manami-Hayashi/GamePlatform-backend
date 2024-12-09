@@ -7,12 +7,6 @@ public class Friend {
     private FriendRequestStatus friendRequestStatus;
     private Player player;
 
-    public Friend(PlayerId friendId, boolean isFavorite) {
-        this.friendId = friendId;
-        this.isFavorite = isFavorite;
-        this.friendRequestStatus = FriendRequestStatus.NONE;
-    }
-
     public Friend(PlayerId friendId, String name, boolean isFavorite) {
         this.friendId = friendId;
         this.name = name;
@@ -30,27 +24,17 @@ public class Friend {
     public Friend(PlayerId friendId, String name, FriendRequestStatus friendRequestStatus, Player player) {
         this.friendId = friendId;
         this.name = name;
-        this.friendRequestStatus = friendRequestStatus;
         this.isFavorite = false;
+        this.friendRequestStatus = friendRequestStatus;
         this.player = player;
     }
 
-    public Friend(PlayerId friendId, String name, Player player) {
+    public Friend(PlayerId friendId, String name, boolean isFavorite, FriendRequestStatus friendRequestStatus, Player player) {
         this.friendId = friendId;
         this.name = name;
-        this.isFavorite = false;
-        this.player = player;
-    }
-
-    public Friend(PlayerId friendId, Player player) {
-        this.friendId = friendId;
-        this.player = player;
-    }
-
-    public Friend(PlayerId friendId, String name, FriendRequestStatus friendRequestStatus) {
-        this.friendId = friendId;
-        this.name = name;
+        this.isFavorite = isFavorite;
         this.friendRequestStatus = friendRequestStatus;
+        this.player = player;
     }
 
     public Friend(PlayerId friendId, String name, boolean isFavorite, FriendRequestStatus friendRequestStatus) {
@@ -60,12 +44,11 @@ public class Friend {
         this.friendRequestStatus = friendRequestStatus;
     }
 
-    public Friend(PlayerId friendId, String name, boolean isFavorite, FriendRequestStatus friendRequestStatus, Player player) {
+    public Friend(PlayerId friendId, String name, FriendRequestStatus friendRequestStatus) {
         this.friendId = friendId;
         this.name = name;
-        this.isFavorite = isFavorite;
+        this.isFavorite = false;
         this.friendRequestStatus = friendRequestStatus;
-        this.player = player;
     }
 
     public PlayerId getFriendId() {

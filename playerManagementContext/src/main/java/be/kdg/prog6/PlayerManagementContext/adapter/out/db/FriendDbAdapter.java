@@ -8,6 +8,7 @@ import be.kdg.prog6.PlayerManagementContext.port.out.CreateFriendPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.LoadFriendsOfPlayerPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.LoadFriendsPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.UpdateFriendPort;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,18 +26,24 @@ public class FriendDbAdapter implements LoadFriendsPort, LoadFriendsOfPlayerPort
         this.playerJpaRepository = playerJpaRepository;
     }
 
+    @Transactional
     @Override
     public List<Friend> loadFriends() {
+        if (friendJpaRepository.findAll().isEmpty()) {
+            return new ArrayList<>();
+        }
         List<FriendJpaEntity> friendJpaEntities = friendJpaRepository.findAll();
         return toFriends(friendJpaEntities);
     }
 
+    @Transactional
     @Override
     public List<Friend> loadFriendsOfPlayer(UUID playerId) {
         List<FriendJpaEntity> friendJpaEntities = friendJpaRepository.findByPlayerId(playerId);
         return toFriends(friendJpaEntities);
     }
 
+    @Transactional
     @Override
     public void updateFriend(Friend friend, UUID playerId) {
         Optional<PlayerJpaEntity> optionalPlayerJpaEntity = playerJpaRepository.findByPlayerId(playerId);
@@ -44,14 +51,15 @@ public class FriendDbAdapter implements LoadFriendsPort, LoadFriendsOfPlayerPort
             throw new IllegalArgumentException("Player not found");
         }
         PlayerJpaEntity playerJpaEntity = optionalPlayerJpaEntity.get();
-        FriendJpaEntity friendJpaEntity = friendJpaRepository.findByPlayerIdAndPlayer(friend.getFriendId().id(), playerJpaEntity);
+        FriendJpaEntity friendJpaEntity = friendJpaRepository.findByPlayerIdAndPlayers(friend.getFriendId().id(), List.of(playerJpaEntity));
         friendJpaEntity.setFavorite(friend.isFavorite());
         friendJpaRepository.save(friendJpaEntity);
     }
 
+    @Transactional
     @Override
     public void createFriend(Friend friend, Player player) {
-        PlayerJpaEntity playerJpaEntity = new PlayerJpaEntity(player.getPlayerId().id(), player.getName());
+        List<PlayerJpaEntity> playerJpaEntity = List.of(new PlayerJpaEntity(player.getPlayerId().id(), player.getName()));
         FriendJpaEntity friendJpaEntity = new FriendJpaEntity(
                 friend.getFriendId().id(),
                 friend.getName(),
@@ -59,21 +67,27 @@ public class FriendDbAdapter implements LoadFriendsPort, LoadFriendsOfPlayerPort
                 friend.getFriendRequestStatus().toString(),
                 playerJpaEntity
         );
-        friendJpaRepository.save(friendJpaEntity);
+        if (friendJpaEntity.getPlayerId() != null && friendJpaEntity.getName() != null && friendJpaEntity.getFriendRequestStatus() != null && friendJpaEntity.getPlayers() != null) {
+            friendJpaRepository.save(friendJpaEntity);
+        }
     }
 
     private List<Friend> toFriends(List<FriendJpaEntity> friendJpaEntities) {
         List<Friend> friends = new ArrayList<>();
         for (FriendJpaEntity friendJpaEntity : friendJpaEntities) {
-            Player player = new Player(new PlayerId(friendJpaEntity.getPlayer().getPlayerId()), friendJpaEntity.getPlayer().getName());
-            Friend friend = new Friend(
-                    new PlayerId(friendJpaEntity.getPlayerId()),
-                    friendJpaEntity.getName(),
-                    friendJpaEntity.isFavorite(),
-                    FriendRequestStatus.valueOf(friendJpaEntity.getFriendRequestStatus()),
-                    player
-            );
-            friends.add(friend);
+            try {
+                Player player = new Player(new PlayerId(friendJpaEntity.getPlayers().get(0).getPlayerId()), friendJpaEntity.getPlayers().get(0).getName());
+                Friend friend = new Friend(
+                        new PlayerId(friendJpaEntity.getPlayerId()),
+                        friendJpaEntity.getName(),
+                        friendJpaEntity.isFavorite(),
+                        FriendRequestStatus.valueOf(friendJpaEntity.getFriendRequestStatus()),
+                        player
+                );
+                friends.add(friend);
+            } catch (IndexOutOfBoundsException e) {
+                return new ArrayList<>();
+            }
         }
         return friends;
     }
