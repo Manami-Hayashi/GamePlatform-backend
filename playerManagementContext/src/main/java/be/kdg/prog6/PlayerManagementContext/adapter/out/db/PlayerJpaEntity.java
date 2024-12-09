@@ -19,14 +19,8 @@ public class PlayerJpaEntity{
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<GameOwnedJpaEntity> gamesOwned = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(
-            catalog = "player_management",
-            name = "player_friends",
-            joinColumns = @JoinColumn(name = "player_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id")
-    )
-    private List<FriendJpaEntity> friends = new ArrayList<>();
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<FriendJpaEntity> friends;
 
     public PlayerJpaEntity() {
     }
@@ -34,6 +28,12 @@ public class PlayerJpaEntity{
     public PlayerJpaEntity(UUID playerId, String name) {
         this.playerId = playerId;
         this.name = name;
+    }
+
+    public PlayerJpaEntity(UUID id, String name, List<FriendJpaEntity> friends) {
+        this.playerId = id;
+        this.name = name;
+        this.friends = friends;
     }
 
     // Constructor for Player entity
@@ -50,6 +50,10 @@ public class PlayerJpaEntity{
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<GameOwnedJpaEntity> getGameOwned() {return gamesOwned;}

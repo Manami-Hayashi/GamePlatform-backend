@@ -14,12 +14,10 @@ import org.springframework.stereotype.Service;
 public class SendFriendRequestUseCaseImpl implements SendFriendRequestUseCase {
     private final PlayerLoadedPort playerLoadedPort;
     private final UpdatePlayerPort updatePlayerPort;
-    private final CreateFriendPort createFriendPort;
 
-    public SendFriendRequestUseCaseImpl(PlayerLoadedPort playerLoadedPort, UpdatePlayerPort updatePlayerPort, CreateFriendPort createFriendPort) {
+    public SendFriendRequestUseCaseImpl(PlayerLoadedPort playerLoadedPort, UpdatePlayerPort updatePlayerPort) {
         this.playerLoadedPort = playerLoadedPort;
         this.updatePlayerPort = updatePlayerPort;
-        this.createFriendPort = createFriendPort;
     }
 
     @Override
@@ -28,12 +26,10 @@ public class SendFriendRequestUseCaseImpl implements SendFriendRequestUseCase {
         Player accepter = playerLoadedPort.loadPlayer(accepterId.id());
 
         Friend accepterFriend = new Friend(accepter.getPlayerId(), accepter.getName(), FriendRequestStatus.SENT);
-        //createFriendPort.createFriend(accepterFriend, sender);
         sender.addFriend(accepterFriend);
         updatePlayerPort.updatePlayer(sender);
 
         Friend senderFriend = new Friend(sender.getPlayerId(), sender.getName(), FriendRequestStatus.TO_RESPOND);
-        //createFriendPort.createFriend(senderFriend, accepter);
         accepter.addFriend(senderFriend);
         updatePlayerPort.updatePlayer(accepter);
     }

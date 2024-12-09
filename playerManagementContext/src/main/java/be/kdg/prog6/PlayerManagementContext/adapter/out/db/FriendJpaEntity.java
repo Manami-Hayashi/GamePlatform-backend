@@ -2,8 +2,6 @@ package be.kdg.prog6.PlayerManagementContext.adapter.out.db;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,18 +23,26 @@ public class FriendJpaEntity {
     @Column(name = "friend_request_status")
     private String friendRequestStatus;
 
-    @ManyToMany(mappedBy = "friends")
-    private List<PlayerJpaEntity> players = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "player_id")
+    private PlayerJpaEntity player;
 
     public FriendJpaEntity() {
     }
 
-    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite, String friendRequestStatus, List<PlayerJpaEntity> players) {
+    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite, String friendRequestStatus) {
         this.playerId = playerId;
         this.name = name;
         this.isFavorite = isFavorite;
         this.friendRequestStatus = friendRequestStatus;
-        this.players = players;
+    }
+
+    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite, String friendRequestStatus, PlayerJpaEntity player) {
+        this.playerId = playerId;
+        this.name = name;
+        this.isFavorite = isFavorite;
+        this.friendRequestStatus = friendRequestStatus;
+        this.player = player;
     }
 
     public int getId() {
@@ -75,11 +81,11 @@ public class FriendJpaEntity {
         this.playerId = friendId;
     }
 
-    public List<PlayerJpaEntity> getPlayers() {
-        return players;
+    public PlayerJpaEntity getPlayer() {
+        return player;
     }
 
-    public void setPlayers(List<PlayerJpaEntity> players) {
-        this.players = players;
+    public void setPlayer(PlayerJpaEntity player) {
+        this.player = player;
     }
 }

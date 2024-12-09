@@ -11,10 +11,7 @@ import be.kdg.prog6.PlayerManagementContext.port.out.UpdateFriendPort;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class FriendDbAdapter implements LoadFriendsPort, LoadFriendsOfPlayerPort, UpdateFriendPort, CreateFriendPort {
@@ -59,7 +56,7 @@ public class FriendDbAdapter implements LoadFriendsPort, LoadFriendsOfPlayerPort
     @Transactional
     @Override
     public void createFriend(Friend friend, Player player) {
-        List<PlayerJpaEntity> playerJpaEntity = List.of(new PlayerJpaEntity(player.getPlayerId().id(), player.getName()));
+        PlayerJpaEntity playerJpaEntity = new PlayerJpaEntity(player.getPlayerId().id(), player.getName());
         FriendJpaEntity friendJpaEntity = new FriendJpaEntity(
                 friend.getFriendId().id(),
                 friend.getName(),
@@ -67,8 +64,21 @@ public class FriendDbAdapter implements LoadFriendsPort, LoadFriendsOfPlayerPort
                 friend.getFriendRequestStatus().toString(),
                 playerJpaEntity
         );
-        if (friendJpaEntity.getPlayerId() != null && friendJpaEntity.getName() != null && friendJpaEntity.getFriendRequestStatus() != null && friendJpaEntity.getPlayers() != null) {
-            friendJpaRepository.save(friendJpaEntity);
+        if (friendJpaEntity.getPlayerId() != null && friendJpaEntity.getName() != null && friendJpaEntity.getFriendRequestStatus() != null && friendJpaEntity.getPlayer() != null) {
+            try {
+                FriendJpaEntity currentFriend1 = friendJpaRepository.findByPlayerId(friend.getFriendId().id()).get(0);
+                FriendJpaEntity currentFriend2 = friendJpaRepository.findByPlayerId(friend.getFriendId().id()).get(0);
+                assert currentFriend1 != null;
+                if ((friendJpaEntity.getPlayerId() != currentFriend1.getPlayerId()) && !Objects.equals(friendJpaEntity.getFriendRequestStatus(), currentFriend1.getFriendRequestStatus())) {
+                    friendJpaRepository.save(friendJpaEntity);
+                }
+                assert currentFriend2 != null;
+                if ((friendJpaEntity.getPlayerId() != currentFriend2.getPlayerId()) && !Objects.equals(friendJpaEntity.getFriendRequestStatus(), currentFriend2.getFriendRequestStatus())) {
+                    friendJpaRepository.save(friendJpaEntity);
+                }
+            } catch (Exception e) {
+                friendJpaRepository.save(friendJpaEntity);
+            }
         }
     }
 
@@ -76,7 +86,7 @@ public class FriendDbAdapter implements LoadFriendsPort, LoadFriendsOfPlayerPort
         List<Friend> friends = new ArrayList<>();
         for (FriendJpaEntity friendJpaEntity : friendJpaEntities) {
             try {
-                Player player = new Player(new PlayerId(friendJpaEntity.getPlayers().get(0).getPlayerId()), friendJpaEntity.getPlayers().get(0).getName());
+                Player player = new Player(new PlayerId(friendJpaEntity.getPlayer().getPlayerId()), friendJpaEntity.getPlayer().getName());
                 Friend friend = new Friend(
                         new PlayerId(friendJpaEntity.getPlayerId()),
                         friendJpaEntity.getName(),

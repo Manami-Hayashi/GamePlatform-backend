@@ -13,7 +13,7 @@ public class Player {
     private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
     private final PlayerId playerId;
     private String name;
-    private List<Friend> friends;
+    private List<Friend> friends = new ArrayList<>();
     private List<Game> gamesOwned = new ArrayList<>();
 
     public Player(PlayerId playerId, String name) {
@@ -21,9 +21,16 @@ public class Player {
         this.name = name;
     }
 
+    public Player(PlayerId playerId, String name, List<Friend> friends, List<Game> gamesOwned) {
+        this.playerId = playerId;
+        this.name = name;
+        this.friends = friends;
+        this.gamesOwned = gamesOwned;
+    }
+
     public void addFriend(Friend friend) {
         if (friends == null || !friends.getClass().getName().contains("Unmodifiable")) {
-            friends = new ArrayList<>();
+            return;
         }
         friends.add(friend);
     }

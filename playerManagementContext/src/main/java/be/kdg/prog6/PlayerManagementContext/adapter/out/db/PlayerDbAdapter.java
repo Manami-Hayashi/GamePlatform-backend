@@ -5,6 +5,7 @@ import be.kdg.prog6.PlayerManagementContext.port.out.LoadPlayersPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.PlayerCreatedPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.PlayerLoadedPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.UpdatePlayerPort;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +17,12 @@ import java.util.UUID;
 
 
 @Repository
-public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, LoadPlayersPort, UpdatePlayerPort {
+public class PlayerDbAdapter implements PlayerCreatedPort, PlayerLoadedPort, LoadPlayersPort, UpdatePlayerPort {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerDBAdapter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerDbAdapter.class);
     private final PlayerJpaRepository playerJpaRepository;
 
-    public PlayerDBAdapter(PlayerJpaRepository playerJpaRepository) {
+    public PlayerDbAdapter(PlayerJpaRepository playerJpaRepository) {
         this.playerJpaRepository = playerJpaRepository;
     }
 
@@ -73,34 +74,34 @@ public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, Loa
     @Transactional
     @Override
     public void updatePlayer(Player player) {
-        // Convert domain objects to JPA entities
-        List<FriendJpaEntity> friendJpaEntities = player.getFriends()
+        // Retrieve the existing player JPA entity
+        PlayerJpaEntity existingJpaEntity = playerJpaRepository.findById(player.getPlayerId().id())
+                .orElseThrow(() -> new EntityNotFoundException("Player not found with ID: " + player.getPlayerId().id()));
+
+        // Update basic fields
+        existingJpaEntity.setName(player.getName());
+
+        // Convert domain objects to JPA entities for friends
+        List<FriendJpaEntity> updatedFriends = player.getFriends()
                 .stream()
                 .map(this::toFriendJpaEntity)
                 .toList();
 
-        List<GameOwnedJpaEntity> gameOwnedJpaEntities = player.getGamesOwned()
+        // Convert domain objects to JPA entities for games
+        List<GameOwnedJpaEntity> updatedGames = player.getGamesOwned()
                 .stream()
                 .map(this::toGameOwnedJpaEntity)
                 .toList();
 
-        // Create a JPA entity with updated data
-        PlayerJpaEntity jpaEntity = new PlayerJpaEntity(
-                player.getPlayerId().id(),
-                player.getName(),
-                friendJpaEntities,
-                gameOwnedJpaEntities
-        );
-        LOGGER.info("Friends: {}", player.getFriends());
-        LOGGER.info("Games: {}", player.getGamesOwned());
+        LOGGER.info("Updated Friends: {}", updatedFriends);
+        LOGGER.info("Updated Games: {}", updatedGames);
 
-        // Set relationships for child entities
-        friendJpaEntities.forEach(friend -> friend.setPlayers(List.of(jpaEntity)));
-        gameOwnedJpaEntities.forEach(game -> game.setPlayer(jpaEntity));
+        existingJpaEntity.setFriends(updatedFriends);
+        existingJpaEntity.setGamesOwned(updatedGames);
 
         // Save the updated player
-        LOGGER.info("saving player with id {}", player.getPlayerId().id());
-        playerJpaRepository.save(jpaEntity);
+        LOGGER.info("Saving player with ID {}", player.getPlayerId().id());
+        playerJpaRepository.save(existingJpaEntity);
     }
 
     // Method to map PlayerJpaEntity to Player domain object
@@ -130,7 +131,7 @@ public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, Loa
 
     private Friend toFriend(FriendJpaEntity friendJpaEntity) {
         return new Friend(
-                new PlayerId(friendJpaEntity.getPlayers().get(1).getPlayerId()),
+                new PlayerId(friendJpaEntity.getPlayer().getPlayerId()),
                 friendJpaEntity.getName(),
                 friendJpaEntity.isFavorite(),
                 FriendRequestStatus.valueOf(friendJpaEntity.getFriendRequestStatus())
@@ -138,16 +139,11 @@ public class PlayerDBAdapter implements PlayerCreatedPort, PlayerLoadedPort, Loa
     }
 
     private FriendJpaEntity toFriendJpaEntity(Friend friend) {
-        List<PlayerJpaEntity> playerJpaEntity = List.of(new PlayerJpaEntity(
-                friend.getPlayer().getPlayerId().id(),
-                friend.getPlayer().getName()
-        ));
         return new FriendJpaEntity(
                 friend.getFriendId().id(),
                 friend.getName(),
                 friend.isFavorite(),
-                friend.getFriendRequestStatus().toString(),
-                playerJpaEntity
+                friend.getFriendRequestStatus().toString()
         );
     }
 
