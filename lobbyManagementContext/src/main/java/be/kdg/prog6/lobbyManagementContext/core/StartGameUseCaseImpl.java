@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-// StartGameUseCaseImpl.java
 @Service
 public class StartGameUseCaseImpl implements StartGameUseCase {
     private static final Logger logger = LoggerFactory.getLogger(StartGameUseCaseImpl.class);
@@ -34,6 +33,11 @@ public class StartGameUseCaseImpl implements StartGameUseCase {
     @Transactional
     public ReadyUpResponse readyUp(UUID lobbyId) {
         Lobby lobby = loadLobbyPort.loadLobby(lobbyId);
+
+        if (lobby == null) {
+            logger.error("Lobby not found for lobby ID: {}", lobbyId);
+            throw new GameSessionNotReadyException("Lobby not found.");
+        }
 
         if (!lobby.isFull()) {
             logger.error("Lobby is not full for lobby ID: {}", lobbyId);
