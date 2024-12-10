@@ -97,7 +97,7 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "id": "49b5b7d0-ab1e-11ef-9cd2-0242ac120006"
+  "id": "a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634"
 }
 
 ### Ready up player 2
@@ -106,11 +106,11 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "id": "49b5b7d0-ab1e-11ef-9cd2-0242ac120005"
+  "id": "b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d"
 }
 
 ### check ready status
-GET http://localhost:8090/api/ready-status/49b5b7d0-ab1e-11ef-9cd2-0242ac120006
+GET http://localhost:8090/api/ready-status/b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
