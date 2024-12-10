@@ -2,8 +2,6 @@ package be.kdg.prog6.PlayerManagementContext.adapter.out.db;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(catalog="player_management", name="friends")
 public class FriendJpaEntity {
@@ -11,62 +9,33 @@ public class FriendJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "friend_player_id")
-    private UUID playerId;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "is_favorite")
-    private boolean isFavorite;
-
     @Column(name = "friend_request_status")
     private String friendRequestStatus;
 
     @ManyToOne
-    @JoinColumn(name = "player_id")
-    private PlayerJpaEntity player;
+    @JoinColumn(name = "requester", nullable = false)
+    private PlayerJpaEntity requester;
+
+    // The player who received the request
+    @ManyToOne
+    @JoinColumn(name = "receiver", nullable = false)
+    private PlayerJpaEntity receiver;
 
     public FriendJpaEntity() {
     }
 
-    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite, String friendRequestStatus) {
-        this.playerId = playerId;
-        this.name = name;
-        this.isFavorite = isFavorite;
+    public FriendJpaEntity(String friendRequestStatus) {
         this.friendRequestStatus = friendRequestStatus;
     }
 
-    public FriendJpaEntity(UUID playerId, String name, boolean isFavorite, String friendRequestStatus, PlayerJpaEntity player) {
-        this.playerId = playerId;
-        this.name = name;
-        this.isFavorite = isFavorite;
+    public FriendJpaEntity(String friendRequestStatus, PlayerJpaEntity requester, PlayerJpaEntity receiver) {
         this.friendRequestStatus = friendRequestStatus;
-        this.player = player;
+        this.requester = requester;
+        this.receiver = receiver;
     }
 
     public int getId() {
         return id;
-    }
-
-    public UUID getPlayerId() {
-        return playerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
     }
 
     public String getFriendRequestStatus() {
@@ -77,15 +46,19 @@ public class FriendJpaEntity {
         friendRequestStatus = accepted;
     }
 
-    public void setPlayerId(UUID friendId) {
-        this.playerId = friendId;
+    public PlayerJpaEntity getRequester() {
+        return requester;
     }
 
-    public PlayerJpaEntity getPlayer() {
-        return player;
+    public PlayerJpaEntity getReceiver() {
+        return receiver;
     }
 
-    public void setPlayer(PlayerJpaEntity player) {
-        this.player = player;
+    public void setRequester(PlayerJpaEntity requester) {
+        this.requester = requester;
+    }
+
+    public void setReceiver(PlayerJpaEntity receiver) {
+        this.receiver = receiver;
     }
 }

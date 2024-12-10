@@ -16,11 +16,14 @@ public class PlayerJpaEntity{
     @Column(name="name")
     private String name;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<GameOwnedJpaEntity> gamesOwned = new ArrayList<>();
+    @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendJpaEntity> friendsInitiated = new ArrayList<>();
+
+    @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendJpaEntity> friendsReceived = new ArrayList<>();
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<FriendJpaEntity> friends;
+    private List<GameOwnedJpaEntity> gamesOwned = new ArrayList<>();
 
     public PlayerJpaEntity() {
     }
@@ -30,18 +33,17 @@ public class PlayerJpaEntity{
         this.name = name;
     }
 
-    public PlayerJpaEntity(UUID id, String name, List<FriendJpaEntity> friends) {
-        this.playerId = id;
-        this.name = name;
-        this.friends = friends;
-    }
-
-    // Constructor for Player entity
-    public PlayerJpaEntity(UUID playerId, String name, List<FriendJpaEntity> friends, List<GameOwnedJpaEntity> gamesOwned) {
+    public PlayerJpaEntity(UUID playerId, String name, List<FriendJpaEntity> friends) {
         this.playerId = playerId;
         this.name = name;
-        this.friends = friends;
-        this.gamesOwned = gamesOwned;
+        this.friendsInitiated = friends;
+    }
+
+    public PlayerJpaEntity(UUID playerId, String name, List<FriendJpaEntity> friendsInitiated, List<FriendJpaEntity> friendsReceived) {
+        this.playerId = playerId;
+        this.name = name;
+        this.friendsInitiated = friendsInitiated;
+        this.friendsReceived = friendsReceived;
     }
 
     public UUID getPlayerId() {
@@ -56,18 +58,26 @@ public class PlayerJpaEntity{
         this.name = name;
     }
 
+    public List<FriendJpaEntity> getFriendsInitiated() {
+        return friendsInitiated;
+    }
+
+    public void setFriendsInitiated(List<FriendJpaEntity> friendsInitiated) {
+        this.friendsInitiated = friendsInitiated != null ? friendsInitiated : new ArrayList<>();
+    }
+
+    public List<FriendJpaEntity> getFriendsReceived() {
+        return friendsReceived;
+    }
+
+    public void setFriendsReceived(List<FriendJpaEntity> friendsReceived) {
+        this.friendsReceived = friendsReceived != null ? friendsReceived : new ArrayList<>();
+    }
+
     public List<GameOwnedJpaEntity> getGameOwned() {return gamesOwned;}
 
     public void setGamesOwned(List<GameOwnedJpaEntity> gameOwned) {
         this.gamesOwned = gameOwned != null ? gameOwned : new ArrayList<>();
-    }
-
-    public List<FriendJpaEntity> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<FriendJpaEntity> friends) {
-        this.friends = friends != null ? friends : new ArrayList<>();
     }
 
     // Method to add a favorite game (optional)

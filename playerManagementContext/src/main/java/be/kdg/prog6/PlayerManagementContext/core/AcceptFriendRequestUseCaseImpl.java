@@ -1,12 +1,11 @@
 package be.kdg.prog6.PlayerManagementContext.core;
 
-import be.kdg.prog6.PlayerManagementContext.domain.Friend;
-import be.kdg.prog6.PlayerManagementContext.domain.FriendRequestStatus;
 import be.kdg.prog6.PlayerManagementContext.domain.Player;
 import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 import be.kdg.prog6.PlayerManagementContext.port.in.AcceptFriendRequestUseCase;
-import be.kdg.prog6.PlayerManagementContext.port.out.PlayerLoadedPort;
-import be.kdg.prog6.PlayerManagementContext.port.out.UpdateFriendPort;
+import be.kdg.prog6.PlayerManagementContext.port.out.LoadPlayerPort;
+
+import be.kdg.prog6.PlayerManagementContext.port.out.UpdatePlayerPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,31 +13,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class AcceptFriendRequestUseCaseImpl implements AcceptFriendRequestUseCase {
     private static final Logger LOGGER = LoggerFactory.getLogger(AcceptFriendRequestUseCaseImpl.class);
-    private final PlayerLoadedPort playerLoadedPort;
-    private final UpdateFriendPort updateFriendPort;
+    private final LoadPlayerPort loadPlayerPort;
+    private final UpdatePlayerPort updatePlayerPort;
 
-    public AcceptFriendRequestUseCaseImpl(PlayerLoadedPort playerLoadedPort, UpdateFriendPort updateFriendPort) {
-        this.playerLoadedPort = playerLoadedPort;
-        this.updateFriendPort = updateFriendPort;
+    public AcceptFriendRequestUseCaseImpl(LoadPlayerPort loadPlayerPort, UpdatePlayerPort updatePlayerPort) {
+        this.loadPlayerPort = loadPlayerPort;
+        this.updatePlayerPort = updatePlayerPort;
     }
 
     @Override
     public void acceptFriendRequest(PlayerId senderId, PlayerId accepterId) {
-        Player sender = playerLoadedPort.loadPlayer(senderId.id());
-        Player accepter = playerLoadedPort.loadPlayer(accepterId.id());
+        Player sender = loadPlayerPort.loadPlayer(senderId.id());
+        Player accepter = loadPlayerPort.loadPlayer(accepterId.id());
 
-        Friend senderFriend = sender.getFriends().stream()
-                .filter(friend -> friend.getFriendId().equals(senderId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Friend not found"));
-        senderFriend.setFriendRequestStatus(FriendRequestStatus.ACCEPTED);
-        updateFriendPort.updateFriend(senderFriend, accepterId.id());
+        // ...
 
-        Friend accepterFriend = accepter.getFriends().stream()
-                .filter(friend -> friend.getFriendId().equals(accepterId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Friend not found"));
-        accepterFriend.setFriendRequestStatus(FriendRequestStatus.ACCEPTED);
-        updateFriendPort.updateFriend(accepterFriend, senderId.id());
+        updatePlayerPort.updatePlayer(sender);
+        updatePlayerPort.updatePlayer(accepter);
     }
 }

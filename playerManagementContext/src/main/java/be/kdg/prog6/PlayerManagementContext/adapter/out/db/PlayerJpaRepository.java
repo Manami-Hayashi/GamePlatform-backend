@@ -12,8 +12,6 @@ import java.util.UUID;
 
 @Repository
 public interface PlayerJpaRepository extends JpaRepository<PlayerJpaEntity, UUID> {
-    PlayerJpaEntity findByName(String name);
-
     Optional<PlayerJpaEntity> findByPlayerId(UUID playerId);
 
     @Query("SELECT p FROM PlayerJpaEntity p JOIN FETCH p.gamesOwned WHERE p.playerId = :playerId")

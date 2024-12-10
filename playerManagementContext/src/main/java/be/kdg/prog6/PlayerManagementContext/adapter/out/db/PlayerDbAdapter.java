@@ -2,10 +2,9 @@ package be.kdg.prog6.PlayerManagementContext.adapter.out.db;
 
 import be.kdg.prog6.PlayerManagementContext.domain.*;
 import be.kdg.prog6.PlayerManagementContext.port.out.LoadPlayersPort;
-import be.kdg.prog6.PlayerManagementContext.port.out.PlayerCreatedPort;
-import be.kdg.prog6.PlayerManagementContext.port.out.PlayerLoadedPort;
+import be.kdg.prog6.PlayerManagementContext.port.out.CreatePlayerPort;
+import be.kdg.prog6.PlayerManagementContext.port.out.LoadPlayerPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.UpdatePlayerPort;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ import java.util.UUID;
 
 
 @Repository
-public class PlayerDbAdapter implements PlayerCreatedPort, PlayerLoadedPort, LoadPlayersPort, UpdatePlayerPort {
+public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPlayersPort, UpdatePlayerPort {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerDbAdapter.class);
     private final PlayerJpaRepository playerJpaRepository;
@@ -42,23 +41,10 @@ public class PlayerDbAdapter implements PlayerCreatedPort, PlayerLoadedPort, Loa
 
     @Transactional
     @Override
-    public Player loadPlayerByName(String name) {
-        // Find the player by name (assuming this method exists in the repository)
-        PlayerJpaEntity playerJpaEntity = playerJpaRepository.findByName(name);
-
-        // Convert the PlayerJpaEntity to Player domain object
-        return toPlayer(playerJpaEntity);
-    }
-
-    @Transactional
-    @Override
     public Player loadPlayer(UUID playerId) {
-        // Find the player by id (assuming this method exists in the repository)
-        PlayerJpaEntity playerJpaEntity = playerJpaRepository.findByPlayerId(playerId).orElse(null);
-        LOGGER.info("loading player with id {}", playerId);
-        if (playerJpaEntity == null) {
-            throw new IllegalArgumentException("Player not found");
-        }
+        PlayerJpaEntity playerJpaEntity = playerJpaRepository.findByPlayerId(playerId)
+                .orElseThrow(() -> new IllegalArgumentException("Player not found"));
+
         return toPlayer(playerJpaEntity);
     }
 
@@ -74,34 +60,28 @@ public class PlayerDbAdapter implements PlayerCreatedPort, PlayerLoadedPort, Loa
     @Transactional
     @Override
     public void updatePlayer(Player player) {
-        // Retrieve the existing player JPA entity
-        PlayerJpaEntity existingJpaEntity = playerJpaRepository.findById(player.getPlayerId().id())
-                .orElseThrow(() -> new EntityNotFoundException("Player not found with ID: " + player.getPlayerId().id()));
+        LOGGER.info("Updating player with ID: {}", player.getPlayerId().id());
 
-        // Update basic fields
-        existingJpaEntity.setName(player.getName());
+        // Fetch existing player entity
+        PlayerJpaEntity existingEntity = playerJpaRepository.findByPlayerId(player.getPlayerId().id())
+                .orElseThrow(() -> new IllegalArgumentException("Player not found"));
 
-        // Convert domain objects to JPA entities for friends
-        List<FriendJpaEntity> updatedFriends = player.getFriends()
-                .stream()
-                .map(this::toFriendJpaEntity)
-                .toList();
+        // Update fields
+        existingEntity.setName(player.getName());
 
-        // Convert domain objects to JPA entities for games
-        List<GameOwnedJpaEntity> updatedGames = player.getGamesOwned()
-                .stream()
+        // Map and update games
+        List<GameOwnedJpaEntity> updatedGames = player.getGamesOwned().stream()
                 .map(this::toGameOwnedJpaEntity)
                 .toList();
+        updatedGames.forEach(game -> game.setPlayer(existingEntity));
 
-        LOGGER.info("Updated Friends: {}", updatedFriends);
-        LOGGER.info("Updated Games: {}", updatedGames);
+        if (player.getGamesOwned() == null) {
+            player.setGamesOwned(new ArrayList<>());
+        }
 
-        existingJpaEntity.setFriends(updatedFriends);
-        existingJpaEntity.setGamesOwned(updatedGames);
-
-        // Save the updated player
-        LOGGER.info("Saving player with ID {}", player.getPlayerId().id());
-        playerJpaRepository.save(existingJpaEntity);
+        // Persist updated player
+        playerJpaRepository.save(existingEntity);
+        LOGGER.info("Successfully updated player with ID: {}", player.getPlayerId().id());
     }
 
     // Method to map PlayerJpaEntity to Player domain object
@@ -120,29 +100,18 @@ public class PlayerDbAdapter implements PlayerCreatedPort, PlayerLoadedPort, Loa
                 : new ArrayList<>();
         player.setGamesOwned(games);
 
-        List<Friend> friends = playerJpaEntity.getFriends() != null
-                ? playerJpaEntity.getFriends().stream().map(this::toFriend).toList()
-                : new ArrayList<>();
-        player.setFriends(friends);
-
         return player;
     }
 
 
     private Friend toFriend(FriendJpaEntity friendJpaEntity) {
         return new Friend(
-                new PlayerId(friendJpaEntity.getPlayer().getPlayerId()),
-                friendJpaEntity.getName(),
-                friendJpaEntity.isFavorite(),
                 FriendRequestStatus.valueOf(friendJpaEntity.getFriendRequestStatus())
         );
     }
 
     private FriendJpaEntity toFriendJpaEntity(Friend friend) {
         return new FriendJpaEntity(
-                friend.getFriendId().id(),
-                friend.getName(),
-                friend.isFavorite(),
                 friend.getFriendRequestStatus().toString()
         );
     }

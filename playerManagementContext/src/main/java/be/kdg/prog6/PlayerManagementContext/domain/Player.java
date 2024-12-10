@@ -13,7 +13,8 @@ public class Player {
     private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
     private final PlayerId playerId;
     private String name;
-    private List<Friend> friends = new ArrayList<>();
+    private List<Friend> friendsInitiated;
+    private List<Friend> friendsReceived;
     private List<Game> gamesOwned = new ArrayList<>();
 
     public Player(PlayerId playerId, String name) {
@@ -21,32 +22,12 @@ public class Player {
         this.name = name;
     }
 
-    public Player(PlayerId playerId, String name, List<Friend> friends, List<Game> gamesOwned) {
+    public Player(PlayerId playerId, String name, List<Friend> friendsInitiated, List<Friend> friendsReceived, List<Game> gamesOwned) {
         this.playerId = playerId;
         this.name = name;
-        this.friends = friends;
+        this.friendsInitiated = friendsInitiated;
+        this.friendsReceived = friendsReceived;
         this.gamesOwned = gamesOwned;
-    }
-
-    public void addFriend(Friend friend) {
-        if (friends == null || !friends.getClass().getName().contains("Unmodifiable")) {
-            return;
-        }
-        friends.add(friend);
-    }
-
-    public void removeFriend(Friend friend) {
-        friends.remove(friend);
-    }
-
-    public void toggleFavoriteFriend(Friend friend) {
-        for (Friend f : friends) {
-            if (f.equals(friend)) {
-                f.setFavorite(!f.isFavorite());
-                return;
-            }
-        }
-        throw new IllegalArgumentException("Friend not found in the list.");
     }
 
     public void toggleFavoriteGame(Game game) {
@@ -75,15 +56,44 @@ public class Player {
 
     public void setName(String name) {this.name = name;}
 
-    public List<Friend> getFriends() {
-        return this.friends != null ? friends : new ArrayList<>();
+    public List<Friend> getFriendsInitiated() {return friendsInitiated;}
+
+    public void setFriendsInitiated(List<Friend> friendsInitiated) {
+        this.friendsInitiated = friendsInitiated != null ? friendsInitiated : new ArrayList<>();
     }
 
-    public void setFriends(List<Friend> friends) {this.friends = friends;}
+    public List<Friend> getFriendsReceived() {return friendsReceived;}
+
+    public void setFriendsReceived(List<Friend> friendsReceived) {
+        this.friendsReceived = friendsReceived != null ? friendsReceived : new ArrayList<>();
+    }
+
+    public void addFriendInitiated(Friend friend) {
+        friendsInitiated.add(friend);
+    }
+
+    public void addFriendReceived(Friend friend) {
+        friendsReceived.add(friend);
+    }
 
     public List<Game> getGamesOwned() {return gamesOwned;}
 
     public void setGamesOwned(List<Game> gamesOwned) {
         this.gamesOwned = gamesOwned != null ? gamesOwned : new ArrayList<>();
+    }
+
+    public List<Friend> getFriends(){
+        List<Friend> friends = new ArrayList<>();
+        for (Friend friend : friendsInitiated) {
+            if (friend.getFriendRequestStatus().equals(FriendRequestStatus.ACCEPTED)) {
+                friends.add(friend);
+            }
+        }
+        for (Friend friend : friendsReceived) {
+            if (friend.getFriendRequestStatus().equals(FriendRequestStatus.ACCEPTED)) {
+                friends.add(friend);
+            }
+        }
+        return friends;
     }
 }

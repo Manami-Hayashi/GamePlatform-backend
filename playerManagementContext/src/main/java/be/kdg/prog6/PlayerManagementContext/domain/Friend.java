@@ -1,74 +1,38 @@
 package be.kdg.prog6.PlayerManagementContext.domain;
 
 public class Friend {
-    private final PlayerId friendId;
-    private String name;
-    private boolean isFavorite;
+    private Player player1;
+    private Player player2;
     private FriendRequestStatus friendRequestStatus;
-    private Player player;
 
-    public Friend(PlayerId friendId, String name, boolean isFavorite) {
-        this.friendId = friendId;
-        this.name = name;
-        this.isFavorite = isFavorite;
+    public Friend() {
         this.friendRequestStatus = FriendRequestStatus.NONE;
     }
 
-    public Friend(PlayerId friendId, String name) {
-        this.friendId = friendId;
-        this.name = name;
-        this.isFavorite = false;
+    public Friend(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
         this.friendRequestStatus = FriendRequestStatus.NONE;
     }
 
-    public Friend(PlayerId friendId, String name, FriendRequestStatus friendRequestStatus, Player player) {
-        this.friendId = friendId;
-        this.name = name;
-        this.isFavorite = false;
-        this.friendRequestStatus = friendRequestStatus;
-        this.player = player;
-    }
-
-    public Friend(PlayerId friendId, String name, boolean isFavorite, FriendRequestStatus friendRequestStatus, Player player) {
-        this.friendId = friendId;
-        this.name = name;
-        this.isFavorite = isFavorite;
-        this.friendRequestStatus = friendRequestStatus;
-        this.player = player;
-    }
-
-    public Friend(PlayerId friendId, String name, boolean isFavorite, FriendRequestStatus friendRequestStatus) {
-        this.friendId = friendId;
-        this.name = name;
-        this.isFavorite = isFavorite;
+    public Friend(FriendRequestStatus friendRequestStatus) {
         this.friendRequestStatus = friendRequestStatus;
     }
 
-    public Friend(PlayerId friendId, String name, FriendRequestStatus friendRequestStatus) {
-        this.friendId = friendId;
-        this.name = name;
-        this.isFavorite = false;
-        this.friendRequestStatus = friendRequestStatus;
+    public Player getPlayer1() {
+        return player1;
     }
 
-    public PlayerId getFriendId() {
-        return friendId;
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
     }
 
-    public String getName() {
-        return name;
+    public Player getPlayer2() {
+        return player2;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
     }
 
     public FriendRequestStatus getFriendRequestStatus() {
@@ -77,13 +41,5 @@ public class Friend {
 
     public void setFriendRequestStatus(FriendRequestStatus friendRequestStatus) {
         this.friendRequestStatus = friendRequestStatus;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 }
