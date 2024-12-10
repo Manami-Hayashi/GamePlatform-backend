@@ -1,6 +1,7 @@
 package be.kdg.prog6.lobbyManagementContext.core;
 
 import be.kdg.prog6.common.exceptions.GameSessionNotReadyException;
+import be.kdg.prog6.lobbyManagementContext.adapters.out.SessionStartedEventPublisher;
 import be.kdg.prog6.lobbyManagementContext.domain.GameSession;
 import be.kdg.prog6.lobbyManagementContext.domain.Lobby;
 import be.kdg.prog6.lobbyManagementContext.ports.in.ReadyUpResponse;

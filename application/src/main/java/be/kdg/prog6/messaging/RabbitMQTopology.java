@@ -17,7 +17,27 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class RabbitMQTopology {
-    Logger logger = org.slf4j.LoggerFactory.getLogger(RabbitMQTopology.class);
+
+    public static final String SESSION_STARTED_EXCHANGE = "session.started.exchange";
+    public static final String SESSION_STARTED_QUEUE = "session.started.queue";
+
+    @Bean
+    public TopicExchange sessionStartedExchange(){
+        return new TopicExchange(SESSION_STARTED_EXCHANGE);
+    }
+
+    @Bean
+    public Queue sessionStartedQueue() {
+        return new Queue(SESSION_STARTED_QUEUE);
+    }
+
+    @Bean
+    public Binding sessionStartedBinding(Queue sessionStartedQueue, TopicExchange sessionStartedExchange) {
+        return BindingBuilder
+                .bind(sessionStartedQueue)
+                .to(sessionStartedExchange)
+                .with("game.session.created");
+    }
 
     public static final String USER_REGISTRATION_EXCHANGE = "user.registration.exchange";
     public static final String USER_REGISTRATION_QUEUE = "user.registration.queue";
