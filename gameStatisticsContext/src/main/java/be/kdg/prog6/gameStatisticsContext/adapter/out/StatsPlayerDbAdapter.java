@@ -15,11 +15,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class PlayerDbAdapter implements LoadPlayerPort, LoadPlayersPort, StatsPlayerCreatedPort {
-    private static final Logger log = LoggerFactory.getLogger(PlayerDbAdapter.class);
+public class StatsPlayerDbAdapter implements LoadPlayerPort, LoadPlayersPort, StatsPlayerCreatedPort {
+    private static final Logger log = LoggerFactory.getLogger(StatsPlayerDbAdapter.class);
     private final PlayerRepository playerRepository;
 
-    public PlayerDbAdapter(PlayerRepository playerRepository) {
+    public StatsPlayerDbAdapter(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
 

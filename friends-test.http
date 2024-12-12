@@ -1,0 +1,41 @@
+### Get access token with admin credentials
+
+POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id = backend &
+client_secret = s7b2bA6t0UpwKVcfvKSYg2txVr0cHILS &
+username = admin &
+password = password &
+grant_type = password &
+scope = openid
+
+//saving the access token
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
+
+### Get players
+
+GET http://localhost:8090/api/players
+Authorization: Bearer {{access_token}}
+
+
+### Get friends
+
+GET http://localhost:8090/api/friends/155f3e06-bdd0-496c-919c-c3ee90dfe162
+Authorization: Bearer {{access_token}}
+
+
+### Send friend request
+
+POST http://localhost:8090/api/friends/155f3e06-bdd0-496c-919c-c3ee90dfe162/send-request/2aeeaba5-355f-42a7-b215-44d4d0ebfd83
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Accept friend request
+
+POST http://localhost:8090/api/friends/155f3e06-bdd0-496c-919c-c3ee90dfe162/accept-request/2aeeaba5-355f-42a7-b215-44d4d0ebfd83
+Content-Type: application/json
+Authorization: Bearer {{access_token}}

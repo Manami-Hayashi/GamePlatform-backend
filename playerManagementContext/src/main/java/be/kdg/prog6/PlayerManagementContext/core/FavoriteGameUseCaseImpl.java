@@ -6,7 +6,7 @@ import be.kdg.prog6.PlayerManagementContext.domain.Player;
 import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 import be.kdg.prog6.PlayerManagementContext.port.in.FavoriteGameUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.out.GameLoadedPort;
-import be.kdg.prog6.PlayerManagementContext.port.out.PlayerLoadedPort;
+import be.kdg.prog6.PlayerManagementContext.port.out.LoadPlayerPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.UpdatePlayerPort;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ import java.util.List;
 @Service
 public class FavoriteGameUseCaseImpl implements FavoriteGameUseCase {
 
-    private final PlayerLoadedPort loadPlayerPort;
+    private final LoadPlayerPort loadPlayerPort;
     private final UpdatePlayerPort updatePlayerPort;
     private final GameLoadedPort gameLoadedPort;
     private final Logger logger = org.slf4j.LoggerFactory.getLogger(FavoriteGameUseCaseImpl.class);
 
-    public FavoriteGameUseCaseImpl(PlayerLoadedPort loadPlayerPort, UpdatePlayerPort updatePlayerPort, GameLoadedPort gameLoadedPort) {
+    public FavoriteGameUseCaseImpl(LoadPlayerPort loadPlayerPort, UpdatePlayerPort updatePlayerPort, GameLoadedPort gameLoadedPort) {
         this.loadPlayerPort = loadPlayerPort;
         this.updatePlayerPort = updatePlayerPort;
         this.gameLoadedPort = gameLoadedPort;
