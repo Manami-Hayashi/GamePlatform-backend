@@ -16,7 +16,6 @@ public class FriendJpaEntity {
     @JoinColumn(name = "requester", nullable = false)
     private PlayerJpaEntity requester;
 
-    // The player who received the request
     @ManyToOne
     @JoinColumn(name = "receiver", nullable = false)
     private PlayerJpaEntity receiver;

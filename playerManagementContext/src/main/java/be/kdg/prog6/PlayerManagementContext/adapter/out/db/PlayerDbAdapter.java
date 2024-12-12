@@ -28,15 +28,13 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
     @Transactional
     @Override
     public void createPlayer(Player player) {
-       PlayerJpaEntity jpaEntity = new PlayerJpaEntity(
-               player.getPlayerId().id(),
-               player.getName()
-       );
+        PlayerJpaEntity jpaEntity = new PlayerJpaEntity(
+                player.getPlayerId().id(),
+                player.getName()
+        );
 
-       LOGGER.info("creating new Player with name {}", player.getName());
-
-       playerJpaRepository.save(jpaEntity);
-
+        LOGGER.info("Creating new player with name {}", player.getName());
+        playerJpaRepository.save(jpaEntity);
     }
 
     @Transactional
@@ -69,14 +67,22 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
         // Update fields
         existingEntity.setName(player.getName());
 
-        // Map and update games
-        List<GameOwnedJpaEntity> updatedGames = player.getGamesOwned().stream()
-                .map(this::toGameOwnedJpaEntity)
-                .toList();
-        updatedGames.forEach(game -> game.setPlayer(existingEntity));
+        // Update friends initiated
+        existingEntity.getFriendsInitiated().clear();
+        if (player.getFriendsInitiated() != null) {
+            existingEntity.getFriendsInitiated().addAll(player.getFriendsInitiated().stream().map(this::toFriendJpaEntity).toList());
+        }
 
-        if (player.getGamesOwned() == null) {
-            player.setGamesOwned(new ArrayList<>());
+        // Update friends received
+        existingEntity.getFriendsReceived().clear();
+        if (player.getFriendsReceived() != null) {
+            existingEntity.getFriendsReceived().addAll(player.getFriendsReceived().stream().map(this::toFriendJpaEntity).toList());
+        }
+
+        // Update games owned
+        existingEntity.getGameOwned().clear();
+        if (player.getGamesOwned() != null) {
+            existingEntity.getGameOwned().addAll(player.getGamesOwned().stream().map(this::toGameOwnedJpaEntity).toList());
         }
 
         // Persist updated player
@@ -95,6 +101,19 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
                 playerJpaEntity.getName()
         );
 
+        // Map friends initiated
+        List<Friend> friendsInitiated = playerJpaEntity.getFriendsInitiated() != null
+                ? playerJpaEntity.getFriendsInitiated().stream().map(this::toFriend).toList()
+                : new ArrayList<>();
+        player.setFriendsInitiated(friendsInitiated);
+
+        // Map friends received
+        List<Friend> friendsReceived = playerJpaEntity.getFriendsReceived() != null
+                ? playerJpaEntity.getFriendsReceived().stream().map(this::toFriend).toList()
+                : new ArrayList<>();
+        player.setFriendsReceived(friendsReceived);
+
+        // Map games owned
         List<Game> games = playerJpaEntity.getGameOwned() != null
                 ? playerJpaEntity.getGameOwned().stream().map(this::toGame).toList()
                 : new ArrayList<>();
@@ -103,16 +122,38 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
         return player;
     }
 
-
     private Friend toFriend(FriendJpaEntity friendJpaEntity) {
+        if (friendJpaEntity == null) {
+            return null;
+        }
         return new Friend(
+                new Player(new PlayerId(friendJpaEntity.getRequester().getPlayerId()), friendJpaEntity.getRequester().getName()),
+                new Player(new PlayerId(friendJpaEntity.getReceiver().getPlayerId()), friendJpaEntity.getReceiver().getName()),
                 FriendRequestStatus.valueOf(friendJpaEntity.getFriendRequestStatus())
         );
     }
 
+    // Mapping Friend domain object to JPA entity
     private FriendJpaEntity toFriendJpaEntity(Friend friend) {
-        return new FriendJpaEntity(
+        if (friend == null) {
+            return null;
+        }
+        FriendJpaEntity friendJpaEntity = new FriendJpaEntity(
                 friend.getFriendRequestStatus().toString()
+        );
+        friendJpaEntity.setRequester(toPlayerJpaEntity(friend.getPlayer1()));
+        friendJpaEntity.setReceiver(toPlayerJpaEntity(friend.getPlayer2()));
+        return friendJpaEntity;
+    }
+
+    // Mapping Player domain object to JPA entity
+    private PlayerJpaEntity toPlayerJpaEntity(Player player) {
+        if (player == null) {
+            return null;
+        }
+        return new PlayerJpaEntity(
+                player.getPlayerId().id(),
+                player.getName()
         );
     }
 

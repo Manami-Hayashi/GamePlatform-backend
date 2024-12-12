@@ -15,6 +15,12 @@ public class Friend {
         this.friendRequestStatus = FriendRequestStatus.NONE;
     }
 
+    public Friend(Player player1, Player player2, FriendRequestStatus friendRequestStatus) {
+        this.player1 = player1;
+        this.player2 = player2;
+        this.friendRequestStatus = friendRequestStatus;
+    }
+
     public Friend(FriendRequestStatus friendRequestStatus) {
         this.friendRequestStatus = friendRequestStatus;
     }

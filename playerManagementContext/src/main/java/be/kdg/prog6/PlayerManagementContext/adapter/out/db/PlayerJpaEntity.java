@@ -16,10 +16,10 @@ public class PlayerJpaEntity{
     @Column(name="name")
     private String name;
 
-    @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "requester", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FriendJpaEntity> friendsInitiated = new ArrayList<>();
 
-    @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FriendJpaEntity> friendsReceived = new ArrayList<>();
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
