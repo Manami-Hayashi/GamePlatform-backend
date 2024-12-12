@@ -51,7 +51,23 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
                     Optional<GameStatisticsJpaEntity> gameStatisticsJpaEntityOpt = gameStatisticsRepo.findByPlayerIdAndGameId(
                             gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id());
                     if (gameStatisticsJpaEntityOpt.isEmpty()) {
-                        throw new IllegalArgumentException("GameStatistics not found");
+                        // Create and save new GameStatisticsJpaEntity if not found
+                        GameStatisticsJpaEntity newEntity = new GameStatisticsJpaEntity(
+                                gameStatistics.getPlayerId().id(),
+                                gameStatistics.getGameId().id(),
+                                gameStatistics.getTotalScore(),
+                                gameStatistics.getTotalGamesPlayed(),
+                                gameStatistics.getWins(),
+                                gameStatistics.getLosses(),
+                                gameStatistics.getDraws(),
+                                gameStatistics.getWinLossRatio(),
+                                gameStatistics.getTotalTimePlayed(),
+                                gameStatistics.getHighestScore(),
+                                gameStatistics.getMovesMade(),
+                                gameStatistics.getAverageGameDuration()
+                        );
+                        gameStatisticsRepo.save(newEntity);
+                        return newEntity;
                     }
                     return gameStatisticsJpaEntityOpt.get();
                 })
