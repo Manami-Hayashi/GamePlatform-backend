@@ -23,7 +23,8 @@ public class LobbyGamePurchasedEventListener {
     @RabbitListener(queues = "#{gamePurchasedQueue2.name}")
     public void handleGamePurchasedEvent(GamePurchasedEvent event) {
         logger.info("Handling game purchased event in the lobby mng for player: {} game: {}", event.getPlayerId(), event.getGameId());
+
         Game game = new Game(new GameId(event.getGameId()), event.getGameName());
-        purchaseLobbyGameUseCase.purchaseLobbyGame(new PlayerId(event.getPlayerId()), game);
+        purchaseLobbyGameUseCase.purchaseLobbyGame(new PlayerId(event.getPlayerId().getId()), game);
     }
 }

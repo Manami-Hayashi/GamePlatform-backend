@@ -22,6 +22,6 @@ public class GamePurchasedEventListener {
     public void handleGamePurchasedEvent(GamePurchasedEvent event) {
         logger.info("Handling game purchased event in the player mng for player: {} game: {}", event.getPlayerId(), event.getGameId());
         Game game = new Game(new GameId(event.getGameId()), event.getGameName(), false);
-        gamePurchasedUseCase.handleGamePurchased(new PlayerId(event.getPlayerId()), game);
+        gamePurchasedUseCase.handleGamePurchased(new PlayerId(event.getPlayerId().getId()), game);
     }
 }

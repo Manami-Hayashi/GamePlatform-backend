@@ -21,12 +21,12 @@ public class PurchaseGameController {
 
     @PostMapping("/purchase")
     public ResponseEntity<Void> purchaseGame(@RequestBody PurchaseGameCommand command) {
-        logger.info("Received purchase request for gameId: {} by playerId: {}", command.gameId(), command.playerId());
+        logger.info("Received purchase request for gameId: {} by playerId: {}", command.gameId(), command.customerId());
         try {
             purchaseGameUseCase.purchaseGame(command);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            logger.error("Purchase failed for gameId: {} by playerId: {}", command.gameId(), command.playerId(), e);
+            logger.error("Purchase failed for gameId: {} by playerId: {}", command.gameId(), command.customerId(), e);
             return ResponseEntity.badRequest().build();
         }
     }

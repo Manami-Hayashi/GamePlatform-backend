@@ -6,14 +6,14 @@ import java.util.UUID;
 public class Transaction {
     private UUID transactionId;
     private GameId gameId;
-    private PlayerId playerId;
+    private CustomerId customerId;
     private float price;
     LocalDateTime createdAt;
 
-    public Transaction(UUID transactionId, GameId gameId, PlayerId playerId, float price, LocalDateTime createdAt) {
+    public Transaction(UUID transactionId, GameId gameId, CustomerId customerId, float price, LocalDateTime createdAt) {
         this.transactionId = transactionId;
         this.gameId = gameId;
-        this.playerId = playerId;
+        this.customerId = customerId;
         this.price = price;
         this.createdAt = createdAt;
     }
@@ -26,8 +26,8 @@ public class Transaction {
         return gameId;
     }
 
-    public PlayerId getPlayerId() {
-        return playerId;
+    public CustomerId getCustomerId() {
+        return customerId;
     }
 
     public float getPrice() {
