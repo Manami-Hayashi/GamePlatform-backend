@@ -2,52 +2,62 @@ package be.kdg.prog6.PlayerManagementContext.adapter.out.db;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(catalog="player_management", name="friends")
 public class FriendJpaEntity {
-
     @Id
-    @Column(name = "friend_id")
-    private UUID friendId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
 
-    @Column(name = "is_favorite")
-    private boolean isFavorite;
+    @Column(name = "friend_request_status")
+    private String friendRequestStatus;
 
     @ManyToOne
-    @JoinColumn(name = "player_id")
-    private PlayerJpaEntity player;
+    @JoinColumn(name = "requester", nullable = false)
+    private PlayerJpaEntity requester;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver", nullable = false)
+    private PlayerJpaEntity receiver;
 
     public FriendJpaEntity() {
     }
 
-    public FriendJpaEntity(UUID friendId, boolean isFavorite) {
-        this.friendId = friendId;
-        this.isFavorite = isFavorite;
+    public FriendJpaEntity(String friendRequestStatus) {
+        this.friendRequestStatus = friendRequestStatus;
     }
 
-    public UUID getFriendId() {
-        return friendId;
+    public FriendJpaEntity(String friendRequestStatus, PlayerJpaEntity requester, PlayerJpaEntity receiver) {
+        this.friendRequestStatus = friendRequestStatus;
+        this.requester = requester;
+        this.receiver = receiver;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
+    public int getId() {
+        return id;
     }
 
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
+    public String getFriendRequestStatus() {
+        return friendRequestStatus;
     }
 
-    public void setFriendId(UUID friendId) {
-        this.friendId = friendId;
+    public void setFriendRequestStatus(String accepted) {
+        friendRequestStatus = accepted;
     }
 
-    public PlayerJpaEntity getPlayer() {
-        return player;
+    public PlayerJpaEntity getRequester() {
+        return requester;
     }
 
-    public void setPlayer(PlayerJpaEntity player) {
-        this.player = player;
+    public PlayerJpaEntity getReceiver() {
+        return receiver;
+    }
+
+    public void setRequester(PlayerJpaEntity requester) {
+        this.requester = requester;
+    }
+
+    public void setReceiver(PlayerJpaEntity receiver) {
+        this.receiver = receiver;
     }
 }
