@@ -17,7 +17,7 @@ public class TransactionCreatedPortImpl implements TransactionCreatedPort {
         TransactionJpaEntity transactionJpaEntity = new TransactionJpaEntity(
                 transaction.getTransactionId(),
                 transaction.getGameId().id(),
-                transaction.getPlayerId().id(),
+                transaction.getCustomerId().id(),
                 transaction.getPrice(),
                 transaction.getCreatedAt()
         );

@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = dAq5kVoa3li7gcvxz5xQQ0qVNF6qpOuf &
+client_secret = 0Ss74BU8bo5Xcq7p3SfxvYRyNmxtkB3E &
 username = admin &
 password = password &
 grant_type = password &
@@ -27,7 +27,7 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "playerId": "e4e685be-ed89-42fb-a681-f272149c8218",
+  "customerId": "e4e685be-ed89-42fb-a681-f272149c8218",
   "gameId": "2e468e92-ab1e-11ef-9cd2-0242ac120002",
   "paymentToken": "tok_visa"
 }

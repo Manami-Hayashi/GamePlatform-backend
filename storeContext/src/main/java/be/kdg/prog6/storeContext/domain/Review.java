@@ -5,16 +5,16 @@ import java.util.UUID;
 
 public class Review {
     private UUID reviewId;
-    private PlayerId playerId;
+    private CustomerId customerId;
     private GameId gameId;
     private int rating;
     private String comment;
     private LocalDateTime createdAt;
 
 
-    public Review(UUID reviewId, PlayerId playerId, GameId gameId, int rating, String comment, LocalDateTime createdAt) {
+    public Review(UUID reviewId, CustomerId customerId, GameId gameId, int rating, String comment, LocalDateTime createdAt) {
         this.reviewId = reviewId;
-        this.playerId = playerId;
+        this.customerId = customerId;
         this.gameId = gameId;
         this.rating = rating;
         this.comment = comment;
@@ -25,8 +25,8 @@ public class Review {
         return reviewId;
     }
 
-    public PlayerId getPlayerId() {
-        return playerId;
+    public CustomerId getPlayerId() {
+        return customerId;
     }
 
     public GameId getGameId() {return gameId;}
@@ -45,7 +45,7 @@ public class Review {
 
     public void setReviewId(UUID reviewId) {this.reviewId = reviewId;}
 
-    public void setPlayerId(PlayerId playerId) {this.playerId = playerId;}
+    public void setPlayerId(CustomerId customerId) {this.customerId = customerId;}
 
     public void setGameId(GameId gameId) {this.gameId = gameId;}
 

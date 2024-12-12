@@ -8,25 +8,25 @@ import jakarta.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(catalog = "store", name = "player")
-public class StorePlayerJpaEntity {
+@Table(catalog = "store", name = "customer")
+public class StoreCustomerJpaEntity {
     @Id
-    @Column(name="player_id")
-    private UUID playerId;
+    @Column(name="customer_id")
+    private UUID customerId;
 
     @Column(name="gameName")
     private String name;
 
-    public StorePlayerJpaEntity() {
+    public StoreCustomerJpaEntity() {
     }
 
-    public StorePlayerJpaEntity(UUID playerId, String name) {
-        this.playerId = playerId;
+    public StoreCustomerJpaEntity(UUID customerId, String name) {
+        this.customerId = customerId;
         this.name = name;
     }
 
-    public UUID getPlayerId() {
-        return playerId;
+    public UUID getCustomerId() {
+        return customerId;
     }
 
     public String getName() {

@@ -1,7 +1,7 @@
 package be.kdg.prog6.storeContext.adapters.in;
 
 import be.kdg.prog6.common.events.UserRegistrationEvent;
-import be.kdg.prog6.storeContext.port.in.RegisterPlayerUseCase;
+import be.kdg.prog6.storeContext.port.in.RegisterCustomerUseCase;
 import be.kdg.prog6.storeContext.port.in.RegisterUserCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class StoreRegisterUserEventListener {
     private static final Logger logger = LoggerFactory.getLogger(StoreRegisterUserEventListener.class);
-    private final RegisterPlayerUseCase registerUseCaseImpl;
+    private final RegisterCustomerUseCase registerUseCaseImpl;
 
-    public StoreRegisterUserEventListener(RegisterPlayerUseCase registerUseCaseImpl) {
+    public StoreRegisterUserEventListener(RegisterCustomerUseCase registerUseCaseImpl) {
         this.registerUseCaseImpl = registerUseCaseImpl;
     }
 
@@ -29,7 +29,7 @@ public class StoreRegisterUserEventListener {
 
         logger.info("Registering player store with full gameName: {}", fullName);
 
-        registerUseCaseImpl.registerPlayer(command);
+        registerUseCaseImpl.registerCustomer(command);
     }
 
     // Helper method to format the full gameName

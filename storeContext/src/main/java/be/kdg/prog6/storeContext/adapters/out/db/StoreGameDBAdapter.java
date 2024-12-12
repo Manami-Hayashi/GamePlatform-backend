@@ -1,7 +1,7 @@
 package be.kdg.prog6.storeContext.adapters.out.db;
 
+import be.kdg.prog6.storeContext.domain.CustomerId;
 import be.kdg.prog6.storeContext.domain.GameId;
-import be.kdg.prog6.storeContext.domain.PlayerId;
 import be.kdg.prog6.storeContext.domain.Review;
 import be.kdg.prog6.storeContext.domain.StoreGame;
 import be.kdg.prog6.storeContext.port.out.LoadStoreGamePort;
@@ -66,7 +66,7 @@ public class StoreGameDBAdapter implements LoadStoreGamePort, StoreGameCreatedPo
                     .stream()
                     .map(reviewJpaEntity -> new Review(
                             reviewJpaEntity.getReviewId(),
-                            new PlayerId(reviewJpaEntity.getPlayerId()),
+                            new CustomerId(reviewJpaEntity.getCustomerId()),
                             new GameId(reviewJpaEntity.getGameId()),
                             reviewJpaEntity.getRating(),
                             reviewJpaEntity.getComment(),

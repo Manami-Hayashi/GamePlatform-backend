@@ -16,8 +16,8 @@ public class TransactionJpaEntity {
     @Column(name = "game_id")
     private UUID gameId;
 
-    @Column(name = "player_id")
-    private UUID playerId;
+    @Column(name = "customer_id")
+    private UUID customerId;
 
     @Column(name = "price")
     private float price;
@@ -30,7 +30,7 @@ public class TransactionJpaEntity {
     public TransactionJpaEntity(UUID transactionId, UUID gameId, UUID playerId, float price, LocalDateTime createdAt) {
         this.transactionId = transactionId;
         this.gameId = gameId;
-        this.playerId = playerId;
+        this.customerId = customerId;
         this.price = price;
         this.createdAt = createdAt;
     }
@@ -51,12 +51,12 @@ public class TransactionJpaEntity {
         this.gameId = gameId;
     }
 
-    public UUID getPlayerId() {
-        return playerId;
+    public UUID getCustomerId() {
+        return customerId;
     }
 
-    public void setPlayerId(UUID playerId) {
-        this.playerId = playerId;
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
     }
 
     public float getPrice() {

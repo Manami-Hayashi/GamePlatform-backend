@@ -1,7 +1,7 @@
 package be.kdg.prog6.storeContext.adapters.out.db;
 
+import be.kdg.prog6.storeContext.domain.CustomerId;
 import be.kdg.prog6.storeContext.domain.GameId;
-import be.kdg.prog6.storeContext.domain.PlayerId;
 import be.kdg.prog6.storeContext.domain.Review;
 import be.kdg.prog6.storeContext.port.out.LoadReviewPort;
 import be.kdg.prog6.storeContext.port.out.ReviewCreatedPort;
@@ -42,7 +42,7 @@ public class ReviewDBAdapter implements ReviewCreatedPort, LoadReviewPort {
     private Review toDomain(ReviewJpaEntity reviewJpaEntity) {
         return new Review(
                 reviewJpaEntity.getReviewId(),
-                new PlayerId(reviewJpaEntity.getPlayerId()),
+                new CustomerId(reviewJpaEntity.getCustomerId()),
                 new GameId(reviewJpaEntity.getGame().getGameId()),
                 reviewJpaEntity.getRating(),
                 reviewJpaEntity.getComment(),
