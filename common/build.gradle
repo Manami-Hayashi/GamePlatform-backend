@@ -5,3 +5,11 @@ tasks.named('bootJar') {
     mainClass.set('be.kdg.prog6.CompleteApplication')
 }
 
+dependencies {
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.2.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.2.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.2.2'
+}
+
