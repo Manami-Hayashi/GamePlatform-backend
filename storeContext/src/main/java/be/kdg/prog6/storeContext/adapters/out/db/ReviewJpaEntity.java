@@ -12,8 +12,8 @@ public class ReviewJpaEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID reviewId;
 
-    @Column(name="player_id")
-    private UUID playerId;
+    @Column(name="customer_id")
+    private UUID customerId;
 
 //    @Column(gameName="game_id")
 //    private UUID gameId;
@@ -33,9 +33,9 @@ public class ReviewJpaEntity {
 
 
 
-    public ReviewJpaEntity(UUID reviewId, UUID playerId, StoreGameJpaEntity game , int rating, String comment, LocalDateTime createdAt) {
+    public ReviewJpaEntity(UUID reviewId, UUID customerId, StoreGameJpaEntity game , int rating, String comment, LocalDateTime createdAt) {
         this.reviewId = reviewId;
-        this.playerId = playerId;
+        this.customerId = customerId;
         this.game = game;
         this.rating = rating;
         this.comment = comment;
@@ -49,9 +49,9 @@ public class ReviewJpaEntity {
 
     public void setReviewId(UUID reviewId) {this.reviewId = reviewId;}
 
-    public UUID getPlayerId() {return playerId;}
+    public UUID getCustomerId() {return customerId;}
 
-    public void setPlayerId(UUID playerId) {this.playerId = playerId;}
+    public void setCustomerId(UUID playerId) {this.customerId = playerId;}
 
     public StoreGameJpaEntity getGame() {return game;}
 

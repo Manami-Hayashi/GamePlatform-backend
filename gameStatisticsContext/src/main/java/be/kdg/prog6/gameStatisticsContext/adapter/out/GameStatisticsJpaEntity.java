@@ -82,6 +82,10 @@ public class GameStatisticsJpaEntity {
         return playerId;
     }
 
+    public void setPlayerId(UUID playerId) {
+        this.playerId = playerId;
+    }
+
     public UUID getGameId() {
         return gameId;
     }

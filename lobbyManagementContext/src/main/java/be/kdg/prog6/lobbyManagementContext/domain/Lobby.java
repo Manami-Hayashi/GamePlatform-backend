@@ -8,13 +8,19 @@ public class Lobby {
 
     private final UUID lobbyId;
     private final List<PlayerId> playerIds;
-    private  GameId gameId;
+    private final List<PlayerId> readyPlayers;
+    private GameId gameId;
     private static final int MAX_PLAYERS = 2;
 
-    public Lobby(UUID lobbyId, List<PlayerId> playerIds, GameId gameId) {
+    public Lobby(UUID lobbyId, List<PlayerId> playerIds, List<PlayerId> readyPlayers, GameId gameId) {
         this.lobbyId = lobbyId;
         this.playerIds = new ArrayList<>(playerIds);
+        this.readyPlayers = new ArrayList<>(readyPlayers);
         this.gameId = gameId;
+    }
+
+    public Lobby(UUID lobbyId, List<PlayerId> playerIds, GameId gameId) {
+        this(lobbyId, playerIds, new ArrayList<>(), gameId);
     }
 
     public Lobby(UUID lobbyId, GameId gameId) {
@@ -24,8 +30,6 @@ public class Lobby {
     public Lobby(GameId gameId) {
         this(UUID.randomUUID(), new ArrayList<>(), gameId);
     }
-
-
 
     public boolean isFull() {
         return playerIds.size() >= MAX_PLAYERS;
@@ -45,28 +49,24 @@ public class Lobby {
         if (!playerIds.contains(playerId)) {
             throw new IllegalStateException("Player is not in the lobby.");
         }
-        playerIds.remove(playerId);  // Remove the player from the list
+        playerIds.remove(playerId);
     }
 
-    public void inviteFriend(PlayerId playerId, PlayerId friendId) {
+    public void readyUp(PlayerId playerId) {
         if (!playerIds.contains(playerId)) {
-            throw new IllegalStateException("Player must be in the lobby to invite a friend.");
+            throw new IllegalStateException("Player is not in the lobby.");
         }
-        addPlayer(friendId); // Reuses addPlayer for logic
+        if (!readyPlayers.contains(playerId)) {
+            readyPlayers.add(playerId);
+        }
     }
 
-    public void matchWithRandomPlayer(List<PlayerId> availablePlayers) {
-        for (PlayerId playerId : availablePlayers) {
-            if (!playerIds.contains(playerId) && !isFull()) {
-                addPlayer(playerId);
-                return;
-            }
-        }
-        throw new IllegalStateException("No suitable players available to match.");
+    public boolean allPlayersReady() {
+        return readyPlayers.size() == playerIds.size();
     }
 
-    public boolean containsPlayer(PlayerId playerId) {
-        return playerIds.contains(playerId);
+    public boolean isPlayerReady(PlayerId playerId) {
+        return readyPlayers.contains(playerId);
     }
 
     public UUID getLobbyId() {
@@ -74,7 +74,7 @@ public class Lobby {
     }
 
     public List<PlayerId> getPlayerIds() {
-        return List.copyOf(playerIds); // Immutable copy
+        return List.copyOf(playerIds);
     }
 
     public GameId getGameId() {

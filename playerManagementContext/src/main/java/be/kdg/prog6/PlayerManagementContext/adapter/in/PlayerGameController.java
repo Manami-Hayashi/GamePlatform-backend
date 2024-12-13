@@ -1,16 +1,14 @@
 package be.kdg.prog6.PlayerManagementContext.adapter.in;
 
-import be.kdg.prog6.PlayerManagementContext.core.DisplayOwnedGameUseCaseImpl;
 import be.kdg.prog6.PlayerManagementContext.domain.Game;
+import be.kdg.prog6.PlayerManagementContext.domain.GameId;
 import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 import be.kdg.prog6.PlayerManagementContext.port.in.DisplayOwnedGameUseCase;
+import be.kdg.prog6.PlayerManagementContext.port.in.FavoriteGameUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,10 +19,12 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/players")
 public class PlayerGameController {
     private final DisplayOwnedGameUseCase displayOwnedGameUseCase;
+    private final FavoriteGameUseCase favoriteGameUseCase;
     private static final Logger logger = LoggerFactory.getLogger(PlayerGameController.class);
 
-    public PlayerGameController(DisplayOwnedGameUseCase displayOwnedGameUseCase) {
+    public PlayerGameController(DisplayOwnedGameUseCase displayOwnedGameUseCase, FavoriteGameUseCase favoriteGameUseCase) {
         this.displayOwnedGameUseCase = displayOwnedGameUseCase;
+        this.favoriteGameUseCase = favoriteGameUseCase;
     }
 
     @GetMapping("/{playerId}/gamesOwned")
@@ -40,6 +40,19 @@ public class PlayerGameController {
                 .collect(toList());
 
         return ResponseEntity.ok(gameOwnedDtos);
+    }
+
+    @PostMapping("/{playerId}/games/{gameId}/toggle-favorite")
+    public ResponseEntity<String> toggleFavoriteGame(
+            @PathVariable UUID playerId,
+            @PathVariable UUID gameId) {
+        try {
+            favoriteGameUseCase.toggleFavoriteGame(new PlayerId(playerId), new GameId(gameId));
+            return ResponseEntity.ok("Game favorite status toggled successfully");
+        } catch (IllegalArgumentException e) {
+            logger.error("Error toggling favorite for game with ID {} for player with ID {}: {}", gameId, playerId, e.getMessage());
+            return ResponseEntity.badRequest().body("The game is not owned by the player or invalid request.");
+        }
     }
 
 }

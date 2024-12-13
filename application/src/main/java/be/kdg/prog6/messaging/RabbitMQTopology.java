@@ -17,7 +17,27 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class RabbitMQTopology {
-    Logger logger = org.slf4j.LoggerFactory.getLogger(RabbitMQTopology.class);
+
+    public static final String SESSION_STARTED_EXCHANGE = "session.started.exchange";
+    public static final String SESSION_STARTED_QUEUE = "session.started.queue";
+
+    @Bean
+    public TopicExchange sessionStartedExchange(){
+        return new TopicExchange(SESSION_STARTED_EXCHANGE);
+    }
+
+    @Bean
+    public Queue sessionStartedQueue() {
+        return new Queue(SESSION_STARTED_QUEUE);
+    }
+
+    @Bean
+    public Binding sessionStartedBinding(Queue sessionStartedQueue, TopicExchange sessionStartedExchange) {
+        return BindingBuilder
+                .bind(sessionStartedQueue)
+                .to(sessionStartedExchange)
+                .with("game.session.created");
+    }
 
     public static final String USER_REGISTRATION_EXCHANGE = "user.registration.exchange";
     public static final String USER_REGISTRATION_QUEUE = "user.registration.queue";
@@ -112,6 +132,36 @@ public class RabbitMQTopology {
         return BindingBuilder
                 .bind(userRegistrationQueue5)
                 .to(userRegistrationExchange);
+    }
+
+    public static final String GAME_PURCHASED_EXCHANGE = "game.purchased.exchange";
+    public static final String GAME_PURCHASED_QUEUE = "game.purchased.queue";
+    public static  final String GAME_PURCHASED_QUEUE2 = "game.purhcased.queue2";
+
+
+    @Bean
+    public FanoutExchange gamePurchasedExchange() {
+        return new FanoutExchange(GAME_PURCHASED_EXCHANGE);
+    }
+
+    @Bean
+    public Queue gamePurchasedQueue() {
+        return new Queue(GAME_PURCHASED_QUEUE);
+    }
+
+    @Bean
+    public Queue gamePurchasedQueue2(){
+        return new Queue(GAME_PURCHASED_QUEUE2);
+    }
+
+    @Bean
+    public Binding gamePurchasedBinding(Queue gamePurchasedQueue, FanoutExchange gamePurchasedExchange) {
+        return BindingBuilder.bind(gamePurchasedQueue).to(gamePurchasedExchange);
+    }
+
+    @Bean
+    public Binding gamePurchasedBinding2(Queue gamePurchasedQueue2, FanoutExchange gamePurchasedExchange) {
+        return BindingBuilder.bind(gamePurchasedQueue2).to(gamePurchasedExchange);
     }
 
 

@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = lUwSgUy7uOS9C34OApToaD3KgY2CRQon &
+client_secret = dAq5kVoa3li7gcvxz5xQQ0qVNF6qpOuf &
 username = admin &
 password = password &
 grant_type = password &
@@ -47,3 +47,7 @@ Authorization: Bearer {{access_token}}
 ### Fetch games owned by a non-existing player
 GET http://localhost:8090/api/players/00000000-0000-0000-0000-000000000000/gamesOwned
 Accept: application/json
+
+### Toggle favorite game
+POST http://localhost:8090/api/players/2aeeaba5-355f-42a7-b215-44d4d0ebfd83/games/fde47098-ab1d-11ef-9cd2-0242ac120005/toggle-favorite
+Authorization: Bearer {{access_token}}

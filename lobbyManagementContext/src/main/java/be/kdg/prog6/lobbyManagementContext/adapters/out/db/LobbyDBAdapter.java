@@ -1,7 +1,10 @@
+// LobbyDBAdapter.java
 package be.kdg.prog6.lobbyManagementContext.adapters.out.db;
 
 import be.kdg.prog6.lobbyManagementContext.domain.*;
 import be.kdg.prog6.lobbyManagementContext.ports.out.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -9,11 +12,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import java.util.Comparator;
+
 @Component
-public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobbiesPort, LoadPlayerPort, UpdatePlayerPort, LobbyGameCreatedPort, LoadLobbyGamePort, LobbyPlayerCreatedPort {
+public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobbiesPort, LoadPlayerPort, UpdatePlayerPort, LobbyGameCreatedPort, LoadLobbyGamePort, LobbyPlayerCreatedPort, LoadAllPlayersPort, LoadLobbyGameByNamePort, LoadLobbyByPlayerIdPort, CheckAllPlayersReadyPort, LobbyGamePurchasedPort, LoadLatestLobbyPort{
     private final LobbyJpaRepository lobbyJpaRepository;
     private final LobbyPlayerJpaRepository lobbyPlayerJpaRepository;
     private final LobbyGameJpaRepository lobbyGameJpaRepository;
+    private final Logger logger = LoggerFactory.getLogger(LobbyDBAdapter.class);
 
     public LobbyDBAdapter(LobbyJpaRepository lobbyJpaRepository, LobbyPlayerJpaRepository lobbyPlayerJpaRepository, LobbyGameJpaRepository lobbyGameJpaRepository) {
         this.lobbyJpaRepository = lobbyJpaRepository;
@@ -43,6 +49,7 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
 
         playerJpaEntity.setLastActive(player.getLastActive());
         playerJpaEntity.setName(player.getName());
+        playerJpaEntity.setReady(player.isReady());
 
         if (player.getLobbyId() != null) {
             LobbyJpaEntity lobbyJpaEntity = lobbyJpaRepository.findById(player.getLobbyId())
@@ -52,9 +59,9 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
             playerJpaEntity.setLobby(null);
         }
 
-        if (player.getGameId() != null){
+        if (player.getGameId() != null) {
             LobbyGameJpaEntity lobbyGameJpaEntity = lobbyGameJpaRepository.findById(player.getGameId().id())
-                    .orElseThrow(() -> new IllegalArgumentException("game not found for the player"));
+                    .orElseThrow(() -> new IllegalArgumentException("Game not found for the player"));
             playerJpaEntity.setGame(lobbyGameJpaEntity);
         } else {
             playerJpaEntity.setGame(null);
@@ -111,6 +118,7 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
     private LobbyJpaEntity toLobbyJpaEntity(Lobby lobby) {
         LobbyJpaEntity lobbyJpaEntity = new LobbyJpaEntity();
         lobbyJpaEntity.setLobbyId(lobby.getLobbyId());
+        lobbyJpaEntity.setCreationTime(Instant.now());
         lobbyJpaEntity.setPlayers(
                 lobby.getPlayerIds().stream()
                         .map(playerId -> toLobbyPlayerJpaEntity(playerId, lobbyJpaEntity))
@@ -126,6 +134,7 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
         playerJpaEntity.setPlayerId(playerId.id());
         playerJpaEntity.setLobby(lobbyJpaEntity);
         playerJpaEntity.setLastActive(Instant.now());
+        playerJpaEntity.setReady(false); // Default value
 
         // Set the game for the player
         if (lobbyJpaEntity.getGame() != null) {
@@ -158,7 +167,8 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
                 playerJpaEntity.getName(),
                 playerJpaEntity.getLastActive(),
                 lobbyId,
-                gameId
+                gameId,
+                playerJpaEntity.getReady() != null ? playerJpaEntity.getReady() : false // Handle null value
         );
     }
 
@@ -174,5 +184,57 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
         );
         // save to database
         lobbyPlayerJpaRepository.save(jpaEntity);
+    }
+
+    @Override
+    public List<Player> loadAllPlayers() {
+        return lobbyPlayerJpaRepository.findAll().stream()
+                .map(this::toPlayer)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Game loadLobbyGameByName(String gameName) {
+        return lobbyGameJpaRepository.findByName(gameName)
+                .map(this::toGame)
+                .orElse(null);
+    }
+
+    @Override
+    public Lobby loadLobbyByPlayerId(UUID playerId) {
+        return lobbyPlayerJpaRepository.findById(playerId)
+                .map(LobbyPlayerJpaEntity::getLobby)
+                .map(this::toLobby)
+                .orElse(null);
+    }
+
+    @Override
+    public boolean areAllPlayersReady(UUID lobbyId) {
+        LobbyJpaEntity lobbyJpaEntity = lobbyJpaRepository.findById(lobbyId)
+                .orElseThrow(() -> new IllegalArgumentException("Lobby not found"));
+        return lobbyJpaEntity.getPlayers().stream()
+                .filter(player -> player.getLobby().getLobbyId().equals(lobbyId))
+                .allMatch(LobbyPlayerJpaEntity::getReady);
+    }
+
+    @Override
+    public void purchaseLobbyGame(PlayerId playerId, Game game) {
+        LobbyPlayerJpaEntity playerJpaEntity = lobbyPlayerJpaRepository.findById(playerId.id())
+                .orElseThrow(() -> new IllegalArgumentException("Player not found"));
+
+        LobbyGameJpaEntity gameJpaEntity = new LobbyGameJpaEntity();
+        gameJpaEntity.setGameId(game.getGameId().id());
+        gameJpaEntity.setName(game.getGameName());
+        gameJpaEntity.setPlayer(playerJpaEntity);
+
+        lobbyGameJpaRepository.save(gameJpaEntity);
+    }
+
+    @Override
+    public Lobby loadLatestLobby() {
+        return lobbyJpaRepository.findAll().stream()
+                .max(Comparator.comparing(LobbyJpaEntity::getCreationTime))
+                .map(this::toLobby)
+                .orElse(null);
     }
 }

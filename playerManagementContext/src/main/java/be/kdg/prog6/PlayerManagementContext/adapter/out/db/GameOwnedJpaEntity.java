@@ -9,9 +9,16 @@ import java.util.UUID;
 public class GameOwnedJpaEntity {
 
     @Id
+    @Column(name = "game_owned_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name="game_id")
     private UUID gameId;
+
     @Column(name="game_name")
     private String gameName;
+
     @Column(name="is_favorite")
     private boolean isFavorite;
 
@@ -27,6 +34,16 @@ public class GameOwnedJpaEntity {
         this.gameName = gameName;
         this.isFavorite = isFavorite;
     }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public UUID getGameId() {return gameId;}
 
