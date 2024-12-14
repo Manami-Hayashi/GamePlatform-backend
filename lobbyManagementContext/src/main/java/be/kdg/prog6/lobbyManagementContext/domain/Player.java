@@ -1,7 +1,10 @@
 // Player.java
 package be.kdg.prog6.lobbyManagementContext.domain;
 
+import org.apache.catalina.LifecycleState;
+
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public class Player {
@@ -11,6 +14,7 @@ public class Player {
     private UUID lobbyId;
     private GameId gameId;
     private boolean ready; // Add the ready field
+    private List<PlayerId> playerIds;
 
     public Player(PlayerId playerId, String name, UUID lobbyId) {
         this.playerId = playerId;
@@ -55,8 +59,6 @@ public class Player {
         this.ready = ready;
     }
 
-
-
     public PlayerId getPlayerId() {
         return playerId;
     }
@@ -99,5 +101,17 @@ public class Player {
 
     public void setReady(boolean ready) {
         this.ready = ready;
+    }
+
+    public List<PlayerId> getPlayerIds() {
+        return playerIds;
+    }
+
+    public void setPlayerIds(List<PlayerId> playerIds) {
+        this.playerIds = playerIds;
+    }
+
+    public void addPlayer(PlayerId playerId) {
+        playerIds.add(playerId);
     }
 }

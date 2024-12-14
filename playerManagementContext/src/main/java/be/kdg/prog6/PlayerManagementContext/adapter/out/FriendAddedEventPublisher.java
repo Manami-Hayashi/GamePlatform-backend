@@ -1,0 +1,30 @@
+package be.kdg.prog6.PlayerManagementContext.adapter.out;
+
+import be.kdg.prog6.PlayerManagementContext.domain.Player;
+import be.kdg.prog6.PlayerManagementContext.port.out.UpdatePlayerPort;
+import be.kdg.prog6.common.events.FriendAddedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.stereotype.Component;
+
+@Component
+public class FriendAddedEventPublisher implements UpdatePlayerPort {
+    private final RabbitTemplate rabbitTemplate;
+    private static final String EXCHANGE_NAME = "friend.added.exchange";
+    private static final String ROUTING_KEY = "friend.added";
+    private static final Logger LOGGER = LoggerFactory.getLogger(FriendAddedEventPublisher.class);
+
+    public FriendAddedEventPublisher(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
+    @Override
+    public void updatePlayer(Player player) {
+        LOGGER.info("Publishing FriendAddedEvent to RabbitMQ");
+
+        // Publish event
+        FriendAddedEvent event = new FriendAddedEvent(player.getPlayerId().id());
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, event);
+    }
+}
