@@ -4,6 +4,7 @@ package be.kdg.prog6.lobbyManagementContext.domain;
 import org.apache.catalina.LifecycleState;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,8 +14,8 @@ public class Player {
     private Instant lastActive;
     private UUID lobbyId;
     private GameId gameId;
-    private boolean ready; // Add the ready field
-    private List<PlayerId> playerIds;
+    private boolean ready;
+    private List<PlayerId> friends = new ArrayList<>();
 
     public Player(PlayerId playerId, String name, UUID lobbyId) {
         this.playerId = playerId;
@@ -103,15 +104,15 @@ public class Player {
         this.ready = ready;
     }
 
-    public List<PlayerId> getPlayerIds() {
-        return playerIds;
+    public List<PlayerId> getFriends() {
+        return friends;
     }
 
-    public void setPlayerIds(List<PlayerId> playerIds) {
-        this.playerIds = playerIds;
+    public void setFriends(List<PlayerId> friends) {
+        this.friends = friends;
     }
 
-    public void addPlayer(PlayerId playerId) {
-        playerIds.add(playerId);
+    public void addFriend(PlayerId friendId) {
+        friends.add(friendId);
     }
 }

@@ -7,6 +7,7 @@ import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 import be.kdg.prog6.PlayerManagementContext.port.in.SendFriendRequestUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.out.LoadPlayerPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.UpdatePlayerPort;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +15,7 @@ public class SendFriendRequestUseCaseImpl implements SendFriendRequestUseCase {
     private final LoadPlayerPort loadPlayerPort;
     private final UpdatePlayerPort updatePlayerPort;
 
-    public SendFriendRequestUseCaseImpl(LoadPlayerPort loadPlayerPort, UpdatePlayerPort updatePlayerPort) {
+    public SendFriendRequestUseCaseImpl(LoadPlayerPort loadPlayerPort, @Qualifier("playerDbAdapter") UpdatePlayerPort updatePlayerPort) {
         this.loadPlayerPort = loadPlayerPort;
         this.updatePlayerPort = updatePlayerPort;
     }

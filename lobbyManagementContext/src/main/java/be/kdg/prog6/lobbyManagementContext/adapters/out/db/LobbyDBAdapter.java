@@ -50,6 +50,10 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
         playerJpaEntity.setLastActive(player.getLastActive());
         playerJpaEntity.setName(player.getName());
         playerJpaEntity.setReady(player.isReady());
+        playerJpaEntity.setFriends(player.getFriends().stream()
+                .map(friendId -> lobbyPlayerJpaRepository.findById(friendId.id())
+                        .orElseThrow(() -> new IllegalArgumentException("Friend not found")))
+                .collect(Collectors.toList()));
 
         if (player.getLobbyId() != null) {
             LobbyJpaEntity lobbyJpaEntity = lobbyJpaRepository.findById(player.getLobbyId())
@@ -168,7 +172,10 @@ public class LobbyDBAdapter implements SaveLobbyPort, LoadLobbyPort, LoadAllLobb
                 playerJpaEntity.getLastActive(),
                 lobbyId,
                 gameId,
-                playerJpaEntity.getReady() != null ? playerJpaEntity.getReady() : false // Handle null value
+                playerJpaEntity.getReady() != null ? playerJpaEntity.getReady() : false, // Handle null value
+                playerJpaEntity.getFriends().stream()
+                        .map(friend -> new PlayerId(friend.getPlayerId()))
+                        .collect(Collectors.toList())
         );
     }
 

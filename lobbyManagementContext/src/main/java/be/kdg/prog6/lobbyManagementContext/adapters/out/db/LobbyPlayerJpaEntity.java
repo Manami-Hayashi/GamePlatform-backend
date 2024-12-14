@@ -34,9 +34,14 @@ public class LobbyPlayerJpaEntity {
     @Column(name = "ready")
     private Boolean ready = false; // Use Boolean instead of boolean
 
-    @ManyToMany(mappedBy = "players")
-    @Column
-    private List<LobbyPlayerJpaEntity> players;
+    @ManyToMany
+    @JoinTable(
+            name = "player_friends",
+            catalog = "lobby_management",
+            joinColumns = @JoinColumn(name = "player_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private List<LobbyPlayerJpaEntity> friends = new ArrayList<>();
 
     // Constructors, getters, and setters
     public LobbyPlayerJpaEntity(UUID playerId, String name, Instant lastActive, LobbyJpaEntity lobby, Boolean ready) {
@@ -107,14 +112,15 @@ public class LobbyPlayerJpaEntity {
         this.ready = ready;
     }
 
-    public List<LobbyPlayerJpaEntity> getPlayers() {
-        return players;
+    public List<LobbyPlayerJpaEntity> getFriends() {
+        return friends;
     }
 
-    public void setPlayers(List<LobbyPlayerJpaEntity> players) {
-        this.players = players;
+    public void setFriends(List<LobbyPlayerJpaEntity> friends) {
+        this.friends = friends;
     }
-       public void addPlayer(LobbyPlayerJpaEntity player) {
-        players.add(player);
+
+    public void addFriend(LobbyPlayerJpaEntity friend) {
+        friends.add(friend);
     }
 }
