@@ -198,6 +198,30 @@ public class RabbitMQTopology {
                 .bind(gameAddedQueue2)
                 .to(gameAddedExchange);
     }
+
+
+    // Define the exchange, queue, and binding for FriendAddedEvent
+    public static final String FRIEND_ADDED_EXCHANGE = "friend.added.exchange";
+    public static final String FRIEND_ADDED_QUEUE = "friend.added.queue";
+
+    @Bean
+    public TopicExchange friendAddedExchange() {
+        return new TopicExchange(FRIEND_ADDED_EXCHANGE);
+    }
+
+    @Bean
+    public Queue friendAddedQueue() {
+        return new Queue(FRIEND_ADDED_QUEUE, true); // Durable queue
+    }
+
+    @Bean
+    public Binding friendAddedBinding(Queue friendAddedQueue, TopicExchange friendAddedExchange) {
+        return BindingBuilder
+                .bind(friendAddedQueue)
+                .to(friendAddedExchange)
+                .with("friend.added");
+    }
+
     
 
     // Define RabbitTemplate for internal communication with Keycloak (using the internalConnectionFactory)

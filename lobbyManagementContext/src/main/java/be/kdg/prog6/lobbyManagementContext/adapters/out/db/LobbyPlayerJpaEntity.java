@@ -4,6 +4,7 @@ package be.kdg.prog6.lobbyManagementContext.adapters.out.db;
 import be.kdg.prog6.lobbyManagementContext.domain.PlayerId;
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +34,15 @@ public class LobbyPlayerJpaEntity {
 
     @Column(name = "ready")
     private Boolean ready = false; // Use Boolean instead of boolean
+
+    @ManyToMany
+    @JoinTable(
+            name = "player_friends",
+            catalog = "lobby_management",
+            joinColumns = @JoinColumn(name = "player_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private List<LobbyPlayerJpaEntity> friends = new ArrayList<>();
 
     // Constructors, getters, and setters
     public LobbyPlayerJpaEntity(UUID playerId, String name, Instant lastActive, LobbyJpaEntity lobby, Boolean ready) {
@@ -103,5 +113,15 @@ public class LobbyPlayerJpaEntity {
         this.ready = ready;
     }
 
+    public List<LobbyPlayerJpaEntity> getFriends() {
+        return friends;
+    }
 
+    public void setFriends(List<LobbyPlayerJpaEntity> friends) {
+        this.friends = friends;
+    }
+
+    public void addFriend(LobbyPlayerJpaEntity friend) {
+        friends.add(friend);
+    }
 }

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Player {
@@ -119,7 +118,7 @@ public class Player {
     public void acceptFriendRequest(Friend friendRequest) {
         if (friendsReceived.contains(friendRequest)) {
             friendRequest.setFriendRequestStatus(FriendRequestStatus.ACCEPTED);
-            LOGGER.info("Friend request accepted between {} and {}", friendRequest.getPlayer1().getPlayerId(), friendRequest.getPlayer2().getPlayerId());
+            LOGGER.info("Friend request accepted between {} and {}", friendRequest.getRequester().getPlayerId(), friendRequest.getReceiver().getPlayerId());
         } else {
             throw new IllegalArgumentException("No such friend request exists.");
         }
@@ -128,7 +127,7 @@ public class Player {
     public void declineFriendRequest(Friend friendRequest) {
         if (friendsReceived.contains(friendRequest)) {
             friendRequest.setFriendRequestStatus(FriendRequestStatus.NONE);
-            LOGGER.info("Friend request declined between {} and {}", friendRequest.getPlayer1().getPlayerId(), friendRequest.getPlayer2().getPlayerId());
+            LOGGER.info("Friend request declined between {} and {}", friendRequest.getRequester().getPlayerId(), friendRequest.getReceiver().getPlayerId());
         } else {
             throw new IllegalArgumentException("No such friend request exists.");
         }

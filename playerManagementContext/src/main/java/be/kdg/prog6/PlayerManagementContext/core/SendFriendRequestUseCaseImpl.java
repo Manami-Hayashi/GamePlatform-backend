@@ -7,6 +7,7 @@ import be.kdg.prog6.PlayerManagementContext.domain.PlayerId;
 import be.kdg.prog6.PlayerManagementContext.port.in.SendFriendRequestUseCase;
 import be.kdg.prog6.PlayerManagementContext.port.out.LoadPlayerPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.UpdatePlayerPort;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +15,7 @@ public class SendFriendRequestUseCaseImpl implements SendFriendRequestUseCase {
     private final LoadPlayerPort loadPlayerPort;
     private final UpdatePlayerPort updatePlayerPort;
 
-    public SendFriendRequestUseCaseImpl(LoadPlayerPort loadPlayerPort, UpdatePlayerPort updatePlayerPort) {
+    public SendFriendRequestUseCaseImpl(LoadPlayerPort loadPlayerPort, @Qualifier("playerDbAdapter") UpdatePlayerPort updatePlayerPort) {
         this.loadPlayerPort = loadPlayerPort;
         this.updatePlayerPort = updatePlayerPort;
     }
@@ -32,17 +33,17 @@ public class SendFriendRequestUseCaseImpl implements SendFriendRequestUseCase {
 
         // Check if a friend request already exists, or they are already friends
         for (Friend friend : sender.getFriendsInitiated()) {
-            if (friend.getPlayer2().getPlayerId().equals(accepterId)) {
+            if (friend.getReceiver().getPlayerId().equals(accepterId)) {
                 throw new IllegalArgumentException("Friend request already sent.");
             }
         }
         for (Friend friend : sender.getFriendsReceived()) {
-            if (friend.getPlayer1().getPlayerId().equals(accepterId)) {
+            if (friend.getRequester().getPlayerId().equals(accepterId)) {
                 throw new IllegalArgumentException("Friend request already received.");
             }
         }
         for (Friend friend : sender.getFriends()) {
-            if (friend.getPlayer1().getPlayerId().equals(accepterId) || friend.getPlayer2().getPlayerId().equals(accepterId)) {
+            if (friend.getRequester().getPlayerId().equals(accepterId) || friend.getReceiver().getPlayerId().equals(accepterId)) {
                 throw new IllegalArgumentException("Players are already friends.");
             }
         }

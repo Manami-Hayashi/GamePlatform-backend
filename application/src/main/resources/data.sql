@@ -47,6 +47,9 @@ INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120003'), 'Player Three', NOW());
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120004'), 'Player Four', NOW());
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120008'), 'Player Eight', NOW());
+INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83'), 'Manami', NOW());
+INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162'), 'Noah', NOW());
+
 
 -- Insert lobbies
 INSERT INTO lobby_management.lobby (lobby_id, game_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'),UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'));

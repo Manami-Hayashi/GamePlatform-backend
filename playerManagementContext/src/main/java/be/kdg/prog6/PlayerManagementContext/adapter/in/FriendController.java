@@ -28,7 +28,7 @@ public class FriendController {
     public ResponseEntity<List<FriendDto>> getFriends(@PathVariable String playerId) {
         List<Friend> friends = showFriendsUseCase.getFriends(new PlayerId(UUID.fromString(playerId)));
         List<FriendDto> friendDtos = friends.stream()
-                .map(friend -> new FriendDto(friend.getPlayer1().getPlayerId().id().toString(), friend.getPlayer1().getName(), friend.getPlayer2().getPlayerId().id().toString(), friend.getPlayer2().getName(), friend.getFriendRequestStatus().toString()))
+                .map(friend -> new FriendDto(friend.getRequester().getPlayerId().id().toString(), friend.getRequester().getName(), friend.getReceiver().getPlayerId().id().toString(), friend.getReceiver().getName(), friend.getFriendRequestStatus().toString()))
                 .toList();
         return ResponseEntity.ok(friendDtos);
     }

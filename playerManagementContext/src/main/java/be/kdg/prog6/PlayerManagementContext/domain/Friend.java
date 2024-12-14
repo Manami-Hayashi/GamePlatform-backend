@@ -1,23 +1,19 @@
 package be.kdg.prog6.PlayerManagementContext.domain;
 
 public class Friend {
-    private Player player1;
-    private Player player2;
+    private Player requester;
+    private Player receiver;
     private FriendRequestStatus friendRequestStatus;
 
-    public Friend() {
+    public Friend(Player requester, Player receiver) {
+        this.requester = requester;
+        this.receiver = receiver;
         this.friendRequestStatus = FriendRequestStatus.NONE;
     }
 
-    public Friend(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
-        this.friendRequestStatus = FriendRequestStatus.NONE;
-    }
-
-    public Friend(Player player1, Player player2, FriendRequestStatus friendRequestStatus) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public Friend(Player requester, Player receiver, FriendRequestStatus friendRequestStatus) {
+        this.requester = requester;
+        this.receiver = receiver;
         this.friendRequestStatus = friendRequestStatus;
     }
 
@@ -25,20 +21,20 @@ public class Friend {
         this.friendRequestStatus = friendRequestStatus;
     }
 
-    public Player getPlayer1() {
-        return player1;
+    public Player getRequester() {
+        return requester;
     }
 
-    public void setPlayer1(Player player1) {
-        this.player1 = player1;
+    public void setRequester(Player player1) {
+        this.requester = player1;
     }
 
-    public Player getPlayer2() {
-        return player2;
+    public Player getReceiver() {
+        return receiver;
     }
 
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
+    public void setReceiver(Player player2) {
+        this.receiver = player2;
     }
 
     public FriendRequestStatus getFriendRequestStatus() {
