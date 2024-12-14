@@ -1,8 +1,6 @@
 package be.kdg.prog6.common.events;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
 public class FriendAddedEvent implements Serializable {

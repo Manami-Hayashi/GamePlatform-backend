@@ -4,6 +4,7 @@ package be.kdg.prog6.lobbyManagementContext.adapters.out.db;
 import be.kdg.prog6.lobbyManagementContext.domain.PlayerId;
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

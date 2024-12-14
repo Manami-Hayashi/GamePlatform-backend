@@ -44,9 +44,9 @@ public class LobbyController {
         return getGameIdByNameUseCase.getGameIdByName(request.getGameName());
     }
 
-    @GetMapping("/friends")
-    public List<Player> getFriends() {
-        return getFriendsUseCase.getFriends();
+    @GetMapping("/friends/{playerId}")
+    public List<Player> getFriends(@PathVariable UUID playerId) {
+        return getFriendsUseCase.getFriends(playerId);
     }
 
     @GetMapping("/get-lobby-id/{playerId}")

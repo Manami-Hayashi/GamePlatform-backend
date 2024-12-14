@@ -1,6 +1,7 @@
 package be.kdg.prog6.PlayerManagementContext.adapter.out;
 
 import be.kdg.prog6.PlayerManagementContext.domain.Player;
+import be.kdg.prog6.PlayerManagementContext.port.out.PublishFriendAddedEventPort;
 import be.kdg.prog6.PlayerManagementContext.port.out.UpdatePlayerPort;
 import be.kdg.prog6.common.events.FriendAddedEvent;
 import org.slf4j.Logger;
@@ -8,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
-public class FriendAddedEventPublisher implements UpdatePlayerPort {
+public class FriendAddedEventPublisher implements PublishFriendAddedEventPort {
     private final RabbitTemplate rabbitTemplate;
     private static final String EXCHANGE_NAME = "friend.added.exchange";
     private static final String ROUTING_KEY = "friend.added";
@@ -20,11 +23,11 @@ public class FriendAddedEventPublisher implements UpdatePlayerPort {
     }
 
     @Override
-    public void updatePlayer(Player player) {
+    public void publishFriendAddedEvent(UUID playerId, UUID friendId) {
         LOGGER.info("Publishing FriendAddedEvent to RabbitMQ");
 
         // Publish event
-        FriendAddedEvent event = new FriendAddedEvent(player.getPlayerId().id());
+        FriendAddedEvent event = new FriendAddedEvent(playerId, friendId);
         rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, event);
     }
 }

@@ -1,7 +1,4 @@
-// Player.java
 package be.kdg.prog6.lobbyManagementContext.domain;
-
-import org.apache.catalina.LifecycleState;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ public class Player {
         this.name = name;
         this.lobbyId = lobbyId;
         this.lastActive = Instant.now();
-        this.ready = false; // Initialize ready to false
+        this.ready = false;
     }
 
     public Player(PlayerId playerId, String name, Instant lastActive, UUID lobbyId) {
@@ -30,7 +27,7 @@ public class Player {
         this.name = name;
         this.lastActive = lastActive;
         this.lobbyId = lobbyId;
-        this.ready = false; // Initialize ready to false
+        this.ready = false;
     }
 
     public Player(PlayerId playerId, String name, Instant lastActive, UUID lobbyId, GameId gameId) {
@@ -39,14 +36,14 @@ public class Player {
         this.lastActive = lastActive;
         this.lobbyId = lobbyId;
         this.gameId = gameId;
-        this.ready = false; // Initialize ready to false
+        this.ready = false;
     }
 
     public Player(PlayerId playerId, String name) {
         this.playerId = playerId;
         this.name = name;
         this.lastActive = Instant.now();
-        this.ready = false; // Initialize ready to false
+        this.ready = false;
     }
 
 
@@ -59,6 +56,19 @@ public class Player {
         this.gameId = gameId;
         this.ready = ready;
     }
+
+    public Player(PlayerId playerId, String name, Instant lastActive, UUID lobbyId, GameId gameId, boolean ready, List<PlayerId> friends) {
+        this.playerId = playerId;
+        this.name = name;
+        this.lastActive = lastActive;
+        this.lobbyId = lobbyId;
+        this.gameId = gameId;
+        this.ready = ready;
+        this.friends = friends;
+    }
+
+
+
 
     public PlayerId getPlayerId() {
         return playerId;
