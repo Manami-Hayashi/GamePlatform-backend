@@ -32,17 +32,17 @@ public class SendFriendRequestUseCaseImpl implements SendFriendRequestUseCase {
 
         // Check if a friend request already exists, or they are already friends
         for (Friend friend : sender.getFriendsInitiated()) {
-            if (friend.getPlayer2().getPlayerId().equals(accepterId)) {
+            if (friend.getReceiver().getPlayerId().equals(accepterId)) {
                 throw new IllegalArgumentException("Friend request already sent.");
             }
         }
         for (Friend friend : sender.getFriendsReceived()) {
-            if (friend.getPlayer1().getPlayerId().equals(accepterId)) {
+            if (friend.getRequester().getPlayerId().equals(accepterId)) {
                 throw new IllegalArgumentException("Friend request already received.");
             }
         }
         for (Friend friend : sender.getFriends()) {
-            if (friend.getPlayer1().getPlayerId().equals(accepterId) || friend.getPlayer2().getPlayerId().equals(accepterId)) {
+            if (friend.getRequester().getPlayerId().equals(accepterId) || friend.getReceiver().getPlayerId().equals(accepterId)) {
                 throw new IllegalArgumentException("Players are already friends.");
             }
         }

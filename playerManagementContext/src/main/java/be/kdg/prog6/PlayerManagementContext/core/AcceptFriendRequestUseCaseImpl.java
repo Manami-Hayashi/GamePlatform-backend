@@ -24,20 +24,21 @@ public class AcceptFriendRequestUseCaseImpl implements AcceptFriendRequestUseCas
     }
 
     @Override
-    public void acceptFriendRequest(PlayerId senderId, PlayerId accepterId) {
-        // Load sender and accepter players
-        Player sender = loadPlayerPort.loadPlayer(senderId.id());
-        Player accepter = loadPlayerPort.loadPlayer(accepterId.id());
+    public void acceptFriendRequest(PlayerId requesterId, PlayerId receiverId) {
+        // Load requester and receiver players
+        Player requester = loadPlayerPort.loadPlayer(requesterId.id());
+        Player receiver = loadPlayerPort.loadPlayer(receiverId.id());
+        LOGGER.info("Loaded requester with ID {} and receiver with ID {}", requesterId, receiverId);
 
-        // Validate that sender and accepter are not the same
-        if (senderId.equals(accepterId)) {
+        // Validate that requester and receiver are not the same
+        if (requesterId.equals(receiverId)) {
             throw new IllegalArgumentException("A player cannot accept their own friend request.");
         }
 
-        // Find the friend request in the accepter's received list
+        // Find the friend request in the receiver's received list
         Friend friendRequest = null;
-        for (Friend friend : accepter.getFriendsReceived()) {
-            if (friend.getPlayer1().getPlayerId().equals(senderId) &&
+        for (Friend friend : receiver.getFriendsReceived()) {
+            if (friend.getRequester().getPlayerId().id().equals(requesterId.id()) &&
                     friend.getFriendRequestStatus().equals(FriendRequestStatus.REQUESTED)) {
                 friendRequest = friend;
                 break;
@@ -45,17 +46,19 @@ public class AcceptFriendRequestUseCaseImpl implements AcceptFriendRequestUseCas
         }
 
         if (friendRequest == null) {
-            throw new IllegalArgumentException("No pending friend request found from the specified sender.");
+            throw new IllegalArgumentException("No pending friend request found from the specified requester.");
         }
 
         // Update the friend request status
         friendRequest.setFriendRequestStatus(FriendRequestStatus.ACCEPTED);
 
-        // Persist the updated sender and accepter
-        updatePlayerPort.updatePlayer(sender);
-        updatePlayerPort.updatePlayer(accepter);
+        // Persist the updated requester and receiver
+        updatePlayerPort.updatePlayer(requester);
+        updatePlayerPort.updatePlayer(receiver);
 
         // Log the successful acceptance
-        LOGGER.info("Friend request from Player {} to Player {} has been accepted.", senderId, accepterId);
+        LOGGER.info("Friend request from Player {} to Player {} has been accepted.", requesterId, receiverId);
+
+
     }
 }

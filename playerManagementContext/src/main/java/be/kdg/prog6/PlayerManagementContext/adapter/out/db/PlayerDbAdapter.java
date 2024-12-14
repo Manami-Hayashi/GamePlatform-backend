@@ -141,8 +141,8 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
         FriendJpaEntity friendJpaEntity = new FriendJpaEntity(
                 friend.getFriendRequestStatus().toString()
         );
-        friendJpaEntity.setRequester(toPlayerJpaEntity(friend.getPlayer1()));
-        friendJpaEntity.setReceiver(toPlayerJpaEntity(friend.getPlayer2()));
+        friendJpaEntity.setRequester(toPlayerJpaEntity(friend.getRequester()));
+        friendJpaEntity.setReceiver(toPlayerJpaEntity(friend.getReceiver()));
         return friendJpaEntity;
     }
 
