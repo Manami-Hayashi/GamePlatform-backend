@@ -4,6 +4,7 @@ import be.kdg.prog6.lobbyManagementContext.domain.Player;
 import be.kdg.prog6.lobbyManagementContext.domain.PlayerId;
 import be.kdg.prog6.lobbyManagementContext.ports.in.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,14 +44,16 @@ public class LobbyController {
 
 
     @GetMapping("/friends/{playerId}")
-    public List<Player> getFriends(@PathVariable UUID playerId) {
-        return getFriendsUseCase.getFriends(playerId);
+    public ResponseEntity<List<PlayerDto>> getFriends(@PathVariable String playerId) {
+        List<Player> friends = getFriendsUseCase.getFriends(UUID.fromString(playerId));
+        List<PlayerDto> friendDtos = friends.stream()
+                .map(friend -> new PlayerDto(friend.getPlayerId().id().toString(), friend.getName()))
+                .toList();
+        return ResponseEntity.ok(friendDtos);
     }
 
     @GetMapping("/get-lobby-id/{playerId}")
     public UUID getLobbyId(@PathVariable UUID playerId) {
         return getLobbyIdUseCase.getLobbyId(playerId);
     }
-
-
 }
