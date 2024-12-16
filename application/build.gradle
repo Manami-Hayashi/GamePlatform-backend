@@ -115,8 +115,8 @@ dependencyManagement {
 
 bootBuildImage {
     builder = "paketobuildpacks/builder-jammy-base:latest"
-    imageName = "acrkdgworkshop.azurecr.io/integration5hello"
-    tags = ["acrkdgworkshop.azurecr.io/integration5hello:${-> project.ext.gitProps['git.commit.id.abbrev']}"]
+    imageName = "acrgameplatform.azurecr.io/integration5team3gameplatform"
+    tags = ["acrgameplatform.azurecr.io/integration5team3gameplatform:${-> project.ext.gitProps['git.commit.id.abbrev']}"]
     publish = true
     docker {
         publishRegistry {
