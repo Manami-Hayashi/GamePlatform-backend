@@ -55,7 +55,7 @@
 #  image: mcr.microsoft.com/azure-cli
 #  stage: deploy
 #  before_script:
-#    - az login --service-principal -u $AZURE_APP_ID -p $AZURE_PASSWORD --tenant $AZURE_TENANT
+#    - az login --service-principal -u $AZURE_APP_ID_WILL -p $AZURE_PASSWORD_WILL --tenant $AZURE_TENANT_WILL
 #    - az extension add --name containerapp --upgrade
 #  script:
 #    - tag=$CI_COMMIT_REF_NAME
@@ -68,15 +68,93 @@
 #      # "subcode": ""
 #    # }
 #    #create your environment test.
-#    # az containerapp env create --name test --resource-group TestForWorkshop --location westeurope
-#    - az containerapp up --name hello-app-container --resource-group TestForWorkshop --location westeurope --environment test
+#    # az containerapp env create --name test --resource-group game-platform-test --location westeurope
+#    - az containerapp up --name chatbot-container --resource-group game-platform-test --location westeurope --environment test
 #      --target-port 8082 --ingress external
-#      --image "acrkdgworkshop.azurecr.io/integration5hello:latest"
+#      --image "acrgamearena.azurecr.io/team3chatbot:latest"
 #
-#    - az containerapp secret set --name hello-app-container --resource-group TestForWorkshop
+#    - az containerapp up --name game-management-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3gamemanagement:latest"
+#
+#    - az containerapp up --name game-statistics-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3gamestatistics:latest"
+#
+#    - az containerapp up --name lobby-management-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3lobbymanagement:latest"
+#
+#    - az containerapp up --name player-management-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3playermanagement:latest"
+#
+#    - az containerapp up --name store-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3store:latest"
+#
+#
+#    - az containerapp secret set --name chatbot-container --resource-group game-platform-test
 #      --secrets
-#      secret-key=$IMAGE_USERNAME
-#    - az containerapp update --name hello-app-container --resource-group TestForWorkshop
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name game-management-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name game-statistics-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name lobby-management-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name player-management-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name store-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#
+#    - az containerapp update --name chatbot-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name game-management-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name game-statistics-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name lobby-management-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name player-management-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name store-container --resource-group game-platform-test
 #      --cpu 1 --memory 2Gi
 #      --min-replicas 0 --max-replicas 1
 #      --set-env-vars

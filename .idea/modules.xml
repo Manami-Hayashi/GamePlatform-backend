@@ -4,6 +4,18 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/game-arena.application.main.iml" filepath="$PROJECT_DIR$/.idea/modules/application/game-arena.application.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/game-arena.application.test.iml" filepath="$PROJECT_DIR$/.idea/modules/application/game-arena.application.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chatbotContext/game-arena.chatbotContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/chatbotContext/game-arena.chatbotContext.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chatbotContext/game-arena.chatbotContext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/chatbotContext/game-arena.chatbotContext.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gameManagementContext/game-arena.gameManagementContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gameManagementContext/game-arena.gameManagementContext.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gameManagementContext/game-arena.gameManagementContext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gameManagementContext/game-arena.gameManagementContext.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gameStatisticsContext/game-arena.gameStatisticsContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gameStatisticsContext/game-arena.gameStatisticsContext.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gameStatisticsContext/game-arena.gameStatisticsContext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gameStatisticsContext/game-arena.gameStatisticsContext.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lobbyManagementContext/game-arena.lobbyManagementContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lobbyManagementContext/game-arena.lobbyManagementContext.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lobbyManagementContext/game-arena.lobbyManagementContext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lobbyManagementContext/game-arena.lobbyManagementContext.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/playerManagementContext/game-arena.playerManagementContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/playerManagementContext/game-arena.playerManagementContext.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/playerManagementContext/game-arena.playerManagementContext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/playerManagementContext/game-arena.playerManagementContext.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/storeContext/game-arena.storeContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/storeContext/game-arena.storeContext.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/storeContext/game-arena.storeContext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/storeContext/game-arena.storeContext.test.iml" />
     </modules>
   </component>
 </project>

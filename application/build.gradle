@@ -13,6 +13,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '21'
+    targetCompatibility = '21'
 }
 
 configurations {
@@ -115,8 +116,8 @@ dependencyManagement {
 
 bootBuildImage {
     builder = "paketobuildpacks/builder-jammy-base:latest"
-    imageName = "acrkdgworkshop.azurecr.io/integration5hello"
-    tags = ["acrkdgworkshop.azurecr.io/integration5hello:${-> project.ext.gitProps['git.commit.id.abbrev']}"]
+    imageName = "acrgamearena.azurecr.io/integration5team3gameplatform"
+    tags = ["acrgamearena.azurecr.io/integration5team3gameplatform:${-> project.ext.gitProps['git.commit.id.abbrev']}"]
     publish = true
     docker {
         publishRegistry {
