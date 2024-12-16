@@ -51,6 +51,7 @@ public class ProfileController {
             return ResponseEntity.notFound().build();
         }
 
+
         ProfileDto dto = new ProfileDto(
                 profile.getBio(),
                 profile.getAvatar(),
