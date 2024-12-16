@@ -55,13 +55,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.testcontainers:mysql:1.20.2'
 
     // Spring cloud AZURE
-    implementation 'com.azure.spring:spring-cloud-azure-starter-actuator'
+//    implementation 'com.azure.spring:spring-cloud-azure-starter-actuator'
     implementation 'com.azure.spring:spring-cloud-azure-starter-keyvault'
     implementation 'com.azure.spring:spring-cloud-azure-starter'
 

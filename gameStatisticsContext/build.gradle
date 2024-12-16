@@ -9,8 +9,8 @@ group = 'be.kdg.prgramming6'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '21'
-    targetCompatibility = '21'
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
 
 configurations {
@@ -61,9 +61,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.2.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.2.2'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.2.2'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // Spring cloud AZURE
-    implementation 'com.azure.spring:spring-cloud-azure-starter-actuator'
+//    implementation 'com.azure.spring:spring-cloud-azure-starter-actuator'
     implementation 'com.azure.spring:spring-cloud-azure-starter-keyvault'
     implementation 'com.azure.spring:spring-cloud-azure-starter'
 

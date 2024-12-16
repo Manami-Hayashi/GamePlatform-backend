@@ -4,6 +4,14 @@ server:
     context-path: /api
 
 spring:
+
+  # Disable RabbitMQ health check
+  management:
+    health:
+      rabbitmq:
+        enabled: false
+
+
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
   sql:
@@ -29,6 +37,8 @@ spring:
         credential:
           managed-identity-enabled: false
           client-id:
+
+
 
 #  rabbitmq:
 #    host: localhost

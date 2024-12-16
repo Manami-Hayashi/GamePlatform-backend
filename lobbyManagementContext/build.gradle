@@ -9,8 +9,8 @@ group = 'be.kdg.prgramming6'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '21'
-    targetCompatibility = '21'
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
 
 configurations {
@@ -55,7 +55,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.2.2'
@@ -67,7 +67,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
     // Spring cloud AZURE
-    implementation 'com.azure.spring:spring-cloud-azure-starter-actuator'
+//    implementation 'com.azure.spring:spring-cloud-azure-starter-actuator'
     implementation 'com.azure.spring:spring-cloud-azure-starter-keyvault'
     implementation 'com.azure.spring:spring-cloud-azure-starter'
 
