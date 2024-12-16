@@ -20,14 +20,14 @@ public class GetPredictionForAdminUseCaseImpl implements GetPredictionForAdminUs
     }
 
     @Override
-    public double getWinProbability(UUID playerId, UUID gameId) {
+    public double getWinProbability(UUID playerId, UUID gameId, String authorizationHeader) {
         // Step 1: Fetch game statistics
         GameStatistics gameStatistics = loadGameStatisticsPort
                 .loadGameStatisticsByPlayerIdAndGameId(playerId, gameId)
                 .orElseThrow(() -> new IllegalArgumentException("Game statistics not found for Player ID: " + playerId + " and Game ID: " + gameId));
 
         // Step 2: Delegate prediction to the Python model
-        return predictionModelPort.fetchWinProbability(gameStatistics);
+        return predictionModelPort.fetchWinProbability(gameStatistics, authorizationHeader);
 
     }
 

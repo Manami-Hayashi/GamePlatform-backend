@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class PredictionAdapter implements PredictionModelPort {
@@ -26,7 +27,7 @@ public class PredictionAdapter implements PredictionModelPort {
     private long tokenExpiryTime = 0;
 
     @Override
-    public double fetchWinProbability(GameStatistics gameStatistics) {
+    public double fetchWinProbability(GameStatistics gameStatistics, String authorizationHeader) {
         if (gameStatistics.getPlayerId() == null || gameStatistics.getGameId() == null) {
             throw new IllegalArgumentException("Player ID and Game ID must not be null.");
         }
@@ -36,15 +37,21 @@ public class PredictionAdapter implements PredictionModelPort {
         body.put("player_id", gameStatistics.getPlayerId().toString());
         body.put("game_id", gameStatistics.getGameId().toString());
 
+        logger.info("Request body: " + body);
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + getKeycloakToken());
+        headers.set("Authorization", authorizationHeader);  // Use the provided token
+
+        logger.info("authorizationHeader: " + authorizationHeader);
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
 
         try {
             ResponseEntity<PredictionResponse> response = restTemplate.exchange(
                     FAST_API_URL, HttpMethod.POST, request, PredictionResponse.class);
+
+            logger.info("FastAPI prediction response: " + response.getBody());
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 return response.getBody().getWinProbability();
@@ -89,6 +96,8 @@ public class PredictionAdapter implements PredictionModelPort {
     }
 
     private static class PredictionResponse {
+        private UUID playerId;
+        private UUID gameId;
         private Double winProbability;
 
         public double getWinProbability() {

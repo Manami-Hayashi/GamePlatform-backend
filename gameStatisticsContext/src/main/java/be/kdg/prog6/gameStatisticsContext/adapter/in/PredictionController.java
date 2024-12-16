@@ -28,10 +28,11 @@ public class PredictionController {
     public ResponseEntity<Object> getGameStatisticsOrPrediction(
             @RequestParam UUID playerId,
             @RequestParam UUID gameId,
-            @RequestParam(required = false) boolean predict) {
+            @RequestParam(required = false) boolean predict,
+            @RequestHeader("Authorization") String authorizationHeader) {  // Get the token from the request
         if (predict) {
-            // Return win probability
-            double winProbability = getPredictionForAdminUseCase.getWinProbability(playerId, gameId);
+            // Pass the token to the prediction use case
+            double winProbability = getPredictionForAdminUseCase.getWinProbability(playerId, gameId, authorizationHeader);
             return ResponseEntity.ok(Map.of("winProbability", winProbability));
         } else {
             // Return game statistics
@@ -39,4 +40,10 @@ public class PredictionController {
             return ResponseEntity.ok(gameStatistics);
         }
     }
+
+    @GetMapping("/getGameStatistics")
+    public GameStatistics getGameStatistics(@RequestParam UUID playerId, @RequestParam UUID gameId) {
+        return getPredictionForAdminUseCase.getGameStatistics(playerId, gameId);
+    }
+
 }

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface GetPredictionForAdminUseCase {
 
-    double getWinProbability(UUID playerId, UUID gameId);  // New method
+    double getWinProbability(UUID playerId, UUID gameId, String authorizationHeader);  // New method
 
     GameStatistics getGameStatistics(UUID playerId, UUID gameId);  // New method
 }
