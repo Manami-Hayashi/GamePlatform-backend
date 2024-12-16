@@ -113,18 +113,18 @@ dependencyManagement {
 }
 
 
-//bootBuildImage {
-//    builder = "paketobuildpacks/builder-jammy-base:latest"
-//    imageName = "acrkdgworkshop.azurecr.io/integration5hello"
-//    tags = ["acrkdgworkshop.azurecr.io/integration5hello:${-> project.ext.gitProps['git.commit.id.abbrev']}"]
-//    publish = true
-//    docker {
-//        publishRegistry {
-//            username =  System.getenv("IMAGE_USERNAME")
-//            password = System.getenv("IMAGE_PASSWORD")
-//        }
-//    }
-//}
+bootBuildImage {
+    builder = "paketobuildpacks/builder-jammy-base:latest"
+    imageName = "acrkdgworkshop.azurecr.io/integration5hello"
+    tags = ["acrkdgworkshop.azurecr.io/integration5hello:${-> project.ext.gitProps['git.commit.id.abbrev']}"]
+    publish = true
+    docker {
+        publishRegistry {
+            username =  System.getenv("IMAGE_USERNAME_WILL")
+            password = System.getenv("IMAGE_PASSWORD_WILL")
+        }
+    }
+}
 
 
 shadowJar {

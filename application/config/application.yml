@@ -22,6 +22,14 @@ spring:
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  cloud:
+    azure:
+      keyvault.secret.property-sources[0]:
+        endpoint:
+        credential:
+          managed-identity-enabled: false
+          client-id:
+
 #  rabbitmq:
 #    host: localhost
 #    port: 5673

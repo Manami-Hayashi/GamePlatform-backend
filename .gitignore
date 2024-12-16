@@ -6,6 +6,10 @@ infrastructure/mysql/
 infrastructure/rabbitmq/
 infrastructure/team3/
 
+.idea/
+
+infrastructure/secretswill.txt
+
 
 
 
