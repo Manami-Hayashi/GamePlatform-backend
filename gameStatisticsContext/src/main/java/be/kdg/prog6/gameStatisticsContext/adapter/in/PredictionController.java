@@ -18,12 +18,6 @@ public class PredictionController {
         this.getPredictionForAdminUseCase = getPredictionForAdminUseCase;
     }
 
-/*    @GetMapping("/getWinProbability")
-    public double getWinProbability(@RequestParam UUID playerId, @RequestParam UUID gameId) {
-        return getPredictionForAdminUseCase.getWinProbability(playerId, gameId);
-    }*/
-
-
     @GetMapping("/getGameStatisticsOrPrediction")
     public ResponseEntity<Object> getGameStatisticsOrPrediction(
             @RequestParam UUID playerId,
