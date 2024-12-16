@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/game-arena.application.main.iml" filepath="$PROJECT_DIR$/.idea/modules/application/game-arena.application.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/game-arena.application.test.iml" filepath="$PROJECT_DIR$/.idea/modules/application/game-arena.application.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/chatbotContext/game-arena.chatbotContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/chatbotContext/game-arena.chatbotContext.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/chatbotContext/game-arena.chatbotContext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/chatbotContext/game-arena.chatbotContext.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gameManagementContext/game-arena.gameManagementContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gameManagementContext/game-arena.gameManagementContext.main.iml" />

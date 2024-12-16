@@ -8,7 +8,7 @@ plugins {
     id "org.sonarqube" version "5.0.0.4638"
 }
 
-group = 'be.kdg.prgramming6'
+group = 'be.kdg.prog6'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -53,12 +53,12 @@ ext {
 
 dependencies {
     implementation project(":common")
-    implementation project(':gameManagementContext')
-    implementation project(':playerManagementContext')
-    implementation project(':gameStatisticsContext')
-    implementation project(':lobbyManagementContext')
-    implementation project(':storeContext')
-    implementation project(':chatbotContext')
+    implementation project(':gamemanagementcontext')
+    implementation project(':playermanagementcontext')
+    implementation project(':gamestatisticscontext')
+    implementation project(':lobbymanagementcontext')
+    implementation project(':storecontext')
+    implementation project(':chatbotcontext')
 
 //    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     runtimeOnly 'com.mysql:mysql-connector-j'

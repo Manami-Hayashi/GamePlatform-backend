@@ -63,7 +63,7 @@ INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id, gam
 -- Lobby with 1 player
 INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id, game_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120007'), 'Player Seven', NOW(), UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120003'), UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'));
 
--- Insert players for PlayerManagementContext
+-- Insert players for playerManagementContext
 INSERT INTO player_management.players (player_id, name)
 VALUES
     (UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218'), 'William'),
