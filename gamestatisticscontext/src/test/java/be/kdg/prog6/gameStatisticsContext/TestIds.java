@@ -16,4 +16,6 @@ public class TestIds {
     public static final int SCORE_P2 = 5;
     public static final int MOVES_MADE_P1 = 20;
     public static final int MOVES_MADE_P2 = 19;
+    public static final UUID GAME_STATISTICS1 = UUID.randomUUID();
+    public static final UUID GAME_STATISTICS2 = UUID.randomUUID();
 }
