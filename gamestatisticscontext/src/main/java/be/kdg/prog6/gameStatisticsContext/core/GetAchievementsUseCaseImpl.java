@@ -17,6 +17,10 @@ public class GetAchievementsUseCaseImpl implements GetAchievementsUseCase {
 
     @Override
     public List<Achievement> getAchievements() {
-        return loadAchievementsPort.loadAchievements();
+        List<Achievement> achievements = loadAchievementsPort.loadAchievements();
+        if (achievements.isEmpty()) {
+            throw new RuntimeException("No achievements found");
+        }
+        return achievements;
     }
 }
