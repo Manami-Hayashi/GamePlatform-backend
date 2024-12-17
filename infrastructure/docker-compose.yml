@@ -1,18 +1,43 @@
-  services:
-    mysql_team3_db:
-      image: mysql:9.0.1
-      restart: no
-      environment:
-        MYSQL_DATABASE: 'team3_db'
-        MYSQL_USER: 'user'
-        MYSQL_PASSWORD: 'password'
-        MYSQL_ROOT_PASSWORD: 'password'
-      ports:
-        - '13308:3306'
-      networks:
-        - backend
-      volumes:
-        - ./team3/mysql/data:/var/lib/mysql
+version: '3.9'
+
+services:
+#  azure_sql_server:
+#    image: mcr.microsoft.com/azure-sql-edge
+#    user: root
+#    ports:
+#      - "1433:1433"
+#    environment:
+#      SA_PASSWORD: "testSecure!123"
+#      ACCEPT_EULA: "Y"
+#    volumes:
+#      - "./volumes/db:/var/opt/mssql/data"
+#
+#  devtools:
+#    container_name: msft-dev-tools
+#    image: mcr.microsoft.com/mssql-tools:latest
+#    environment:
+#      SA_PASSWORD: "testSecure!123"
+#      ACCEPT_EULA: "Y"
+#    command: [ "./var/opt/scripts/wait_for_it.sh", "localhost:1433", "--", "bash", "/var/opt/scripts/db_setup.sh" ]
+#    volumes:
+#      - ./scripts:/var/opt/scripts
+#    depends_on:
+#      - azure_sql_server
+
+  mysql_team3_db:
+    image: mysql:9.0.1
+    restart: no
+    environment:
+      MYSQL_DATABASE: 'team3_db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '13308:3306'
+    networks:
+      - backend
+    volumes:
+      - ./team3/mysql/data:/var/lib/mysql
 
     team3_rabbitmq:
       image: rabbitmq:3.13.7-management-alpine
@@ -45,37 +70,35 @@
       networks:
         - kc
 
-    idp_keycloak_team3:
-      image: quay.io/keycloak/keycloak:25.0.5
-      environment:
-        - KEYCLOAK_ADMIN=admin
-        - KEYCLOAK_ADMIN_PASSWORD=admin
-        - KC_DB=mysql
-        - KC_DB_URL_HOST=idp_mysql_team3
-        - KC_DB_URL_DATABASE=keycloak
-        - KC_DB_USERNAME=keycloak
-        - KC_DB_PASSWORD=password
-      command: start-dev --verbose
-      ports:
-        - "8181:8080"
-      volumes:
-        - /home/zamlamb/KdG/Integration5Backend/application/build/libs/keycloak-event-listener-1.0.0.jar:/opt/keycloak/providers/keycloak-event-listener-1.0.0.jar
-      depends_on:
-        - team3_rabbitmq
-        - idp_mysql_team3
-      networks:
-        - kc
-        - shared_network # Make keycloak accessible from RabbitMQ container
+  idp_keycloak_team3:
+    image: quay.io/keycloak/keycloak:25.0.5
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=mysql
+      - KC_DB_URL_HOST=idp_mysql_team3
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=password
+    command: start-dev --verbose
+    ports:
+      - "8181:8080"
+    volumes:
+      - .:/opt/keycloak/providers/keycloak-event-listener-1.0.0.jar
+    depends_on:
+      - team3_rabbitmq
+      - idp_mysql_team3
+    networks:
+      - kc
+      - shared_network # Make keycloak accessible from RabbitMQ container
 
-
-  networks:
-    kc:
-      name: kc-network-team3
-      driver: bridge
-    backend:
-      name: back-network-team3
-      driver: bridge
-    shared_network:
-      name: shared_network
-      driver: bridge
-
+networks:
+  kc:
+    name: kc-network-team3
+    driver: bridge
+  backend:
+    name: back-network-team3
+    driver: bridge
+  shared_network:
+    name: shared_network
+    driver: bridge

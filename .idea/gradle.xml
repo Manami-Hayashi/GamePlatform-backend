@@ -22,13 +22,13 @@
             <option value="$PROJECT_DIR$/application" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/chatbot" />
-            <option value="$PROJECT_DIR$/chatbotContext" />
+            <option value="$PROJECT_DIR$/chatbotcontext" />
             <option value="$PROJECT_DIR$/common" />
-            <option value="$PROJECT_DIR$/gameManagementContext" />
-            <option value="$PROJECT_DIR$/gameStatisticsContext" />
-            <option value="$PROJECT_DIR$/lobbyManagementContext" />
-            <option value="$PROJECT_DIR$/playerManagementContext" />
-            <option value="$PROJECT_DIR$/storeContext" />
+            <option value="$PROJECT_DIR$/gamemanagementcontext" />
+            <option value="$PROJECT_DIR$/gamestatisticscontext" />
+            <option value="$PROJECT_DIR$/lobbymanagementcontext" />
+            <option value="$PROJECT_DIR$/playermanagementcontext" />
+            <option value="$PROJECT_DIR$/storecontext" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -11,11 +11,13 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 @Configuration
+@ConditionalOnProperty(name = "rabbitmq.enabled", havingValue = "true", matchIfMissing = true)
 public class RabbitMQTopology {
 
     public static final String SESSION_STARTED_EXCHANGE = "session.started.exchange";
@@ -198,6 +200,30 @@ public class RabbitMQTopology {
                 .bind(gameAddedQueue2)
                 .to(gameAddedExchange);
     }
+
+
+    // Define the exchange, queue, and binding for FriendAddedEvent
+    public static final String FRIEND_ADDED_EXCHANGE = "friend.added.exchange";
+    public static final String FRIEND_ADDED_QUEUE = "friend.added.queue";
+
+    @Bean
+    public TopicExchange friendAddedExchange() {
+        return new TopicExchange(FRIEND_ADDED_EXCHANGE);
+    }
+
+    @Bean
+    public Queue friendAddedQueue() {
+        return new Queue(FRIEND_ADDED_QUEUE, true); // Durable queue
+    }
+
+    @Bean
+    public Binding friendAddedBinding(Queue friendAddedQueue, TopicExchange friendAddedExchange) {
+        return BindingBuilder
+                .bind(friendAddedQueue)
+                .to(friendAddedExchange)
+                .with("friend.added");
+    }
+
     
 
     // Define RabbitTemplate for internal communication with Keycloak (using the internalConnectionFactory)
