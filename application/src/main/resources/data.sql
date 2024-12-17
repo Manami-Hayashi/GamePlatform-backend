@@ -16,29 +16,25 @@ VALUES (UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218'), 'Battle Ship');
 
 
 INSERT INTO game_statistics.players (id, name, birth_date, gender, location)
-VALUES ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'Josh', '1990-01-01', 'MALE', 'New York'),
-       ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', 'Alice', '2001-08-06', 'FEMALE', 'Los Angeles'),
-       ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', 'Will', '2003-09-10', 'MALE', 'Chicago'),
-       ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', 'Mary', '1996-02-09', 'FEMALE', 'Houston');
+VALUES
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', 'Noah', '1990-01-01', 'MALE', 'New York'),
+    ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', 'Manami', '2001-08-06', 'FEMALE', 'Los Angeles'),
+    ('e4e685be-ed89-42fb-a681-f272149c8218', 'William', '2003-09-10', 'MALE', 'Chicago');
 
 -- Insert into achievements
 INSERT INTO game_statistics.achievements (player_id, game_id, name, description, is_locked)
 VALUES
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Champion', 'Win 10 games of Checkers.', 0),
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Strategist', 'Win 20 games of Checkers.', 1),
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Veteran', 'Win 50 games of Checkers.', 1),
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1);
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Champion', 'Win 10 games of Checkers.', 0),
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Strategist', 'Win 20 games of Checkers.', 1),
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Veteran', 'Win 50 games of Checkers.', 1),
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1);
 
 -- Insert sample data for game_statistics
 INSERT INTO game_statistics.game_statistics (player_id, game_id, total_score, total_games_played, wins, losses, draws, win_loss_ratio, total_time_played, highest_score, moves_made, average_game_duration)
 VALUES
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
-
-
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('e4e685be-ed89-42fb-a681-f272149c8218', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 Insert INTO lobby_management.game (game_id, name) VALUES (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers');
 -- Insert dummy players with online status
