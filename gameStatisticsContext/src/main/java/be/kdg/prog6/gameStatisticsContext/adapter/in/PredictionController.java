@@ -1,10 +1,15 @@
 package be.kdg.prog6.gameStatisticsContext.adapter.in;
 
+import be.kdg.prog6.gameStatisticsContext.domain.GameId;
 import be.kdg.prog6.gameStatisticsContext.domain.GameStatistics;
+import be.kdg.prog6.gameStatisticsContext.domain.Player;
+import be.kdg.prog6.gameStatisticsContext.port.in.GetGamesUseCase;
+import be.kdg.prog6.gameStatisticsContext.port.in.GetPlayersUseCase;
 import be.kdg.prog6.gameStatisticsContext.port.in.GetPredictionForAdminUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,10 +17,13 @@ import java.util.UUID;
 @RequestMapping("/prediction")
 public class PredictionController {
     private final GetPredictionForAdminUseCase getPredictionForAdminUseCase;
+    private final GetGamesUseCase getGamesUseCase;
+    private final GetPlayersUseCase getPlayersUseCase;
 
-
-    public PredictionController(GetPredictionForAdminUseCase getPredictionForAdminUseCase) {
+    public PredictionController(GetPredictionForAdminUseCase getPredictionForAdminUseCase, GetGamesUseCase getGamesUseCase, GetPlayersUseCase getPlayersUseCase) {
         this.getPredictionForAdminUseCase = getPredictionForAdminUseCase;
+        this.getGamesUseCase = getGamesUseCase;
+        this.getPlayersUseCase = getPlayersUseCase;
     }
 
     @GetMapping("/getGameStatisticsOrPrediction")
@@ -40,4 +48,15 @@ public class PredictionController {
         return getPredictionForAdminUseCase.getGameStatistics(playerId, gameId);
     }
 
+    @GetMapping("/players")
+    public ResponseEntity<List<Player>> getPlayers() {
+        List<Player> players = getPlayersUseCase.getPlayers();
+        return ResponseEntity.ok(players);
+    }
+
+    @GetMapping("/games")
+    public ResponseEntity<List<GameId>> getGames() {
+        List<GameId> games = getGamesUseCase.getGames();
+        return ResponseEntity.ok(games);
+    }
 }

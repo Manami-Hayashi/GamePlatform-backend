@@ -70,3 +70,11 @@ GET http://localhost:8090/api/prediction/getGameStatisticsOrPrediction?playerId=
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
+### Get players
+GET http://localhost:8090/api/prediction/players
+Authorization: Bearer {{access_token}}
+
+
+### Get games
+GET http://localhost:8090/api/prediction/games
+Authorization: Bearer {{access_token}}

@@ -1,10 +1,7 @@
 package be.kdg.prog6.gameStatisticsContext.adapter.out;
 
 import be.kdg.prog6.gameStatisticsContext.domain.*;
-import be.kdg.prog6.gameStatisticsContext.port.out.LoadAllGameStatisticsPort;
-import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsByGameIdPort;
-import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsPort;
-import be.kdg.prog6.gameStatisticsContext.port.out.UpdateGameStatisticsPort;
+import be.kdg.prog6.gameStatisticsContext.port.out.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,12 +12,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, LoadGameStatisticsByGameIdPort, LoadAllGameStatisticsPort, UpdateGameStatisticsPort {
+public class GameStatisticsDbAdapter implements LoadGamesPort, LoadGameStatisticsPort, LoadGameStatisticsByGameIdPort, LoadAllGameStatisticsPort, UpdateGameStatisticsPort {
     private static final Logger log = LoggerFactory.getLogger(GameStatisticsDbAdapter.class);
     private final GameStatisticsRepository gameStatisticsRepo;
+    private final GameRepository gameRepository;
 
-    public GameStatisticsDbAdapter(GameStatisticsRepository gameStatisticsRepo) {
+    public GameStatisticsDbAdapter(GameStatisticsRepository gameStatisticsRepo, GameRepository gameRepository) {
         this.gameStatisticsRepo = gameStatisticsRepo;
+        this.gameRepository = gameRepository;
     }
 
     @Override
@@ -100,5 +99,13 @@ public class GameStatisticsDbAdapter implements LoadGameStatisticsPort, LoadGame
                 LocalDate.parse(playerEntity.getBirthDate()),
                 Gender.valueOf(playerEntity.getGender()),
                 playerEntity.getLocation());
+    }
+
+    @Override
+    public List<GameId> loadGames() {
+        return gameRepository.findAll()
+                .stream()
+                .map(gameEntity -> new GameId(gameEntity.getId(), gameEntity.getName()))
+                .toList();
     }
 }
