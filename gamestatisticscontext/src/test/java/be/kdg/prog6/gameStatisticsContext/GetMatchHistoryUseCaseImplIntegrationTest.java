@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class GetMatchHistoryUseCaseImplIntegrationTestStats extends StatsAbstractDatabaseTest {
+class GetMatchHistoryUseCaseImplIntegrationTest extends AbstractDatabaseTest {
 
     @Autowired
     private GetMatchHistoryUseCase getMatchHistoryUseCase;

@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class UpdateGameStatisticsUseCaseImplIntegrationTestStats extends StatsAbstractDatabaseTest {
+class UpdateGameStatisticsUseCaseImplIntegrationTest extends AbstractDatabaseTest {
 
     @Autowired
     private UpdateGameStatisticsUseCase updateGameStatisticsUseCase;
@@ -63,7 +63,7 @@ class UpdateGameStatisticsUseCaseImplIntegrationTestStats extends StatsAbstractD
         UpdateGameStatisticsCommand command = new UpdateGameStatisticsCommand(UUID.randomUUID(), TestIds.GAME_ID, List.of(playerId.id(), player2Id.id()), TestIds.START_TIME, TestIds.END_TIME, true, TestIds.WINNER.toString(), TestIds.SCORE_P1, TestIds.SCORE_P2, TestIds.MOVES_MADE_P1, TestIds.MOVES_MADE_P2);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> updateGameStatisticsUseCase.updateGameStatistics(command), "Expected an IllegalArgumentException to be thrown for sending friend request to self");
+        assertThrows(IllegalArgumentException.class, () -> updateGameStatisticsUseCase.updateGameStatistics(command), "Fail");
     }
 
     private GameStatistics toGameStatistics(GameStatisticsJpaEntity gameStatsEntity) {
