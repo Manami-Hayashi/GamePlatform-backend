@@ -1,5 +1,6 @@
 package be.kdg.prog6.playerManagementContext;
 
+import be.kdg.prog6.playerManagementContext.adapters.out.db.PlayerJpaEntity;
 import be.kdg.prog6.playerManagementContext.domain.PlayerId;
 import be.kdg.prog6.playerManagementContext.ports.in.SendFriendRequestUseCase;
 import be.kdg.prog6.playerManagementContext.adapters.out.db.PlayerJpaRepository;
@@ -22,7 +23,7 @@ class SendFriendRequestUseCaseImplIntegrationTest extends AbstractDatabaseTest {
     private SendFriendRequestUseCase sendFriendRequestUseCase;
 
     @Autowired
-    private PlayerJpaRepository playerJpaRepository;
+    private PlayerJpaRepository playerRepository;
 
     @MockBean
     private RabbitTemplate rabbitTemplate;
@@ -30,23 +31,22 @@ class SendFriendRequestUseCaseImplIntegrationTest extends AbstractDatabaseTest {
     @MockBean
     private AmqpAdmin amqpAdmin;
 
-
     @Test
     void shouldSendFriendRequestSuccessfully() {
         // Arrange
-        PlayerId senderId = new PlayerId(TestIds.SENDER_ID);
-        PlayerId receiverId = new PlayerId(TestIds.RECEIVER_ID);
+        playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER_ID, "Noah"));
+        playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER2_ID, "Manami"));
 
-        // Act & Assert
-        assertDoesNotThrow(() -> sendFriendRequestUseCase.sendFriendRequest(senderId, receiverId), "Expected no exception to be thrown for sending a valid friend request");
+        // Assert
+        assertDoesNotThrow(() -> sendFriendRequestUseCase.sendFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER2_ID)), "Expected no exception to be thrown for sending a valid friend request");
     }
 
     @Test
     void shouldFailToSendFriendRequestToSelf() {
         // Arrange
-        PlayerId playerId = new PlayerId(TestIds.SENDER_ID);
+        playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER_ID, "Noah"));
 
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> sendFriendRequestUseCase.sendFriendRequest(playerId, playerId), "Expected an IllegalArgumentException to be thrown for sending friend request to self");
+        // Assert
+        assertThrows(IllegalArgumentException.class, () -> sendFriendRequestUseCase.sendFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER_ID)), "Expected an IllegalArgumentException to be thrown for sending friend request to self");
     }
 }
