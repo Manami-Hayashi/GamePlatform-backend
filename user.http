@@ -80,7 +80,7 @@ Content-Type: application/json
 }
 
 ### Get Friends
-GET http://localhost:8090/api/lobby/friends
+GET http://localhost:8090/api/lobby/friends/155f3e06-bdd0-496c-919c-c3ee90dfe162
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 

@@ -1,49 +1,165 @@
-# This file is a template, and might need editing before it works on your project.
-# This is a sample GitLab CI/CD configuration file that should run without any modifications.
-# It demonstrates a basic 3 stage CI/CD pipeline. Instead of real tests or scripts,
-# it uses echo commands to simulate the pipeline execution.
+#stages:
+#  - compile
+#  - test
+#  - build
+#  - deploy
 #
-# A pipeline is composed of independent jobs that run scripts, grouped into stages.
-# Stages run in sequential order, but jobs within stages run in parallel.
+#variables:
+#  DOCKER_DRIVER: overlay2
+#  DOCKER_HOST: "tcp://docker:2375"
+#  DOCKER_TLS_CERTDIR: ""
 #
-# For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
+#image: docker:latest
+#services:
+#  - docker:dind
 #
-# You can copy and paste this template into a new `.gitlab-ci.yml` file.
-# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
+## security testing: https://docs.gitlab.com/ee/user/application_security/
+## According to gitlab doc, this is the way to go.. so let's do this!
+#include:
+#  - template: Security/Dependency-Scanning.gitlab-ci.yml
+#  - template: Security/Secret-Detection.gitlab-ci.yml
 #
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/ee/development/cicd/templates.html
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
-
-stages:          # List of stages for jobs, and their order of execution
-  - build
-  - test
-  - deploy
-
-build-job:       # This job runs in the build stage, which runs first.
-  stage: build
-  script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
-
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
-
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
-  script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
-    - echo "No lint issues found."
-
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+#cache:
+#  key: "$CI_COMMIT_REF_NAME"
+#  policy: push
+#  paths:
+#    - build
+#    - .gradle
+#
+#compile:
+#  image: gradle:8.11.0-jdk21
+#  stage: compile
+#  script:
+#    - gradle compileJava
+#
+#test:
+#  image: gradle:8.11.0-jdk21
+#  stage: test
+#  script:
+#    - gradle test
+#  artifacts:
+#    when: always
+#    reports:
+#      junit: ./build/test-results/test/**/TEST-*.xml
+#
+#build:
+#    image: gradle:8.11.0-jdk21
+#    stage: build
+#    script:
+#        - gradle clean bootBuildImage
+#
+#
+## after the image build is finished use it for the containerapps and automatically deploy it
+## container apps quickstart: https://docs.microsoft.com/de-de/azure/container-apps/get-started?tabs=bash
+#deploy:
+#  image: mcr.microsoft.com/azure-cli
+#  stage: deploy
+#  before_script:
+#    - az login --service-principal -u $AZURE_APP_ID_WILL -p $AZURE_PASSWORD_WILL --tenant $AZURE_TENANT_WILL
+#    - az extension add --name containerapp --upgrade
+#  script:
+#    - tag=$CI_COMMIT_REF_NAME
+#      # az containerapp up documentation: https://docs.microsoft.com/en-us/cli/azure/containerapp?view=azure-cli-latest#az-containerapp-up
+#      #switching to northeurope because of:
+#      # {
+#      # "code": "AKSCapacityError",
+#      # "details": null,
+#      # "message": "Creating a new cluster or starting cluster is unavailable at this time in region westeurope. To create a new cluster, we recommend using an alternate region. For a list of all the Azure regions, visit https://aka.ms/aks/regions. For more details on this error, visit https://aka.ms/akscapacityerror.",
+#      # "subcode": ""
+#    # }
+#    #create your environment test.
+#    # az containerapp env create --name test --resource-group game-platform-test --location westeurope
+#    - az containerapp up --name chatbot-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3chatbot:latest"
+#
+#    - az containerapp up --name game-management-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3gamemanagement:latest"
+#
+#    - az containerapp up --name game-statistics-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3gamestatistics:latest"
+#
+#    - az containerapp up --name lobby-management-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3lobbymanagement:latest"
+#
+#    - az containerapp up --name player-management-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3playermanagement:latest"
+#
+#    - az containerapp up --name store-container --resource-group game-platform-test --location westeurope --environment test
+#      --target-port 8082 --ingress external
+#      --image "acrgamearena.azurecr.io/team3store:latest"
+#
+#
+#    - az containerapp secret set --name chatbot-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name game-management-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name game-statistics-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name lobby-management-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name player-management-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#    - az containerapp secret set --name store-container --resource-group game-platform-test
+#      --secrets
+#      secret-key=$IMAGE_USERNAME_WILL
+#
+#
+#    - az containerapp update --name chatbot-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name game-management-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name game-statistics-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name lobby-management-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name player-management-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#
+#    - az containerapp update --name store-container --resource-group game-platform-test
+#      --cpu 1 --memory 2Gi
+#      --min-replicas 0 --max-replicas 1
+#      --set-env-vars
+#      SECRET_KEY=secretref:secret-key
+#      ENV_VAR=someEnVar
+#  only:
+#    - tags
+#

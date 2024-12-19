@@ -6,8 +6,13 @@ infrastructure/mysql/
 infrastructure/rabbitmq/
 infrastructure/team3/
 
+.idea/
+
+infrastructure/secretswill.txt
 
 
+
+.idea
 
 ### Java ###
 # Compiled class file
