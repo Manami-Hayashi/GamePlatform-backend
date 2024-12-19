@@ -37,8 +37,11 @@ class SendFriendRequestUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER_ID, "Noah"));
         playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER2_ID, "Manami"));
 
-        // Assert
+        // Act & Assert
         assertDoesNotThrow(() -> sendFriendRequestUseCase.sendFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER2_ID)), "Expected no exception to be thrown for sending a valid friend request");
+
+        // Cleanup
+        playerRepository.deleteAll();
     }
 
     @Test
@@ -46,7 +49,10 @@ class SendFriendRequestUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         // Arrange
         playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER_ID, "Noah"));
 
-        // Assert
+        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> sendFriendRequestUseCase.sendFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER_ID)), "Expected an IllegalArgumentException to be thrown for sending friend request to self");
+
+        // Cleanup
+        playerRepository.deleteAll();
     }
 }

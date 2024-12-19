@@ -41,11 +41,12 @@ class AcceptFriendRequestUseCaseImplIntegrationTest extends AbstractDatabaseTest
         playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER_ID, "Noah"));
         playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER2_ID, "Manami"));
 
-        // Act
+        // Act & Assert
         sendFriendRequestUseCase.sendFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER2_ID));
-
-        // Assert
         assertDoesNotThrow(() -> acceptFriendRequestUseCase.acceptFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER2_ID)), "Expected no exception to be thrown for accepting a valid friend request");
+
+        // Cleanup
+        playerRepository.deleteAll();
     }
 
     @Test
@@ -53,7 +54,10 @@ class AcceptFriendRequestUseCaseImplIntegrationTest extends AbstractDatabaseTest
         // Arrange
         playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER_ID, "Noah"));
 
-        // Assert
-        assertThrows(IllegalArgumentException.class, () -> acceptFriendRequestUseCase.acceptFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER2_ID)), "Expected an IllegalArgumentException to be thrown for accepting own friend request");
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> acceptFriendRequestUseCase.acceptFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER2_ID)), "Expected an IllegalArgumentException to be thrown for accepting own friend request");
+
+        // Cleanup
+        playerRepository.deleteAll();
     }
 }

@@ -42,9 +42,14 @@ class GetScoreboardUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         assert gameStatisticsJpaEntity2 != null;
         matchSessionRepository.save(new MatchSessionJpaEntity(UUID.randomUUID(), TestIds.GAME_ID, List.of(gameStatisticsJpaEntity1, gameStatisticsJpaEntity2), TestIds.START_TIME, TestIds.END_TIME, false, TestIds.WINNER.toString(), TestIds.SCORE_P1, TestIds.SCORE_P2, TestIds.MOVES_MADE_P1, TestIds.MOVES_MADE_P2));
 
-        // Assert
+        // Act & Assert
         assertDoesNotThrow(() -> getScoreboardUseCase.getScoreboard(new PlayerId(TestIds.PLAYER_ID)));
         assertEquals(1, getScoreboardUseCase.getScoreboard(new PlayerId(TestIds.PLAYER_ID)).size());
+
+        // Cleanup
+        matchSessionRepository.deleteAll();
+        gameStatisticsRepository.deleteAll();
+        playerRepository.deleteAll();
     }
 
     @Test
@@ -60,7 +65,12 @@ class GetScoreboardUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         assert gameStatisticsJpaEntity2 != null;
         matchSessionRepository.save(new MatchSessionJpaEntity(UUID.randomUUID(), TestIds.GAME_ID, List.of(gameStatisticsJpaEntity1, gameStatisticsJpaEntity2), TestIds.START_TIME, TestIds.END_TIME, false, null, TestIds.SCORE_P1, TestIds.SCORE_P2, TestIds.MOVES_MADE_P1, TestIds.MOVES_MADE_P2));
 
-        // Assert
+        // Act & Assert
         assertThrows(RuntimeException.class, () -> getScoreboardUseCase.getScoreboard(null));
+
+        // Cleanup
+        matchSessionRepository.deleteAll();
+        gameStatisticsRepository.deleteAll();
+        playerRepository.deleteAll();
     }
 }

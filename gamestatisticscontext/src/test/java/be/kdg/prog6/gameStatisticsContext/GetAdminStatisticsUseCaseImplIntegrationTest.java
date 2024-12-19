@@ -45,9 +45,13 @@ class GetAdminStatisticsUseCaseImplIntegrationTest extends AbstractDatabaseTest 
         gameStatisticsRepository.save(new GameStatisticsJpaEntity(TestIds.PLAYER_ID, TestIds.GAME_ID, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
         gameStatisticsRepository.save(new GameStatisticsJpaEntity(TestIds.PLAYER2_ID, TestIds.GAME_ID, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
 
-        // Assert
+        // Act & Assert
         assertDoesNotThrow(() -> getAdminStatisticsUseCase.getAdminStatistics());
         assertEquals(1, getAdminStatisticsUseCase.getAdminStatistics().size());
+
+        // Cleanup
+        gameStatisticsRepository.deleteAll();
+        playerRepository.deleteAll();
     }
 
     @Test
@@ -56,8 +60,11 @@ class GetAdminStatisticsUseCaseImplIntegrationTest extends AbstractDatabaseTest 
         playerRepository.save(new StatsPlayerJpaEntity(TestIds.PLAYER_ID, "Noah", "1990-01-01", "MALE", "Antwerp"));
         playerRepository.save(new StatsPlayerJpaEntity(TestIds.PLAYER2_ID, "Manami", "1995-01-01", "MALE", "Antwerp"));
 
-        // Assert
+        // Act & Assert
         assertThrows(NullPointerException.class, () -> getAdminStatisticsUseCase.getAdminStatistics());
+
+        // Cleanup
+        playerRepository.deleteAll();
     }
 
     private GameStatistics toGameStatistics(GameStatisticsJpaEntity gameStatsEntity) {

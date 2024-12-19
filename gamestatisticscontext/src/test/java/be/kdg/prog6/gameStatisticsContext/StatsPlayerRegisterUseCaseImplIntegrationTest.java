@@ -24,11 +24,13 @@ class StatsPlayerRegisterUseCaseImplIntegrationTest extends AbstractDatabaseTest
     @Test
     void shouldStatsPlayerRegisterSuccessfully() {
         // Arrange
-        RegisterUserCommand command = new RegisterUserCommand(TestIds.PLAYER_ID, "Noah");
-        registerPlayerUseCase.registerPlayer(command);
+        RegisterUserCommand command = new RegisterUserCommand(TestIds.PLAYER_ID, "William");
 
-        // Assert
+        // Act & Assert
         assertDoesNotThrow(() -> registerPlayerUseCase.registerPlayer(command), "Expected no exception to be thrown for registering a player");
+
+        // Cleanup
+        playerRepository.deleteAll();
     }
 
     @Test
@@ -37,7 +39,10 @@ class StatsPlayerRegisterUseCaseImplIntegrationTest extends AbstractDatabaseTest
         playerRepository.save(new StatsPlayerJpaEntity(TestIds.PLAYER_ID, "Noah", "1990-01-01", "MALE", "Antwerp"));
         RegisterUserCommand command = new RegisterUserCommand(TestIds.PLAYER_ID, "Noah");
 
-        // Assert
+        // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> registerPlayerUseCase.registerPlayer(command), "Expected an exception to be thrown for registering a player twice");
+
+        // Cleanup
+        playerRepository.deleteAll();
     }
 }

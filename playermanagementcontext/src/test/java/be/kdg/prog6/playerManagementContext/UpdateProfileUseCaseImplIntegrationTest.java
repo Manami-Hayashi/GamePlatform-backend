@@ -41,6 +41,9 @@ class UpdateProfileUseCaseImplIntegrationTest extends AbstractDatabaseTest {
 
         // Act & Assert
         assertDoesNotThrow(() -> updateProfileUseCase.updateProfile(command), "Expected no exception to be thrown for updating profile with valid data");
+
+        // Cleanup
+        profileJpaRepository.deleteAll();
     }
 
     @Test
@@ -51,5 +54,8 @@ class UpdateProfileUseCaseImplIntegrationTest extends AbstractDatabaseTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> updateProfileUseCase.updateProfile(command), "Expected an IllegalArgumentException to be thrown for invalid profile data");
+
+        // Cleanup
+        profileJpaRepository.deleteAll();
     }
 }

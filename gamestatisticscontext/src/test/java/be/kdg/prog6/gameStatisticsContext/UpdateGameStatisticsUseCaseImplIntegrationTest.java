@@ -29,6 +29,9 @@ class UpdateGameStatisticsUseCaseImplIntegrationTest extends AbstractDatabaseTes
     @Autowired
     private PlayerRepository playerRepository;
 
+    @Autowired
+    private MatchSessionRepository matchSessionRepository;
+
 
     @Test
     void shouldUpdateGameStatisticsSuccessfully() {
@@ -43,11 +46,16 @@ class UpdateGameStatisticsUseCaseImplIntegrationTest extends AbstractDatabaseTes
         // Act
         updateGameStatisticsUseCase.updateGameStatistics(command);
 
-        // Assert
+        // Act & Assert
         GameStatistics newGameStatistics = gameStatisticsRepository.findByPlayerIdAndGameId(TestIds.PLAYER_ID, TestIds.GAME_ID).map(this::toGameStatistics).orElse(null);
         assert newGameStatistics != null;
         assert gameStatistics != null;
         assertEquals(newGameStatistics.getTotalScore(), gameStatistics.getTotalScore() + TestIds.SCORE_P1, "Expected total score to be updated");
+
+        // Cleanup
+        matchSessionRepository.deleteAll();
+        gameStatisticsRepository.deleteAll();
+        playerRepository.deleteAll();
     }
 
     @Test
@@ -59,6 +67,10 @@ class UpdateGameStatisticsUseCaseImplIntegrationTest extends AbstractDatabaseTes
 
         // Assert
         assertThrows(IllegalArgumentException.class, () -> updateGameStatisticsUseCase.updateGameStatistics(command), "Fail");
+
+        // Cleanup
+        gameStatisticsRepository.deleteAll();
+        playerRepository.deleteAll();
     }
 
     private GameStatistics toGameStatistics(GameStatisticsJpaEntity gameStatsEntity) {

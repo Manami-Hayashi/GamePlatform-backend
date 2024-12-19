@@ -24,8 +24,11 @@ class GetAchievementsUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         // Arrange
         achievementRepository.save(new AchievementJpaEntity(TestIds.PLAYER_ID, TestIds.GAME_ID, "", "Description 1", true));
 
-        // Assert
+        // Act & Assert
         assertDoesNotThrow(() -> getAchievementsUseCase.getAchievements());
+
+        // Cleanup
+        achievementRepository.deleteAll();
     }
 
     @Test
