@@ -28,7 +28,9 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
 
     @Override
     public void updateGameStatistics(UpdateGameStatisticsCommand updateGameStatisticsCommand) {
-        Winner winner = Winner.valueOf(updateGameStatisticsCommand.winner());
+        Winner winnerEnum = Winner.valueOf(updateGameStatisticsCommand.winner());
+        String winnerString = updateGameStatisticsCommand.winner();
+
         Optional<GameStatistics> optionalGameStatsP1 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(updateGameStatisticsCommand.playerIds().get(0), updateGameStatisticsCommand.gameId());
         if (optionalGameStatsP1.isEmpty()) {
             throw new IllegalArgumentException("GameStatistics not found");
@@ -40,7 +42,7 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         }
         GameStatistics gameStatsP2 = optionalGameStatsP2.get();
 
-        MatchSession matchSession = new MatchSession(updateGameStatisticsCommand.id(), new GameId(updateGameStatisticsCommand.gameId()), List.of(gameStatsP1, gameStatsP2), updateGameStatisticsCommand.startTime(), updateGameStatisticsCommand.endTime(), updateGameStatisticsCommand.isActive(), winner, updateGameStatisticsCommand.scoreP1(), updateGameStatisticsCommand.scoreP2(), updateGameStatisticsCommand.movesMadeP1(), updateGameStatisticsCommand.movesMadeP2());
+        MatchSession matchSession = new MatchSession(updateGameStatisticsCommand.id(), new GameId(updateGameStatisticsCommand.gameId()), List.of(gameStatsP1, gameStatsP2), updateGameStatisticsCommand.startTime(), updateGameStatisticsCommand.endTime(), updateGameStatisticsCommand.isActive(), winnerEnum, updateGameStatisticsCommand.scoreP1(), updateGameStatisticsCommand.scoreP2(), updateGameStatisticsCommand.movesMadeP1(), updateGameStatisticsCommand.movesMadeP2());
         createMatchSessionPort.createMatchSession(matchSession);
 
         gameStatsP1.setTotalScore(gameStatsP1.getTotalScore() + updateGameStatisticsCommand.scoreP1());
@@ -49,17 +51,17 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         gameStatsP1.setTotalGamesPlayed(gameStatsP1.getTotalGamesPlayed() + 1);
         gameStatsP2.setTotalGamesPlayed(gameStatsP2.getTotalGamesPlayed() + 1);
 
-        if (winner == Winner.PLAYER1) {
+        if (winnerEnum == Winner.PLAYER1 || winnerString.equals(gameStatsP1.getPlayerId().id().toString())) {
             gameStatsP1.setWins(gameStatsP1.getWins() + 1);
             gameStatsP2.setLosses(gameStatsP2.getLosses() + 1);
-        } else if (winner == Winner.PLAYER2) {
+        } else if (winnerEnum == Winner.PLAYER2 || winnerString.equals(gameStatsP2.getPlayerId().id().toString())) {
             gameStatsP1.setLosses(gameStatsP1.getLosses() + 1);
             gameStatsP2.setWins(gameStatsP2.getWins() + 1);
         } else {
             gameStatsP1.setDraws(gameStatsP1.getDraws() + 1);
             gameStatsP2.setDraws(gameStatsP2.getDraws() + 1);
         }
-        LOGGER.info("Winner: {}", winner);
+        LOGGER.info("Winner: {}", winnerEnum);
 
         gameStatsP1.setWinLossRatio(gameStatsP1.getLosses() == 0 ? 1 : (double) gameStatsP1.getWins() / gameStatsP1.getLosses());
         gameStatsP2.setWinLossRatio(gameStatsP2.getLosses() == 0 ? 1 : (double) gameStatsP2.getWins() / gameStatsP2.getLosses());

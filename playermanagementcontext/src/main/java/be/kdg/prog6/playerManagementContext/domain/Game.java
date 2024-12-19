@@ -11,6 +11,12 @@ public class Game {
         this.isFavorite = isFavorite;
     }
 
+    public Game(GameId gameId, String gameName) {
+        this.gameId = gameId;
+        this.gameName = gameName;
+        this.isFavorite = false;
+    }
+
     public GameId getGameId() {return gameId;}
 
     public void setGameId(GameId gameId) {this.gameId = gameId;}
