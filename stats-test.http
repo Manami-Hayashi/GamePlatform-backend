@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = s7b2bA6t0UpwKVcfvKSYg2txVr0cHILS &
+client_secret = dAq5kVoa3li7gcvxz5xQQ0qVNF6qpOuf &
 username = admin &
 password = password &
 grant_type = password &
@@ -62,4 +62,19 @@ Authorization: Bearer {{access_token}}
 
 ### Generate Data this can be 1000 players for the machine learning assignment, you can change the games per player as well
 POST http://localhost:8090/api/generate?players=10&gamesPerPlayer=2
+Authorization: Bearer {{access_token}}
+
+
+### Predict the winner of a game
+GET http://localhost:8090/api/prediction/getGameStatisticsOrPrediction?playerId=a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634&gameId=14910372-c39d-7de7-b05a-93f8166cf7af&predict=true
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+### Get players
+GET http://localhost:8090/api/prediction/players
+Authorization: Bearer {{access_token}}
+
+
+### Get games
+GET http://localhost:8090/api/prediction/games
 Authorization: Bearer {{access_token}}

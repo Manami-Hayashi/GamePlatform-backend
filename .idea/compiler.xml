@@ -7,13 +7,13 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.1.1/aa13cb8ae0314bb67f9c75e66042a7001b5e406c/spring-boot-configuration-processor-3.1.1.jar" />
         </processorPath>
-        <module name="game-arena.storeContext.main" />
-        <module name="game-arena.gameManagementContext.main" />
-        <module name="game-arena.playerManagementContext.main" />
-        <module name="game-arena.lobbyManagementContext.main" />
+        <module name="game-arena.gamestatisticscontext.main" />
+        <module name="game-arena.chatbotcontext.main" />
+        <module name="game-arena.gamemanagementcontext.main" />
+        <module name="game-arena.playermanagementcontext.main" />
+        <module name="game-arena.storecontext.main" />
         <module name="game-arena.application.main" />
-        <module name="game-arena.chatbotContext.main" />
-        <module name="game-arena.gameStatisticsContext.main" />
+        <module name="game-arena.lobbymanagementcontext.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />
