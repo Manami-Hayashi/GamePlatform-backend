@@ -23,7 +23,6 @@ public class DisplayGameCatalogUseCaseImpl implements DisplayGameCatalogUseCase 
     @Override
     @Transactional
     public List<StoreGame> getAvailableGames() {
-        logger.info("Getting all games from the store");
         return loadStoreGamePort.findAll();
     }
 
