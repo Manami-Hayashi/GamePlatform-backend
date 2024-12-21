@@ -21,6 +21,11 @@ VALUES
     ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', 'Manami', '2001-08-06', 'FEMALE', 'Los Angeles'),
     ('e4e685be-ed89-42fb-a681-f272149c8218', 'William', '2003-09-10', 'MALE', 'Chicago');
 
+INSERT INTO game_statistics.games (id, name)
+VALUES   ('14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers'),
+         ('fde47098-ab1d-11ef-9cd2-0242ac120002', 'Chess'),
+         ('1c1182b8-4f62-4a0d-a8ac-92758177cace', 'Go');
+
 -- Insert into achievements
 INSERT INTO game_statistics.achievements (player_id, game_id, name, description, is_locked)
 VALUES
@@ -32,9 +37,9 @@ VALUES
 -- Insert sample data for game_statistics
 INSERT INTO game_statistics.game_statistics (player_id, game_id, total_score, total_games_played, wins, losses, draws, win_loss_ratio, total_time_played, highest_score, moves_made, average_game_duration)
 VALUES
-    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('e4e685be-ed89-42fb-a681-f272149c8218', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 10, 0, 0, 0, 0, 5, 0, 0, 0),
+    ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 20, 0, 0, 0, 0, 5, 0, 0, 0),
+    ('e4e685be-ed89-42fb-a681-f272149c8218', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 30, 0, 0, 0, 0, 5, 0, 0, 0);
 
 Insert INTO lobby_management.game (game_id, name) VALUES (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers');
 -- Insert dummy players with online status
