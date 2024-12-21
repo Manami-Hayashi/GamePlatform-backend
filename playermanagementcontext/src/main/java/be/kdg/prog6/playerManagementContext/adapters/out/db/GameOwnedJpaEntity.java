@@ -35,6 +35,13 @@ public class GameOwnedJpaEntity {
         this.isFavorite = isFavorite;
     }
 
+    public GameOwnedJpaEntity(UUID uuid, String checkers, boolean b, PlayerJpaEntity jpaEntity) {
+        this.gameId = uuid;
+        this.gameName = checkers;
+        this.isFavorite = b;
+        this.player = jpaEntity;
+    }
+
 
     public int getId() {
         return id;
