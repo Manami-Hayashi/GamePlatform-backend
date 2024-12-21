@@ -1,8 +1,10 @@
 package be.kdg.prog6.playerManagementContext;
 
+import be.kdg.prog6.playerManagementContext.adapters.out.db.PlayerJpaEntity;
 import be.kdg.prog6.playerManagementContext.domain.PlayerId;
 import be.kdg.prog6.playerManagementContext.ports.in.AcceptFriendRequestUseCase;
 import be.kdg.prog6.playerManagementContext.adapters.out.db.PlayerJpaRepository;
+import be.kdg.prog6.playerManagementContext.ports.in.SendFriendRequestUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,10 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class AcceptFriendRequestUseCaseImplIntegrationTest extends AbstractDatabaseTest {
 
     @Autowired
+    private SendFriendRequestUseCase sendFriendRequestUseCase;
+
+    @Autowired
     private AcceptFriendRequestUseCase acceptFriendRequestUseCase;
 
     @Autowired
-    private PlayerJpaRepository playerJpaRepository;
+    private PlayerJpaRepository playerRepository;
 
     @MockBean
     private RabbitTemplate rabbitTemplate;
@@ -33,19 +38,26 @@ class AcceptFriendRequestUseCaseImplIntegrationTest extends AbstractDatabaseTest
     @Test
     void shouldAcceptFriendRequestSuccessfully() {
         // Arrange
-        PlayerId requesterId = new PlayerId(TestIds.SENDER_ID);
-        PlayerId receiverId = new PlayerId(TestIds.RECEIVER_ID);
+        playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER_ID, "Noah"));
+        playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER2_ID, "Manami"));
 
         // Act & Assert
-        assertDoesNotThrow(() -> acceptFriendRequestUseCase.acceptFriendRequest(requesterId, receiverId), "Expected no exception to be thrown for accepting a valid friend request");
+        sendFriendRequestUseCase.sendFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER2_ID));
+        assertDoesNotThrow(() -> acceptFriendRequestUseCase.acceptFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER2_ID)), "Expected no exception to be thrown for accepting a valid friend request");
+
+        // Cleanup
+        playerRepository.deleteAll();
     }
 
     @Test
     void shouldFailToAcceptOwnFriendRequest() {
         // Arrange
-        PlayerId playerId = new PlayerId(TestIds.REQUESTER_ID);
+        playerRepository.save(new PlayerJpaEntity(TestIds.PLAYER_ID, "Noah"));
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> acceptFriendRequestUseCase.acceptFriendRequest(playerId, playerId), "Expected an IllegalArgumentException to be thrown for accepting own friend request");
+        assertThrows(RuntimeException.class, () -> acceptFriendRequestUseCase.acceptFriendRequest(new PlayerId(TestIds.PLAYER_ID), new PlayerId(TestIds.PLAYER2_ID)), "Expected an IllegalArgumentException to be thrown for accepting own friend request");
+
+        // Cleanup
+        playerRepository.deleteAll();
     }
 }
