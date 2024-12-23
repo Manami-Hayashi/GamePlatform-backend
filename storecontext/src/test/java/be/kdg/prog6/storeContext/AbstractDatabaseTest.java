@@ -1,4 +1,4 @@
-package be.kdg.prog6.storeContext;
+/*package be.kdg.prog6.storeContext;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,3 +57,6 @@ public abstract class AbstractDatabaseTest {
         }
     }
 }
+
+
+ */

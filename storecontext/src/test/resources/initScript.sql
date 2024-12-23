@@ -1,6 +1,6 @@
-CREATE DATABASE lobby_management;
+CREATE DATABASE store;
 GRANT ALL
-ON lobby_management.* TO 'root'@'%';
+ON store.* TO 'root'@'%';
 GRANT SHOW
 DATABASES ON *.* TO 'root'@'%';
 FLUSH PRIVILEGES;
