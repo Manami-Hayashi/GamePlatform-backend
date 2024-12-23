@@ -59,9 +59,6 @@ class FavoriteGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
 
     @Test
     void shouldFailToToggleFavoriteGameNotOwned() {
-        // Arrange
-
-
         // Act & Assert
         assertThrows(RuntimeException.class, () -> favoriteGameUseCase.toggleFavoriteGame(new PlayerId(TestIds.PLAYER_ID), new GameId(TestIds.GAME_ID)), "Expected an IllegalArgumentException to be thrown for toggling a game not owned by the player");
 
