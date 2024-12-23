@@ -62,9 +62,7 @@ class GamePlayerRegisterUseCaseImplIntegrationTest extends AbstractDatabaseTest 
 
         // Act & Assert
         registerUseCase.registerPlayer(registerUserCommand);
-        assertThrows(IllegalArgumentException.class, () -> {
-            registerUseCase.registerPlayer(registerUserCommand);
-        });
+        assertThrows(IllegalArgumentException.class, () -> registerUseCase.registerPlayer(registerUserCommand));
 
         // Cleanup
         gameMngPlayerJpaRepository.deleteAll();
