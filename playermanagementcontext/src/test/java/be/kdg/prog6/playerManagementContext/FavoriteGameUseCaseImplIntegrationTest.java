@@ -49,6 +49,9 @@ class FavoriteGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         player.setGamesOwned(List.of(game));
         playerJpaRepository.save(toPlayerJpa(player));
 
+        // Ensure the game is loaded correctly
+        gameOwnedJpaRepository.save(new GameOwnedJpaEntity(game.getGameId().id(), game.getGameName(), game.isFavorite(), toPlayerJpa(player)));
+
         // Act & Assert
         assertDoesNotThrow(() -> favoriteGameUseCase.toggleFavoriteGame(new PlayerId(TestIds.PLAYER_ID), new GameId(TestIds.GAME_ID)), "Expected no exception to be thrown for toggling a favorite game owned by the player");
 
