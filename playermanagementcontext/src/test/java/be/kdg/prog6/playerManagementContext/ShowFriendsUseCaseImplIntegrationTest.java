@@ -65,3 +65,4 @@ class ShowFriendsUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         );
     }
 }
+

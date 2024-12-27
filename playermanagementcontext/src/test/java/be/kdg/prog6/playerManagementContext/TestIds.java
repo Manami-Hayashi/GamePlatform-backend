@@ -8,3 +8,4 @@ public class TestIds {
     public static final UUID GAME_ID = UUID.fromString("14910372-c39d-7de7-b05a-93f8166cf7af");
     public static final String GAME_NAME = "Checkers";
 }
+

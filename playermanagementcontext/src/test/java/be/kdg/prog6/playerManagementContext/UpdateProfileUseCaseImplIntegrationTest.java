@@ -37,7 +37,7 @@ class UpdateProfileUseCaseImplIntegrationTest extends AbstractDatabaseTest {
     void shouldUpdateProfileSuccessfully() {
         // Arrange
         PlayerId playerId = new PlayerId(TestIds.PLAYER_ID);
-        UpdateProfileCommand command = new UpdateProfileCommand(playerId, "New Bio", "New Avatar", "New Location", LocalDate.now());
+        UpdateProfileCommand command = new UpdateProfileCommand(playerId, "New Bio", "New Location", "New avatar", LocalDate.now());
 
         // Act & Assert
         assertDoesNotThrow(() -> updateProfileUseCase.updateProfile(command), "Expected no exception to be thrown for updating profile with valid data");
@@ -59,3 +59,4 @@ class UpdateProfileUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         profileJpaRepository.deleteAll();
     }
 }
+

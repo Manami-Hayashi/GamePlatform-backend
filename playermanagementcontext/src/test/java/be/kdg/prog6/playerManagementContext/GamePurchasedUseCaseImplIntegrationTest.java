@@ -79,3 +79,4 @@ class GamePurchasedUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         );
     }
 }
+

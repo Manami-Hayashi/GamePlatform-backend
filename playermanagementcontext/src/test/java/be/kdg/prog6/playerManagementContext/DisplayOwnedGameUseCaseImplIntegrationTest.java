@@ -1,5 +1,6 @@
 package be.kdg.prog6.playerManagementContext;
-
+import be.kdg.prog6.playerManagementContext.AbstractDatabaseTest;
+import be.kdg.prog6.playerManagementContext.TestIds;
 import be.kdg.prog6.playerManagementContext.adapters.out.db.GameOwnedJpaEntity;
 import be.kdg.prog6.playerManagementContext.adapters.out.db.PlayerJpaEntity;
 import be.kdg.prog6.playerManagementContext.adapters.out.db.PlayerJpaRepository;
@@ -17,27 +18,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-
 import java.util.List;
-
 @SpringBootTest
 @ActiveProfiles("test")
 class DisplayOwnedGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
-
     @Autowired
     private DisplayOwnedGameUseCase displayOwnedGameUseCase;
-
     @Autowired
     private GameOwnedJpaRepository gameOwnedJpaRepository;
-
     @MockBean
     private RabbitTemplate rabbitTemplate;
-
     @MockBean
     private AmqpAdmin amqpAdmin;
     @Autowired
     private PlayerJpaRepository playerJpaRepository;
-
     @Test
     void shouldDisplayOwnedGamesSuccessfully() {
         // Arrange
@@ -46,18 +40,14 @@ class DisplayOwnedGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         gameOwnedJpaRepository.save(toGameJpa(game));
         player.setGamesOwned(List.of(game));
         playerJpaRepository.save(toPlayerJpa(player));
-
         // Act
         List<Game> games = displayOwnedGameUseCase.displayOwnedGames(new PlayerId(TestIds.PLAYER_ID));
-
         // Assert
         Assertions.assertNotNull(games);
-
         // Cleanup
         gameOwnedJpaRepository.deleteAll();
         playerJpaRepository.deleteAll();
     }
-
     @Test
     void shouldFailToDisplayOwnedGames() {
         // Arrange
@@ -65,7 +55,6 @@ class DisplayOwnedGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         Game game = new Game(new GameId(TestIds.GAME_ID), TestIds.GAME_NAME);
         gameOwnedJpaRepository.save(toGameJpa(game));
         playerJpaRepository.save(toPlayerJpa(player));
-
         // Act
         List<Game> games = displayOwnedGameUseCase.displayOwnedGames(new PlayerId(TestIds.PLAYER_ID));
 

@@ -56,3 +56,4 @@ class SendFriendRequestUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         playerRepository.deleteAll();
     }
 }
+
