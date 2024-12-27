@@ -21,9 +21,9 @@ public class AchievementController {
         this.addAchievementUseCase = addAchievementUseCase;
     }
 
-    @GetMapping("/achievements/player/{playerId}/game/{gameId}")
-    public List<AchievementDto> getAchievements(@PathVariable UUID playerId, @PathVariable UUID gameId) {
-        List<Achievement> achievements = getAchievementsUseCase.getAchievements(playerId, gameId);
+    @GetMapping("/achievements/player/{playerId}")
+    public List<AchievementDto> getAchievements(@PathVariable UUID playerId) {
+        List<Achievement> achievements = getAchievementsUseCase.getAchievements(playerId);
         List<AchievementDto> achievementDtos = new ArrayList<>();
         for (Achievement achievement : achievements) {
             achievementDtos.add(new AchievementDto(achievement.getId(), achievement.getPlayerId().id(), achievement.getGameId().id(), achievement.getName(), achievement.getDescription(), achievement.isLocked()));

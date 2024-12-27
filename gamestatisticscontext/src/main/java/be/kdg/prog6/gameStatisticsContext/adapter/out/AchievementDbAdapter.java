@@ -20,8 +20,8 @@ public class AchievementDbAdapter implements LoadAchievementsPort, CreateAchieve
     }
 
     @Override
-    public List<Achievement> loadAchievementsByPlayerIdAndGameId(UUID playerId, UUID gameId) {
-        return achievementRepo.findByPlayerIdAndGameId(playerId, gameId).stream().map(this::toAchievement).collect(Collectors.toList());
+    public List<Achievement> loadAchievementsByPlayerId(UUID playerId) {
+        return achievementRepo.findByPlayerId(playerId).stream().map(this::toAchievement).collect(Collectors.toList());
     }
 
     @Override

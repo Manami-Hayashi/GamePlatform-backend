@@ -7,5 +7,5 @@ import java.util.UUID;
 
 @FunctionalInterface
 public interface LoadAchievementsPort {
-    List<Achievement> loadAchievementsByPlayerIdAndGameId(UUID playerId, UUID gameId);
+    List<Achievement> loadAchievementsByPlayerId(UUID playerId);
 }

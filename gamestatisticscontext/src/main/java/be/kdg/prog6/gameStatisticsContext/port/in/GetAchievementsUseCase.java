@@ -7,5 +7,5 @@ import java.util.UUID;
 
 @FunctionalInterface
 public interface GetAchievementsUseCase {
-    List<Achievement> getAchievements(UUID playerId, UUID gameId);
+    List<Achievement> getAchievements(UUID playerId);
 }
