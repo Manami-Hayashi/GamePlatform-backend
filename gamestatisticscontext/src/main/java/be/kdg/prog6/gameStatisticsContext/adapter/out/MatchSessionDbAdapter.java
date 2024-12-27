@@ -2,7 +2,9 @@ package be.kdg.prog6.gameStatisticsContext.adapter.out;
 
 import be.kdg.prog6.gameStatisticsContext.domain.*;
 import be.kdg.prog6.gameStatisticsContext.port.out.CreateMatchSessionPort;
+import be.kdg.prog6.gameStatisticsContext.port.out.LoadMatchSessionPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.LoadMatchSessionsPort;
+import be.kdg.prog6.gameStatisticsContext.port.out.UpdateMatchSessionPort;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +12,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatchSessionPort {
+public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatchSessionPort, LoadMatchSessionPort, UpdateMatchSessionPort {
     private static final Logger log = LoggerFactory.getLogger(MatchSessionDbAdapter.class);
     private final MatchSessionRepository matchSessionRepo;
     private final GameStatisticsRepository gameStatisticsRepo;
@@ -35,6 +38,14 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
         List<MatchSessionJpaEntity> matchSessionJpaEntities = matchSessionRepo.findAllByGameStatisticsIn(List.of(gameStatisticsJpaEntity));
         return matchSessionJpaEntities.stream().map(this::toMatchSession).toList();
     }
+
+    @Transactional
+    @Override
+    public Optional<MatchSession> loadMatchSessionById(UUID sessionId) {
+        Optional<MatchSessionJpaEntity> matchSessionJpaEntity = matchSessionRepo.findById(sessionId);
+        return matchSessionJpaEntity.map(this::toMatchSession);
+    }
+
 
     @Transactional
     @Override
@@ -123,5 +134,17 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
                 gameStatsEntity.getMovesMade(),
                 gameStatsEntity.getAverageGameDuration()
         );
+    }
+
+    @Override
+    public void updateMatchSession(UUID matchSessionId) {
+        Optional<MatchSessionJpaEntity> matchSessionJpaEntityOpt = matchSessionRepo.findById(matchSessionId);
+        if (matchSessionJpaEntityOpt.isEmpty()) {
+            throw new IllegalArgumentException("MatchSession not found");
+        }
+        MatchSessionJpaEntity matchSessionJpaEntity = matchSessionJpaEntityOpt.get();
+        matchSessionJpaEntity.setActive(!matchSessionJpaEntity.isActive());
+        matchSessionRepo.save(matchSessionJpaEntity);
+        log.info("MatchSession {} updated", matchSessionId);
     }
 }
