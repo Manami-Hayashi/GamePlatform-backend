@@ -52,9 +52,7 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
     @Transactional
     @Override
     public Player loadPlayer(UUID playerId) {
-        PlayerJpaEntity playerJpaEntity = playerJpaRepository.findByPlayerId(playerId)
-                .orElseThrow(() -> new IllegalArgumentException("Player not found"));
-
+        PlayerJpaEntity playerJpaEntity = playerJpaRepository.findByPlayerId(playerId).orElse(null);
         return toPlayer(playerJpaEntity);
     }
 

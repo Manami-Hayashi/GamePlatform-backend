@@ -1,0 +1,6 @@
+CREATE DATABASE store;
+GRANT ALL
+ON store.* TO 'root'@'%';
+GRANT SHOW
+DATABASES ON *.* TO 'root'@'%';
+FLUSH PRIVILEGES;

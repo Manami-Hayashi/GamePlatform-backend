@@ -3,15 +3,18 @@ package be.kdg.prog6.gameManagementContext.adapters.out.db;
 import be.kdg.prog6.gameManagementContext.domain.Game;
 import be.kdg.prog6.gameManagementContext.domain.GameId;
 import be.kdg.prog6.gameManagementContext.domain.Player;
+import be.kdg.prog6.gameManagementContext.domain.PlayerId;
 import be.kdg.prog6.gameManagementContext.ports.out.*;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component("gameManagementDBAdapter")
-public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPort, UpdateGamePort, GameMngPlayerCreatedPort {
+public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPort, UpdateGamePort, LoadPlayerPort, GameMngPlayerCreatedPort {
     private final GameJpaRepository gameJpaRepository;
     private final GameMngPlayerJpaRepository gameMngPlayerJpaRepository;
     private final Logger logger = org.slf4j.LoggerFactory.getLogger(GameDBAdapter.class);
@@ -65,6 +68,12 @@ public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPo
     }
 
     @Override
+    public Optional<Player> loadPlayerById(UUID playerId) {
+        return gameMngPlayerJpaRepository.findById(playerId)
+                .map(this::toPlayer);
+    }
+
+    @Override
     public void createPlayer(Player player) {
         GameMngPlayerJpaEntity gameMngPlayerJpaEntity = new GameMngPlayerJpaEntity(
                 player.getPlayerId().id(),
@@ -75,5 +84,15 @@ public class GameDBAdapter implements SaveGamePort, LoadGamePort, LoadAllGamesPo
         );
         logger.info("creating new Player with name {}", player.getName());
         gameMngPlayerJpaRepository.save(gameMngPlayerJpaEntity);
+    }
+
+    private Player toPlayer(GameMngPlayerJpaEntity gameMngPlayerJpaEntity) {
+        return new Player(
+                new PlayerId(gameMngPlayerJpaEntity.getPlayerId()),
+                gameMngPlayerJpaEntity.getName(),
+                gameMngPlayerJpaEntity.getAge(),
+                gameMngPlayerJpaEntity.getGender(),
+                gameMngPlayerJpaEntity.getLocation()
+        );
     }
 }
