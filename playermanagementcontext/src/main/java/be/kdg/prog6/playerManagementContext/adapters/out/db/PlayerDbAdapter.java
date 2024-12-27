@@ -20,9 +20,11 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerDbAdapter.class);
     private final PlayerJpaRepository playerJpaRepository;
+    private final GameOwnedJpaRepository gameOwnedJpaRepository;
 
-    public PlayerDbAdapter(PlayerJpaRepository playerJpaRepository) {
+    public PlayerDbAdapter(PlayerJpaRepository playerJpaRepository, GameOwnedJpaRepository gameOwnedJpaRepository) {
         this.playerJpaRepository = playerJpaRepository;
+        this.gameOwnedJpaRepository = gameOwnedJpaRepository;
     }
 
     @Transactional
@@ -35,6 +37,16 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
 
         LOGGER.info("Creating new player with name {}", player.getName());
         playerJpaRepository.save(jpaEntity);
+
+        GameOwnedJpaEntity checkersGame = new GameOwnedJpaEntity(
+                UUID.fromString("14910372-c39d-7de7-b05a-93f8166cf7af"),
+                "Checkers",
+                false,
+                jpaEntity
+        );
+
+        gameOwnedJpaRepository.save(checkersGame);
+        LOGGER.info("Player {} has been assigned the game 'Checkers' in their library.", player.getName());
     }
 
     @Transactional
@@ -82,7 +94,14 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
         // Update games owned
         existingEntity.getGameOwned().clear();
         if (player.getGamesOwned() != null) {
-            existingEntity.getGameOwned().addAll(player.getGamesOwned().stream().map(this::toGameOwnedJpaEntity).toList());
+            // Ensure the player ID is correctly set on each game entity before adding them
+            existingEntity.getGameOwned().addAll(player.getGamesOwned().stream()
+                    .map(game -> {
+                        GameOwnedJpaEntity gameEntity = toGameOwnedJpaEntity(game);
+                        gameEntity.setPlayer(toPlayerJpaEntity(player));  // Set player ID on the game entity
+                        return gameEntity;
+                    })
+                    .toList());
         }
 
         // Persist updated player

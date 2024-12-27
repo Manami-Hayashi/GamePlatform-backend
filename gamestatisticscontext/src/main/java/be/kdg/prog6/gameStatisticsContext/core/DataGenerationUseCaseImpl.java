@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Service
 public class DataGenerationUseCaseImpl implements DataGenerationUseCase {
-    private final Logger logger = LoggerFactory.getLogger(DataGenerationUseCaseImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataGenerationUseCaseImpl.class);
     private final StatsPlayerCreatedPort playerCreatedPort;
     private final LoadPlayersPort loadPlayersPort;
     private final LoadGameStatisticsPort loadGameStatisticsPort;
@@ -36,6 +36,10 @@ public class DataGenerationUseCaseImpl implements DataGenerationUseCase {
     public void generatePlayers(int count) {
         Faker faker = new Faker();
 
+        if (count < 0) {
+            throw new IllegalArgumentException("Count must be greater than or equal to 0");
+        }
+
         for (int i = 0; i < count; i++) {
             Player player = new Player(
                     new PlayerId(UUID.randomUUID()),
@@ -49,6 +53,10 @@ public class DataGenerationUseCaseImpl implements DataGenerationUseCase {
     }
 
     public void generateGameStatistics(int gamesPerPlayer) {
+        if (gamesPerPlayer < 0) {
+            throw new IllegalArgumentException("Games per player must be greater than or equal to 0");
+        }
+
         List<Player> players = loadPlayersPort.loadPlayers();
         List<GameId> existingGameIds = loadAllGameStatisticsPort.loadAllGameStatistics().stream()
                 .map(GameStatistics::getGameId)

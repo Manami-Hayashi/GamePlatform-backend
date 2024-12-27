@@ -42,7 +42,6 @@ public class FavoriteGameUseCaseImpl implements FavoriteGameUseCase {
         // Step 3: Delegate the toggling logic to the Player entity
         player.toggleFavoriteGame(gameToToggle);
 
-
         logger.info("Favorite game toggled for player with ID {} game name: {}", playerId.id(), gameToToggle.getGameName());
         // Persist the updated Player entity back to the database
         updatePlayerPort.updatePlayer(player);

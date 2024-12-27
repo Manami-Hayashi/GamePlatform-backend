@@ -2,7 +2,7 @@ package be.kdg.prog6.gameStatisticsContext.adapter.in;
 
 import be.kdg.prog6.common.events.GameSessionCreatedEvent;
 import be.kdg.prog6.gameStatisticsContext.port.in.AddPartialSessionCommand;
-import be.kdg.prog6.gameStatisticsContext.port.in.AddPartialSessionToMatchSessionUseCase;
+import be.kdg.prog6.gameStatisticsContext.port.in.AddPartialSessionUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class SessionStartedEventListener {
     private static final Logger logger = LoggerFactory.getLogger(SessionStartedEventListener.class);
-    private final AddPartialSessionToMatchSessionUseCase addPartialSessionToMatchSessionUseCase;
+    private final AddPartialSessionUseCase addPartialSessionUseCase;
 
-    public SessionStartedEventListener(AddPartialSessionToMatchSessionUseCase addPartialSessionToMatchSessionUseCase) {
-        this.addPartialSessionToMatchSessionUseCase = addPartialSessionToMatchSessionUseCase;
+    public SessionStartedEventListener(AddPartialSessionUseCase addPartialSessionUseCase) {
+        this.addPartialSessionUseCase = addPartialSessionUseCase;
     }
 
     @RabbitListener(queues = "#{sessionStartedQueue.name}")
@@ -28,6 +28,6 @@ public class SessionStartedEventListener {
                 event.getPlayerId1(),
                 event.getPlayerId2()
         );
-        addPartialSessionToMatchSessionUseCase.addPartialSession(command);
+        addPartialSessionUseCase.addPartialSession(command);
     }
 }
