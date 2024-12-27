@@ -1,4 +1,4 @@
-/*package be.kdg.prog6.storeContext;
+package be.kdg.prog6.storeContext;
 
 import be.kdg.prog6.storeContext.adapters.out.db.StoreGameJpaEntity;
 import be.kdg.prog6.storeContext.adapters.out.db.StoreGameJpaRepository;
@@ -69,5 +69,3 @@ class AddStoreGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
     }
 
 }
-
- */
