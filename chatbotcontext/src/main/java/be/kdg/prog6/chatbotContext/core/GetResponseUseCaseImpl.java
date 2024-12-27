@@ -24,6 +24,10 @@ public class GetResponseUseCaseImpl implements GetResponseUseCase {
     public String getChatbotResponse(String userInput, List<String> chatHistory) {
         logger.info("Processing user input: {}", userInput);
 
+        if (userInput == null || userInput.equals("")) {
+            throw new IllegalArgumentException("User input cannot be null");
+        }
+
         List<Message> messages = chatHistory.stream()
                 .map(content -> new Message("user", content))
                 .collect(Collectors.toList());

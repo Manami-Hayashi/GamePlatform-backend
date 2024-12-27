@@ -1,4 +1,5 @@
-package be.kdg.prog6.gameStatisticsContext;
+package be.kdg.prog6.chatbotContext;
+
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
@@ -12,12 +13,12 @@ import org.junit.Test;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
-@AnalyzeClasses(packages = "be.kdg.prog6.gameStatisticsContext", importOptions = ImportOption.DoNotIncludeTests.class)
+@AnalyzeClasses(packages = "be.kdg.prog6.chatbotContext", importOptions = ImportOption.DoNotIncludeTests.class)
 public class ArchitectureTest {
-    private static final String DOMAIN_LAYER = "be.kdg.prog6.gameStatisticsContext.domain..";
-    private static final String ADAPTER_LAYER = "be.kdg.prog6.gameStatisticsContext.adapters..";
-    private static final String CORE_LAYER = "be.kdg.prog6.gameStatisticsContext.core..";
-    private static final String PORT_LAYER = "be.kdg.prog6.gameStatisticsContext.ports..";
+    private static final String DOMAIN_LAYER = "be.kdg.prog6.chatbotContext.domain..";
+    private static final String ADAPTER_LAYER = "be.kdg.prog6.chatbotContext.adapters..";
+    private static final String CORE_LAYER = "be.kdg.prog6.chatbotContext.core..";
+    private static final String PORT_LAYER = "be.kdg.prog6.chatbotContext.ports..";
 
     @ArchTest
     static final ArchRule domainShouldNotDependOnAnyOtherLayerRule =
@@ -31,7 +32,7 @@ public class ArchitectureTest {
 
     @Test
     public void givenApplicationClasses_thenNoLayerViolationsShouldExist() {
-        JavaClasses jc = new ClassFileImporter().importPackages("be.kdg.prog6.gameStatisticsContext");
+        JavaClasses jc = new ClassFileImporter().importPackages("be.kdg.prog6.chatbotContext");
 
         final Architectures.LayeredArchitecture arch = layeredArchitecture().consideringOnlyDependenciesInLayers()
                 .layer("DRIVING_ADAPTERS").definedBy("..adapters.in..")
