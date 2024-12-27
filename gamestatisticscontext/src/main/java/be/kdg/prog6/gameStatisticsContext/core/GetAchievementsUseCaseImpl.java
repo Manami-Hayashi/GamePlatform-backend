@@ -6,6 +6,7 @@ import be.kdg.prog6.gameStatisticsContext.port.out.LoadAchievementsPort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class GetAchievementsUseCaseImpl implements GetAchievementsUseCase {
@@ -16,8 +17,8 @@ public class GetAchievementsUseCaseImpl implements GetAchievementsUseCase {
     }
 
     @Override
-    public List<Achievement> getAchievements() {
-        List<Achievement> achievements = loadAchievementsPort.loadAchievements();
+    public List<Achievement> getAchievements(UUID playerId, UUID gameId) {
+        List<Achievement> achievements = loadAchievementsPort.loadAchievementsByPlayerIdAndGameId(playerId, gameId);
         if (achievements.isEmpty()) {
             throw new RuntimeException("No achievements found");
         }

@@ -3,14 +3,16 @@ package be.kdg.prog6.gameStatisticsContext.adapter.out;
 import be.kdg.prog6.gameStatisticsContext.domain.Achievement;
 import be.kdg.prog6.gameStatisticsContext.domain.GameId;
 import be.kdg.prog6.gameStatisticsContext.domain.PlayerId;
+import be.kdg.prog6.gameStatisticsContext.port.out.CreateAchievementPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.LoadAchievementsPort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class AchievementDbAdapter implements LoadAchievementsPort {
+public class AchievementDbAdapter implements LoadAchievementsPort, CreateAchievementPort {
     private final AchievementRepository achievementRepo;
 
     public AchievementDbAdapter(AchievementRepository achievementRepo) {
@@ -18,8 +20,13 @@ public class AchievementDbAdapter implements LoadAchievementsPort {
     }
 
     @Override
-    public List<Achievement> loadAchievements() {
-        return achievementRepo.findAll().stream().map(this::toAchievement).collect(Collectors.toList());
+    public List<Achievement> loadAchievementsByPlayerIdAndGameId(UUID playerId, UUID gameId) {
+        return achievementRepo.findByPlayerIdAndGameId(playerId, gameId).stream().map(this::toAchievement).collect(Collectors.toList());
+    }
+
+    @Override
+    public void createAchievement(Achievement achievement) {
+        achievementRepo.save(new AchievementJpaEntity(achievement.getPlayerId().id(), achievement.getGameId().id(), achievement.getName(), achievement.getDescription()));
     }
 
     private Achievement toAchievement(AchievementJpaEntity achievementJpaEntity) {

@@ -25,7 +25,7 @@ class GetAchievementsUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         achievementRepository.save(new AchievementJpaEntity(TestIds.PLAYER_ID, TestIds.GAME_ID, "", "Description 1", true));
 
         // Act & Assert
-        assertDoesNotThrow(() -> getAchievementsUseCase.getAchievements());
+        assertDoesNotThrow(() -> getAchievementsUseCase.getAchievements(TestIds.PLAYER_ID, TestIds.GAME_ID));
 
         // Cleanup
         achievementRepository.deleteAll();
@@ -34,6 +34,6 @@ class GetAchievementsUseCaseImplIntegrationTest extends AbstractDatabaseTest {
     @Test
     void shouldFailToGetAchievementsToSelf() {
         // Assert
-        assertThrows(RuntimeException.class, () -> getAchievementsUseCase.getAchievements());
+        assertThrows(RuntimeException.class, () -> getAchievementsUseCase.getAchievements(TestIds.PLAYER_ID, TestIds.GAME_ID));
     }
 }

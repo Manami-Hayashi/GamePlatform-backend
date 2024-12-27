@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = dAq5kVoa3li7gcvxz5xQQ0qVNF6qpOuf &
+client_secret = s7b2bA6t0UpwKVcfvKSYg2txVr0cHILS &
 username = admin &
 password = password &
 grant_type = password &
@@ -18,7 +18,7 @@ scope = openid
 
 ### Get achievements
 
-GET http://localhost:8090/api/achievements
+GET http://localhost:8090/api/achievements/player/155f3e06-bdd0-496c-919c-c3ee90dfe162/game/14910372-c39d-7de7-b05a-93f8166cf7af
 Authorization: Bearer {{access_token}}
 
 
@@ -74,7 +74,21 @@ Content-Type: application/json
 GET http://localhost:8090/api/prediction/players
 Authorization: Bearer {{access_token}}
 
-
 ### Get games
 GET http://localhost:8090/api/prediction/games
 Authorization: Bearer {{access_token}}
+
+### Add achievement
+POST http://localhost:8090/api/achievement
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "id": 1,
+  "playerId": "a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634",
+  "gameId": "14910372-c39d-7de7-b05a-93f8166cf7af",
+  "name": "First Win",
+  "description": "Awarded for winning the first game",
+  "isLocked": false
+}
+

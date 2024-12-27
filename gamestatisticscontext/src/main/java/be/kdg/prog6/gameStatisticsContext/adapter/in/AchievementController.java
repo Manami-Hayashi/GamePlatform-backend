@@ -1,29 +1,39 @@
 package be.kdg.prog6.gameStatisticsContext.adapter.in;
 
 import be.kdg.prog6.gameStatisticsContext.domain.Achievement;
+import be.kdg.prog6.gameStatisticsContext.domain.GameId;
+import be.kdg.prog6.gameStatisticsContext.domain.PlayerId;
+import be.kdg.prog6.gameStatisticsContext.port.in.AddAchievementUseCase;
 import be.kdg.prog6.gameStatisticsContext.port.in.GetAchievementsUseCase;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class AchievementController {
     private final GetAchievementsUseCase getAchievementsUseCase;
+    private final AddAchievementUseCase addAchievementUseCase;
 
-    public AchievementController(GetAchievementsUseCase getAchievementsUseCase) {
+    public AchievementController(GetAchievementsUseCase getAchievementsUseCase, AddAchievementUseCase addAchievementUseCase) {
         this.getAchievementsUseCase = getAchievementsUseCase;
+        this.addAchievementUseCase = addAchievementUseCase;
     }
 
-    @GetMapping("/achievements")
-    public List<AchievementDto> getAchievements() {
-        List<Achievement> achievements = getAchievementsUseCase.getAchievements();
+    @GetMapping("/achievements/player/{playerId}/game/{gameId}")
+    public List<AchievementDto> getAchievements(@PathVariable UUID playerId, @PathVariable UUID gameId) {
+        List<Achievement> achievements = getAchievementsUseCase.getAchievements(playerId, gameId);
         List<AchievementDto> achievementDtos = new ArrayList<>();
         for (Achievement achievement : achievements) {
-            achievementDtos.add(new AchievementDto(achievement.getId(), achievement.getPlayerId().id(), achievement.getName(), achievement.getDescription(), achievement.isLocked()));
+            achievementDtos.add(new AchievementDto(achievement.getId(), achievement.getPlayerId().id(), achievement.getGameId().id(), achievement.getName(), achievement.getDescription(), achievement.isLocked()));
         }
         return achievementDtos;
+    }
+
+    @PostMapping("/achievement")
+    public void addAchievement(@RequestBody AchievementDto achievementDto) {
+        Achievement achievement = new Achievement(achievementDto.id(), new PlayerId(achievementDto.playerId()), new GameId(achievementDto.gameId()), achievementDto.name(), achievementDto.description());
+        addAchievementUseCase.addAchievement(achievement);
     }
 }

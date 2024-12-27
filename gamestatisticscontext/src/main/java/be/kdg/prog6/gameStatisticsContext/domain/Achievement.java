@@ -17,6 +17,15 @@ public class Achievement {
         this.isLocked = isLocked;
     }
 
+    public Achievement(int id, PlayerId playerId, GameId gameId, String name, String description) {
+        this.id = id;
+        this.playerId = playerId;
+        this.gameId = gameId;
+        this.name = name;
+        this.description = description;
+        this.isLocked = true;
+    }
+
     public int getId() {
         return id;
     }
