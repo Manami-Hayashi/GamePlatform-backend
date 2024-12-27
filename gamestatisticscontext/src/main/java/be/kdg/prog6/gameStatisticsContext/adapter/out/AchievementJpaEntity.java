@@ -42,6 +42,14 @@ public class AchievementJpaEntity {
         this.isLocked = isLocked;
     }
 
+    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description) {
+        this.playerId = playerId;
+        this.gameId = gameId;
+        this.name = name;
+        this.description = description;
+        this.isLocked = true;
+    }
+
     public int getId() {
         return id;
     }
