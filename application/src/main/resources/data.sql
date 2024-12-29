@@ -82,7 +82,7 @@ VALUES
     (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers', 1, UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162'));
 
 -- Insert profiles for the players
-INSERT INTO player_management.profiles (player_id, bio, avatar, location, birth_date)
+INSERT INTO player_management.profiles (player_id, bio, avatar, gender,location, birth_date)
 VALUES
-    (UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218'), 'Loves strategy games.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'New York', '1990-05-15'),
-    (UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83'),  'Casual gamer.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'Los Angeles','1992-12-05');
+    (UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218'), 'Loves strategy games.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'MALE','New York', '1990-05-15'),
+    (UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83'),  'Casual gamer.', 'https://img.freepik.com/premium-vector/customer-service-agent-icon-vector-image-can-be-used-digital-nomad_120816-85794.jpg?w=826', 'FEMALE','Los Angeles','1992-12-05');

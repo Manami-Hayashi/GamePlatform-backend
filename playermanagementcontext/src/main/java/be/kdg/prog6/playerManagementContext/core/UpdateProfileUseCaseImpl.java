@@ -26,7 +26,7 @@ public class UpdateProfileUseCaseImpl implements UpdateProfileUseCase {
     public void updateProfile(UpdateProfileCommand command) {
         PlayerId playerId = command.playerId();
 
-        if (command.bio().isEmpty() || command.avatar().isEmpty() || command.location().isEmpty() || command.birthDate() == null) {
+        if (command.bio().isEmpty() || command.avatar().isEmpty() || command.gender() == null || command.location().isEmpty() || command.birthDate() == null) {
             throw new IllegalArgumentException("Invalid profile data");
         }
 
@@ -34,10 +34,10 @@ public class UpdateProfileUseCaseImpl implements UpdateProfileUseCase {
         Profile profile = profileLoadedPort.loadProfileById(playerId);
         if (profile == null) {
             logger.info("Creating new profile for player with id: {}", playerId);
-            Profile newProfile = new Profile(playerId, command.bio(), command.avatar(), command.location(), command.birthDate());
+            Profile newProfile = new Profile(playerId, command.bio(), command.avatar(), command.gender(), command.location(), command.birthDate());
             profileCreatedPort.profileCreated(newProfile);
         } else {
-            profile.updateProfile(command.bio(), command.avatar(), command.location(), command.birthDate());
+            profile.updateProfile(command.bio(), command.avatar(), command.gender(),command.location(), command.birthDate());
             profileCreatedPort.profileCreated(profile);
         }
     }
