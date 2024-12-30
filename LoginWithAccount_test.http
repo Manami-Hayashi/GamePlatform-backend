@@ -30,7 +30,7 @@ Authorization: Bearer {{access_token}}
 }
 
 ### test GET player profile
-GET http://localhost:8090/api/players/14910372-c39d-7de7-b05a-93f8166cf7af/profile
+GET http://localhost:8090/api/players/90fe559f-5262-45df-9c96-1ace069d70c9/profile
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
