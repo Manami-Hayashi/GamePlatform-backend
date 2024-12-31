@@ -23,30 +23,30 @@
 #  key: "$CI_COMMIT_REF_NAME"
 #  policy: push
 #  paths:
-#    - build
-#    - .gradle
-#
-#compile:
-#  image: gradle:8.11.0-jdk21
-#  stage: compile
-#  script:
-#    - gradle compileJava
-#
-#test:
-#  image: gradle:8.11.0-jdk21
-#  stage: test
-#  script:
-#    - gradle test
-#  artifacts:
-#    when: always
-#    reports:
-#      junit: ./build/test-results/test/**/TEST-*.xml
-#
-#build:
-#    image: gradle:8.11.0-jdk21
-#    stage: build
-#    script:
-#        - gradle clean bootBuildImage
+    - build
+    - .gradle
+
+compile:
+  image: gradle:8.11.0-jdk21
+  stage: compile
+  script:
+    - gradle compileJava
+
+test:
+  image: gradle:8.11.0-jdk21
+  stage: test
+  script:
+    - gradle test
+  artifacts:
+    when: always
+    reports:
+      junit: ./build/test-results/test/**/TEST-*.xml
+
+build:
+    image: gradle:8.11.0-jdk21
+    stage: build
+    script:
+        - gradle clean bootBuildImage
 #
 #
 ## after the image build is finished use it for the containerapps and automatically deploy it
