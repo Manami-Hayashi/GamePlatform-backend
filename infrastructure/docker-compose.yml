@@ -39,34 +39,36 @@ services:
     volumes:
       - ./team3/mysql/data:/var/lib/mysql
 
-  team3_rabbitmq:
-    image: rabbitmq:3.13.7-management-alpine
-    environment:
-      - RABBITMQ_DEFAULT_USER=myuser
-      - RABBITMQ_DEFAULT_PASS=mypassword
-    ports:
-      - "5673:5672" #AMQP
-      - "15673:15672" #MGMT
-    networks:
-      - backend
-      - shared_network # Make rabbitmq accessible from Keycloak container
-    volumes:
-      - ./team3/rabbitmq/data/:/var/lib/rabbitmq/
-      - ./team3/rabbitmq/log/:/var/log/rabbitmq/
+    team3_rabbitmq:
+      image: rabbitmq:3.13.7-management-alpine
+      environment:
+        - RABBITMQ_DEFAULT_USER=myuser
+        - RABBITMQ_DEFAULT_PASS=mypassword
+      ports:
+        - "5673:5672" #AMQP
+        - "15673:15672" #MGMT
+      networks:
+        - backend
+        - shared_network # Make rabbitmq accessible from Keycloak container
+      volumes:
+        - ./team3/rabbitmq/data/:/var/lib/rabbitmq/
+        - ./team3/rabbitmq/log/:/var/log/rabbitmq/
 
-  idp_mysql_team3:
-    image: mysql:9.0.1
-    volumes:
-      - ./team3/idp_mysql_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: password
-    ports:
-      - '3308:3306'
-    networks:
-      - kc
+
+
+    idp_mysql_team3:
+      image: mysql:9.0.1
+      volumes:
+        - ./team3/idp_mysql_data:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: keycloak
+        MYSQL_USER: keycloak
+        MYSQL_PASSWORD: password
+      ports:
+        - '3308:3306'
+      networks:
+        - kc
 
   idp_keycloak_team3:
     image: quay.io/keycloak/keycloak:25.0.5

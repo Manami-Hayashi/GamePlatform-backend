@@ -76,3 +76,4 @@ class GetProfileUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         );
     }
 }
+

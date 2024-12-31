@@ -63,3 +63,4 @@ class RegisterUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         return new PlayerJpaEntity(player.getPlayerId().id(), player.getName());
     }
 }
+
