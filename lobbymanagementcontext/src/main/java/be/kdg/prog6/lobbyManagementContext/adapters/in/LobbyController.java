@@ -56,4 +56,5 @@ public class LobbyController {
     public UUID getLobbyId(@PathVariable UUID playerId) {
         return getLobbyIdUseCase.getLobbyId(playerId);
     }
+
 }
