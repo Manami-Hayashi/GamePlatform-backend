@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class GameStatisticsController {
     private final GetScoreboardUseCase getScoreboardUseCase;
     private final UpdateGameStatisticsUseCase updateGameStatisticsUseCase;
-    private Logger logger = Logger.getLogger(GameStatisticsController.class.getName());
+    private final Logger logger = Logger.getLogger(GameStatisticsController.class.getName());
 
     public GameStatisticsController(GetScoreboardUseCase getScoreboardUseCase, UpdateGameStatisticsUseCase updateGameStatisticsUseCase) {
         this.getScoreboardUseCase = getScoreboardUseCase;

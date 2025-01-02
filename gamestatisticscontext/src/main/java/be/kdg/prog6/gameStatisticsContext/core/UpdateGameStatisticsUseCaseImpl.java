@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +32,9 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         this.updateMatchSessionPort = updateMatchSessionPort;
     }
 
-    private void updatePlayerStatistics(GameStatistics gameStatsP1, GameStatistics gameStatsP2, Winner winnerEnum, String winnerString, UpdateGameStatisticsCommand command) {
+    private void updatePlayerStatistics(GameStatistics gameStatsP1, GameStatistics gameStatsP2, Winner winnerEnum, String winnerString, UpdateGameStatisticsCommand command, LocalDateTime startTime) {
+        LOGGER.info("startTime: {}, endTime: {}", command.startTime(), command.endTime());
+
         gameStatsP1.setTotalScore(gameStatsP1.getTotalScore() + command.scoreP1());
         gameStatsP2.setTotalScore(gameStatsP2.getTotalScore() + command.scoreP2());
 
@@ -54,7 +57,9 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         gameStatsP1.setWinLossRatio(gameStatsP1.getLosses() == 0 ? 1 : (double) gameStatsP1.getWins() / gameStatsP1.getLosses());
         gameStatsP2.setWinLossRatio(gameStatsP2.getLosses() == 0 ? 1 : (double) gameStatsP2.getWins() / gameStatsP2.getLosses());
 
-        double gameDuration = calculateGameDuration(command.startTime(), command.endTime());
+        double gameDuration = calculateGameDuration(startTime, command.endTime());
+        LOGGER.info("Game duration: {}", gameDuration);
+
         gameStatsP1.setTotalTimePlayed(gameStatsP1.getTotalTimePlayed() + gameDuration);
         gameStatsP2.setTotalTimePlayed(gameStatsP2.getTotalTimePlayed() + gameDuration);
 
@@ -75,7 +80,8 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
     }
 
     private double calculateGameDuration(LocalDateTime startTime, LocalDateTime endTime) {
-        return (endTime.getHour() - startTime.getHour()) + (double) (endTime.getMinute() - startTime.getMinute()) / 60;
+        LOGGER.info("startTime: {}, endTime: {}", startTime, endTime);
+        return Duration.between(startTime, endTime).toMinutes();
     }
 
     @Override
@@ -108,6 +114,8 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         matchSession.setMovesMadeP1(command.movesMadeP1());
         matchSession.setMovesMadeP2(command.movesMadeP2());
 
+        LocalDateTime startTime = matchSession.getStartTime();
+
         // Save or update the existing match session (use repository or port method)
         updateMatchSessionPort.updateMatchSession(matchSession);
 
@@ -126,7 +134,7 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         Optional<GameStatistics> gameStatsP2 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(1), command.gameId());
 
         if (gameStatsP1.isPresent() && gameStatsP2.isPresent()) {
-            updatePlayerStatistics(gameStatsP1.get(), gameStatsP2.get(), Winner.valueOf(command.winner()), command.winner(), command);
+            updatePlayerStatistics(gameStatsP1.get(), gameStatsP2.get(), Winner.valueOf(command.winner()), command.winner(), command, startTime);
         } else {
             LOGGER.error("Game statistics not found for players. Cannot update statistics.");
         }
@@ -152,7 +160,7 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         // Create a new match session
         createMatchSessionPort.createMatchSession(matchSession);
 
-        updatePlayerStatistics(gameStats.get(0), gameStats.get(1), Winner.valueOf(updateGameStatisticsCommand.winner()), updateGameStatisticsCommand.winner(), updateGameStatisticsCommand);
+        updatePlayerStatistics(gameStats.get(0), gameStats.get(1), Winner.valueOf(updateGameStatisticsCommand.winner()), updateGameStatisticsCommand.winner(), updateGameStatisticsCommand, updateGameStatisticsCommand.startTime());
 
     }
 
