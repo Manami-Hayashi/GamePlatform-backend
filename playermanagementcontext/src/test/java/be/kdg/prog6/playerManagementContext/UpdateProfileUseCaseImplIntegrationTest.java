@@ -1,5 +1,6 @@
 package be.kdg.prog6.playerManagementContext;
 
+import be.kdg.prog6.playerManagementContext.domain.Gender;
 import be.kdg.prog6.playerManagementContext.domain.PlayerId;
 import be.kdg.prog6.playerManagementContext.ports.in.UpdateProfileCommand;
 import be.kdg.prog6.playerManagementContext.ports.in.UpdateProfileUseCase;
@@ -37,7 +38,7 @@ class UpdateProfileUseCaseImplIntegrationTest extends AbstractDatabaseTest {
     void shouldUpdateProfileSuccessfully() {
         // Arrange
         PlayerId playerId = new PlayerId(TestIds.PLAYER_ID);
-        UpdateProfileCommand command = new UpdateProfileCommand(playerId, "New Bio", "New Location", "New avatar", LocalDate.now());
+        UpdateProfileCommand command = new UpdateProfileCommand(playerId, "New Bio", "New Avatar", Gender.MALE, "New Location", LocalDate.now());
 
         // Act & Assert
         assertDoesNotThrow(() -> updateProfileUseCase.updateProfile(command), "Expected no exception to be thrown for updating profile with valid data");
@@ -50,7 +51,7 @@ class UpdateProfileUseCaseImplIntegrationTest extends AbstractDatabaseTest {
     void shouldFailToUpdateProfileWithInvalidData() {
         // Arrange
         PlayerId playerId = new PlayerId(TestIds.PLAYER_ID);
-        UpdateProfileCommand command = new UpdateProfileCommand(playerId, "", "", "", null);
+        UpdateProfileCommand command = new UpdateProfileCommand(playerId, "Valid Bio", "Valid Avatar", null, "", null);
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> updateProfileUseCase.updateProfile(command), "Expected an IllegalArgumentException to be thrown for invalid profile data");

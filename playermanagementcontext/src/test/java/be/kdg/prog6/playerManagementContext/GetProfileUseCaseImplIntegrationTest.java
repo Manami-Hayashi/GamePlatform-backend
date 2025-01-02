@@ -4,6 +4,7 @@ import be.kdg.prog6.playerManagementContext.adapters.out.db.PlayerJpaEntity;
 import be.kdg.prog6.playerManagementContext.adapters.out.db.PlayerJpaRepository;
 import be.kdg.prog6.playerManagementContext.adapters.out.db.ProfileJpaEntity;
 import be.kdg.prog6.playerManagementContext.adapters.out.db.ProfileJpaRepository;
+import be.kdg.prog6.playerManagementContext.domain.Gender;
 import be.kdg.prog6.playerManagementContext.domain.Player;
 import be.kdg.prog6.playerManagementContext.domain.PlayerId;
 import be.kdg.prog6.playerManagementContext.domain.Profile;
@@ -41,7 +42,7 @@ class GetProfileUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         // Arrange
         Player player = new Player(new PlayerId(TestIds.PLAYER_ID), "Noah");
         playerJpaRepository.save(toPlayerJpa(player));
-        Profile profile = new Profile(player.getPlayerId(), "Noah", "avatar", "location", null);
+        Profile profile = new Profile(player.getPlayerId(), "Noah", "avatar", Gender.MALE, "location", null);
         profileJpaRepository.save(toProfileJpa(profile));
 
         // Act & Assert
@@ -71,6 +72,7 @@ class GetProfileUseCaseImplIntegrationTest extends AbstractDatabaseTest {
                 profile.getPlayerId().id(),
                 profile.getBio(),
                 profile.getAvatar(),
+                profile.getGender(),
                 profile.getLocation(),
                 profile.getBirthDate()
         );
