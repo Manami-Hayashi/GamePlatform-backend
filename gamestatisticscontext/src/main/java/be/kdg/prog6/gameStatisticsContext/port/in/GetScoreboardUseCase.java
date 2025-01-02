@@ -7,5 +7,5 @@ import java.util.List;
 
 @FunctionalInterface
 public interface GetScoreboardUseCase {
-    List<GameStatistics> getMatchHistory(PlayerId playerId);
+    List<GameStatistics> getScoreboard(PlayerId playerId);
 }

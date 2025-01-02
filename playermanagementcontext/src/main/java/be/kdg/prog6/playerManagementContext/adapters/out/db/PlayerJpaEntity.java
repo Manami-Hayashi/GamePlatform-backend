@@ -33,17 +33,17 @@ public class PlayerJpaEntity{
         this.name = name;
     }
 
-    public PlayerJpaEntity(UUID playerId, String name, List<FriendJpaEntity> friends) {
-        this.playerId = playerId;
-        this.name = name;
-        this.friendsInitiated = friends;
-    }
-
     public PlayerJpaEntity(UUID playerId, String name, List<FriendJpaEntity> friendsInitiated, List<FriendJpaEntity> friendsReceived) {
         this.playerId = playerId;
         this.name = name;
         this.friendsInitiated = friendsInitiated;
         this.friendsReceived = friendsReceived;
+    }
+
+    public PlayerJpaEntity(UUID playerId, String name, List<GameOwnedJpaEntity> gamesOwned) {
+        this.playerId = playerId;
+        this.name = name;
+        this.gamesOwned = gamesOwned;
     }
 
     public UUID getPlayerId() {

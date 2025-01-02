@@ -5,6 +5,7 @@ import be.kdg.prog6.playerManagementContext.domain.PlayerId;
 import be.kdg.prog6.playerManagementContext.ports.in.RegisterUseCase;
 import be.kdg.prog6.playerManagementContext.ports.in.RegisterUserCommand;
 import be.kdg.prog6.playerManagementContext.ports.out.CreatePlayerPort;
+import be.kdg.prog6.playerManagementContext.ports.out.LoadPlayerPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegisterUseCaseImpl implements RegisterUseCase {
     private final Logger logger = LoggerFactory.getLogger(RegisterUseCaseImpl.class);
-
+    private final LoadPlayerPort loadPlayerPort;
     private final CreatePlayerPort createPlayerPort;
 
-    public RegisterUseCaseImpl(CreatePlayerPort createPlayerPort) {
+    public RegisterUseCaseImpl(LoadPlayerPort loadPlayerPort, CreatePlayerPort createPlayerPort) {
+        this.loadPlayerPort = loadPlayerPort;
         this.createPlayerPort = createPlayerPort;
     }
 
@@ -25,8 +27,9 @@ public class RegisterUseCaseImpl implements RegisterUseCase {
         PlayerId playerId = new PlayerId(command.playerId());
         Player player = new Player(playerId, command.name());
 
+        if (loadPlayerPort.loadPlayer(playerId.id()) != null) {
+            throw new IllegalArgumentException("Player with id " + playerId + " already exists.");
+        }
         createPlayerPort.createPlayer(player);
-        logger.info("Player registered with id and name: {} {}", playerId, player.getName());
-
     }
 }

@@ -30,10 +30,10 @@ class AddGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
     private GameJpaRepository gameJpaRepository;
 
     @MockBean
-    private RabbitTemplate rabbitTemplate; // Mocked RabbitTemplate to disable RabbitMQ interactions.
+    private RabbitTemplate rabbitTemplate;
 
     @MockBean
-    private AmqpAdmin amqpAdmin; // Mocked AmqpAdmin to prevent topology setup.
+    private AmqpAdmin amqpAdmin;
 
 
     @Test
@@ -50,6 +50,9 @@ class AddGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         assertEquals(TestIds.GAME_NAME, savedGame.get().getGameName(), "Expected game name to match");
         assertEquals(TestIds.GAME_PRICE, savedGame.get().getPrice(), "Expected game price to match");
         assertEquals(TestIds.GAME_DESCRIPTION, savedGame.get().getDescription(), "Expected game description to match");
+
+        // Cleanup
+        gameJpaRepository.deleteAll();
     }
 
     @Test
@@ -59,6 +62,9 @@ class AddGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> addGameUseCase.addGame(command), "Expected an IllegalArgumentException to be thrown for negative price");
+
+        // Cleanup
+        gameJpaRepository.deleteAll();
     }
 
     private Game toGame(GameJpaEntity gameJpaEntity) {

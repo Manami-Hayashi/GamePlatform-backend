@@ -16,6 +16,10 @@ public class GetProfileUseCaseImpl implements GetProfileUseCase {
 
     @Override
     public Profile getProfile(PlayerId playerId) {
-        return profileLoadedPort.loadProfileById(playerId);
+        Profile profile = profileLoadedPort.loadProfileById(playerId);
+        if (profile == null) {
+            throw new IllegalArgumentException("Profile not found for player with id: " + playerId);
+        }
+        return profile;
     }
 }

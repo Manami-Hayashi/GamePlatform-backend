@@ -23,7 +23,6 @@ public class DisplayOwnedGameUseCaseImpl implements DisplayOwnedGameUseCase {
     @Override
     public List<Game> displayOwnedGames(PlayerId playerId) {
         logger.info("Displaying games owned by player with id {}", playerId.id());
-
         return gameLoadedPort.loadGames(playerId);
     }
 }

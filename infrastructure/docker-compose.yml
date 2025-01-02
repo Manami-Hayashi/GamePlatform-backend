@@ -1,29 +1,4 @@
-version: '3.9'
-
 services:
-#  azure_sql_server:
-#    image: mcr.microsoft.com/azure-sql-edge
-#    user: root
-#    ports:
-#      - "1433:1433"
-#    environment:
-#      SA_PASSWORD: "testSecure!123"
-#      ACCEPT_EULA: "Y"
-#    volumes:
-#      - "./volumes/db:/var/opt/mssql/data"
-#
-#  devtools:
-#    container_name: msft-dev-tools
-#    image: mcr.microsoft.com/mssql-tools:latest
-#    environment:
-#      SA_PASSWORD: "testSecure!123"
-#      ACCEPT_EULA: "Y"
-#    command: [ "./var/opt/scripts/wait_for_it.sh", "localhost:1433", "--", "bash", "/var/opt/scripts/db_setup.sh" ]
-#    volumes:
-#      - ./scripts:/var/opt/scripts
-#    depends_on:
-#      - azure_sql_server
-
   mysql_team3_db:
     image: mysql:9.0.1
     restart: no
@@ -45,8 +20,8 @@ services:
       - RABBITMQ_DEFAULT_USER=myuser
       - RABBITMQ_DEFAULT_PASS=mypassword
     ports:
-      - "5673:5672" #AMQP
-      - "15673:15672" #MGMT
+      - "5673:5672" # AMQP
+      - "15673:15672" # MGMT
     networks:
       - backend
       - shared_network # Make rabbitmq accessible from Keycloak container
@@ -82,14 +57,13 @@ services:
     ports:
       - "8181:8080"
     volumes:
-      - /Users/narjiss/KdG/KdG/year-3/Semester-1/Integration-5/game-arena/application/build/libs/keycloak-event-listener-1.0.0.jar:/opt/keycloak/providers/keycloak-event-listener-1.0.0.jar
+      - /home/zamlamb/KdG/Integration5Backend/application/build/libs/keycloak-event-listener-1.0.0.jar:/opt/keycloak/providers/keycloak-event-listener-1.0.0.jar
     depends_on:
       - team3_rabbitmq
       - idp_mysql_team3
     networks:
       - kc
-      - shared_network
-      - backend
+      - shared_network # Make keycloak accessible from RabbitMQ container
 
 networks:
   kc:
