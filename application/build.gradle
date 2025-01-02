@@ -84,11 +84,22 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
-    implementation 'org.keycloak:keycloak-core:25.0.5'
-    implementation 'org.keycloak:keycloak-server-spi:25.0.5'
-    implementation 'org.keycloak:keycloak-services:25.0.5'
+//    implementation 'org.keycloak:keycloak-core:25.0.5'
+//    implementation 'org.keycloak:keycloak-server-spi:25.0.5'
+//    implementation 'org.keycloak:keycloak-services:25.0.5'
+    //for deployment
     implementation 'com.microsoft.sqlserver:mssql-jdbc'
 
+    //for local run
+    // Keycloak dependencies
+    compileOnly('org.keycloak:keycloak-core:25.0.5') {
+        exclude group: 'org.wildfly', module: 'wildfly-common'
+    }
+    compileOnly 'org.keycloak:keycloak-server-spi:25.0.5'
+    // Optional: Add if specific classes from `keycloak-services` are needed
+    compileOnly 'org.keycloak:keycloak-services:25.0.5'
+
+    // Include additional libraries if necessary
     implementation 'org.wildfly.client:wildfly-client-config:1.0.1.Final'
 
     runtimeOnly("org.jboss.resteasy:resteasy-client-api:6.2.4.Final") { transitive = false }
