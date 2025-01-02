@@ -21,14 +21,14 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
     private final UpdateGameStatisticsPort updateGameStatisticsPort;
     private final CreateMatchSessionPort createMatchSessionPort;
     private final LoadMatchSessionPort loadMatchSessionPort;
-    private final UpdateMatchSessionPort updateMatchSession;
+    private final UpdateMatchSessionPort updateMatchSessionPort;
 
-    public UpdateGameStatisticsUseCaseImpl(LoadGameStatisticsPort loadGameStatisticsPort, UpdateGameStatisticsPort updateGameStatisticsPort, CreateMatchSessionPort createMatchSessionPort, LoadMatchSessionPort loadMatchSessionPort, UpdateMatchSessionPort updateMatchSession) {
+    public UpdateGameStatisticsUseCaseImpl(LoadGameStatisticsPort loadGameStatisticsPort, UpdateGameStatisticsPort updateGameStatisticsPort, CreateMatchSessionPort createMatchSessionPort, LoadMatchSessionPort loadMatchSessionPort, UpdateMatchSessionPort updateMatchSessionPort) {
         this.loadGameStatisticsPort = loadGameStatisticsPort;
         this.updateGameStatisticsPort = updateGameStatisticsPort;
         this.createMatchSessionPort = createMatchSessionPort;
         this.loadMatchSessionPort = loadMatchSessionPort;
-        this.updateMatchSession = updateMatchSession;
+        this.updateMatchSessionPort = updateMatchSessionPort;
     }
 
     private void updatePlayerStatistics(GameStatistics gameStatsP1, GameStatistics gameStatsP2, Winner winnerEnum, String winnerString, UpdateGameStatisticsCommand command) {
@@ -109,7 +109,7 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         matchSession.setMovesMadeP2(command.movesMadeP2());
 
         // Save or update the existing match session (use repository or port method)
-        updateMatchSession.updateMatchSession(matchSession.getId());
+        updateMatchSessionPort.updateMatchSession(matchSession);
 
         // Log when the game ends
         if (!command.isActive()) {
@@ -117,7 +117,7 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         }
 
         // Save or update the existing match session (use repository or port method)
-        updateMatchSession.updateMatchSession(matchSession.getId());
+        updateMatchSessionPort.updateMatchSession(matchSession);
 
         LOGGER.info(String.valueOf(command));
 

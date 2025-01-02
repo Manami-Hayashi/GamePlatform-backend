@@ -137,14 +137,31 @@ public class MatchSessionDbAdapter implements LoadMatchSessionsPort, CreateMatch
     }
 
     @Override
-    public void updateMatchSession(UUID matchSessionId) {
-        Optional<MatchSessionJpaEntity> matchSessionJpaEntityOpt = matchSessionRepo.findById(matchSessionId);
+    public void updateMatchSession(MatchSession matchSession) {
+        Optional<MatchSessionJpaEntity> matchSessionJpaEntityOpt = matchSessionRepo.findById(matchSession.getId());
         if (matchSessionJpaEntityOpt.isEmpty()) {
             throw new IllegalArgumentException("MatchSession not found");
         }
         MatchSessionJpaEntity matchSessionJpaEntity = matchSessionJpaEntityOpt.get();
-        matchSessionJpaEntity.setActive(!matchSessionJpaEntity.isActive());
+        matchSessionJpaEntity.setGameId(matchSession.getGameId().id());
+        matchSessionJpaEntity.setGameStatistics(matchSession.getGameStatistics().stream()
+                .map(gameStatistics -> {
+                    Optional<GameStatisticsJpaEntity> gameStatisticsJpaEntityOpt = gameStatisticsRepo.findByPlayerIdAndGameId(
+                            gameStatistics.getPlayerId().id(), gameStatistics.getGameId().id());
+                    if (gameStatisticsJpaEntityOpt.isEmpty()) {
+                        throw new IllegalArgumentException("GameStatistics not found");
+                    }
+                    return gameStatisticsJpaEntityOpt.get();
+                })
+                .collect(Collectors.toList()));
+        matchSessionJpaEntity.setStartTime(matchSession.getStartTime());
+        matchSessionJpaEntity.setEndTime(matchSession.getEndTime());
+        matchSessionJpaEntity.setActive(matchSession.isActive());
+        matchSessionJpaEntity.setWinner(matchSession.getWinner().name());
+        matchSessionJpaEntity.setScoreP1(matchSession.getScoreP1());
+        matchSessionJpaEntity.setScoreP2(matchSession.getScoreP2());
+        matchSessionJpaEntity.setMovesMadeP1(matchSession.getMovesMadeP1());
+        matchSessionJpaEntity.setMovesMadeP2(matchSession.getMovesMadeP2());
         matchSessionRepo.save(matchSessionJpaEntity);
-        log.info("MatchSession {} updated", matchSessionId);
     }
 }

@@ -1,8 +1,8 @@
 package be.kdg.prog6.gameStatisticsContext.port.out;
 
-import java.util.UUID;
+import be.kdg.prog6.gameStatisticsContext.domain.MatchSession;
 
 @FunctionalInterface
 public interface UpdateMatchSessionPort {
-        void updateMatchSession(UUID matchSessionId);
+        void updateMatchSession(MatchSession matchSession);
 }
