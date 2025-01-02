@@ -49,6 +49,7 @@ public class GameStatisticsController {
     @PostMapping("/update")
     public void updateGameStatistics(@RequestBody UpdateGameStatisticsDto updateGameStatisticsDto) {
         logger.info("Updating game statistics...");
+        logger.info(updateGameStatisticsDto.toString());
         UUID id = UUID.fromString(updateGameStatisticsDto.sessionId());
         UUID gameId = UUID.fromString(updateGameStatisticsDto.gameId());
         List<UUID> playerIds = updateGameStatisticsDto.playerIds();

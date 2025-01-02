@@ -66,6 +66,10 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         gameStatsP1.setAverageGameDuration(gameStatsP1.getTotalGamesPlayed() == 0 ? 0 : gameStatsP1.getTotalTimePlayed() / gameStatsP1.getTotalGamesPlayed() * 60);
         gameStatsP2.setAverageGameDuration(gameStatsP2.getTotalGamesPlayed() == 0 ? 0 : gameStatsP2.getTotalTimePlayed() / gameStatsP2.getTotalGamesPlayed() * 60);
 
+        // Save or update the updated game statistics (use repository or port method)
+        updateGameStatisticsPort.updateGameStatistics(gameStatsP1);
+        updateGameStatisticsPort.updateGameStatistics(gameStatsP2);
+
         LOGGER.info("Updated player statistics for game session: {}. Final scores - Player 1: {}, Player 2: {}.", command.id(), command.scoreP1(), command.scoreP2());
     }
 
@@ -94,6 +98,8 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
 
         // Check if a MatchSession already exists with the provided sessionId
         Optional<MatchSession> existingSession = loadMatchSessionPort.loadMatchSessionById(sessionId);
+
+        LOGGER.info(updateGameStatisticsCommand.toString());
 
         // If session exists, update it; otherwise, create a new one
         if (existingSession.isPresent()) {
@@ -126,6 +132,8 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
 
         // Save or update the existing match session (use repository or port method)
         updateMatchSession.updateMatchSession(matchSession.getId());
+
+        LOGGER.info(String.valueOf(command));
 
         // Update player statistics after match session update
         Optional<GameStatistics> gameStatsP1 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(0), command.gameId());
