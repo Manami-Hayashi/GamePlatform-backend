@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -75,21 +76,6 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
 
     @Override
     public void updateGameStatistics(UpdateGameStatisticsCommand updateGameStatisticsCommand) {
-        // Create UpdateGameStatisticsCommand from the necessary data
-//        UpdateGameStatisticsCommand command = new UpdateGameStatisticsCommand(
-//                updateGameStatisticsCommand.id(),
-//                updateGameStatisticsCommand.gameId(),           // gameId from command
-//                updateGameStatisticsCommand.playerIds(),        // playerIds from command
-//                updateGameStatisticsCommand.scoreP1(),          // scoreP1 from command
-//                updateGameStatisticsCommand.scoreP2(),          // scoreP2 from command
-//                updateGameStatisticsCommand.movesMadeP1(),      // movesMadeP1 from command
-//                updateGameStatisticsCommand.movesMadeP2(),      // movesMadeP2 from command
-//                updateGameStatisticsCommand.startTime(),        // startTime from command
-//                updateGameStatisticsCommand.endTime(),          // endTime from command
-//                updateGameStatisticsCommand.winner(),           // winner from command
-//                updateGameStatisticsCommand.isActive()
-//        );
-
         UUID sessionId = updateGameStatisticsCommand.id();  // Use sessionId from the command
 
         // Check if a MatchSession already exists with the provided sessionId
@@ -163,14 +149,19 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
     }
 
     private List<GameStatistics> loadGameStatisticsForPlayers(UpdateGameStatisticsCommand command) {
-        Optional<GameStatistics> optionalGameStatsP1 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(0), command.gameId());
-        Optional<GameStatistics> optionalGameStatsP2 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(1), command.gameId());
-
-        if (optionalGameStatsP1.isEmpty() || optionalGameStatsP2.isEmpty()) {
-            throw new IllegalArgumentException("GameStatistics not found for one or both players");
-        }
-
-        return List.of(optionalGameStatsP1.get(), optionalGameStatsP2.get());
+        return command.playerIds().stream()
+                .map(playerId -> {
+                    try {
+                        return loadGameStatisticsPort
+                                .loadGameStatisticsByPlayerIdAndGameId(playerId, command.gameId())
+                                .orElseThrow(() -> new IllegalStateException("Stats missing for Player ID: " + playerId));
+                    } catch (IllegalStateException e) {
+                        System.err.println(e.getMessage());
+                        return null; // Or handle differently
+                    }
+                })
+                .filter(Objects::nonNull) // Skip missing entries
+                .toList();
     }
 }
 
