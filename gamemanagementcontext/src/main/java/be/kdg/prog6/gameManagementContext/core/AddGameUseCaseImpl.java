@@ -1,8 +1,10 @@
 package be.kdg.prog6.gameManagementContext.core;
 
+import be.kdg.prog6.gameManagementContext.adapters.out.AchievementEventPublisher;
 import be.kdg.prog6.gameManagementContext.domain.Admin;
 import be.kdg.prog6.gameManagementContext.domain.Game;
 import be.kdg.prog6.gameManagementContext.domain.GameId;
+import be.kdg.prog6.gameManagementContext.ports.in.AddAchievementCommand;
 import be.kdg.prog6.gameManagementContext.ports.in.AddGameCommand;
 import be.kdg.prog6.gameManagementContext.ports.in.AddGameUseCase;
 import be.kdg.prog6.gameManagementContext.ports.out.SaveGamePort;
@@ -18,10 +20,12 @@ import java.util.UUID;
 public class AddGameUseCaseImpl implements AddGameUseCase {
     private final SaveGamePort saveGamePort;
     private final List<UpdateGamePort> updateGamePorts;
+    private final AchievementEventPublisher achievementEventPublisher;
 
-    public AddGameUseCaseImpl(SaveGamePort saveGamePort, List<UpdateGamePort> updateGamePorts) {
+    public AddGameUseCaseImpl(SaveGamePort saveGamePort, List<UpdateGamePort> updateGamePorts, AchievementEventPublisher achievementEventPublisher) {
         this.saveGamePort = saveGamePort;
         this.updateGamePorts = updateGamePorts;
+        this.achievementEventPublisher = achievementEventPublisher;
     }
 
     @Override
@@ -47,5 +51,9 @@ public class AddGameUseCaseImpl implements AddGameUseCase {
 
         // Update the game using all UpdateGamePort implementations
         updateGamePorts.forEach(updateGamePort -> updateGamePort.updateGame(game));
+
+        // Publish an achievement added event
+        AddAchievementCommand addAchievementCommand = new AddAchievementCommand(UUID.randomUUID(), gameId.id(), "Pro", "Get 10 wins");
+        achievementEventPublisher.addAchievement(addAchievementCommand);
     }
 }
