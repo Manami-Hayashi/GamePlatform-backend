@@ -23,7 +23,17 @@ public class DisplayGameCatalogUseCaseImpl implements DisplayGameCatalogUseCase 
     @Override
     @Transactional
     public List<StoreGame> getAvailableGames() {
-        return loadStoreGamePort.findAll();
+        List<StoreGame> storeGames;
+        try {
+            storeGames = loadStoreGamePort.findAll();
+        } catch (Exception e) {
+            logger.error("Error while loading games", e);
+            throw new IllegalArgumentException("Error while loading games");
+        }
+        if (storeGames.isEmpty()) {
+            logger.error("No games found");
+            throw new IllegalArgumentException("No games found");
+        }
+        return storeGames;
     }
-
 }

@@ -19,6 +19,14 @@ public class AddStoreGameUseCaseImpl implements AddStoreGameUseCase {
     @Override
     public void addStoreGame(StoreGame storeGame) {
         logger.info("Adding new game to the store: {}", storeGame.getGameName());
-        storeGameCreatedPort.createStoreGame(storeGame);
+        if (storeGame.getGameName() == null || storeGame.getGameName().isEmpty()) {
+            throw new IllegalArgumentException("Game name cannot be empty");
+        }
+        try {
+            storeGameCreatedPort.createStoreGame(storeGame);
+        } catch (Exception e) {
+            logger.error("Failed to add game to the store", e);
+            throw e;
+        }
     }
 }
