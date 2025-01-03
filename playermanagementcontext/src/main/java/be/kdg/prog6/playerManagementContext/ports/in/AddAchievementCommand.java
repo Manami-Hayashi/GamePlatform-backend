@@ -1,4 +1,4 @@
-package be.kdg.prog6.gameManagementContext.ports.in;
+package be.kdg.prog6.playerManagementContext.ports.in;
 
 import java.util.UUID;
 

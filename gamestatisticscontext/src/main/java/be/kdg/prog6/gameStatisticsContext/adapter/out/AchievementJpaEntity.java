@@ -12,7 +12,7 @@ public class AchievementJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "player_id")
     @JdbcTypeCode(SqlTypes.VARCHAR)
@@ -29,40 +29,24 @@ public class AchievementJpaEntity {
     private String description;
 
     @Column(name = "is_locked")
-    private boolean isLocked;
+    private Boolean isLocked;
 
     @Column(name = "total_score")
-    private int totalScore;
+    private Integer totalScore;
 
     @Column(name = "total_games_played")
-    private int totalGamesPlayed;
+    private Integer totalGamesPlayed;
 
     @Column(name = "wins")
-    private int wins;
+    private Integer wins;
 
     @Column(name = "total_time_played")
-    private double totalTimePlayed;
+    private Double totalTimePlayed;
 
     public AchievementJpaEntity() {
     }
 
-    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, boolean isLocked) {
-        this.playerId = playerId;
-        this.gameId = gameId;
-        this.name = name;
-        this.description = description;
-        this.isLocked = isLocked;
-    }
-
-    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description) {
-        this.playerId = playerId;
-        this.gameId = gameId;
-        this.name = name;
-        this.description = description;
-        this.isLocked = true;
-    }
-
-    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, boolean isLocked, int totalScore, int totalGamesPlayed, int wins, double totalTimePlayed) {
+    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, Boolean isLocked, Integer totalScore, Integer totalGamesPlayed, Integer wins, Double totalTimePlayed) {
         this.playerId = playerId;
         this.gameId = gameId;
         this.name = name;
@@ -74,7 +58,7 @@ public class AchievementJpaEntity {
         this.totalTimePlayed = totalTimePlayed;
     }
 
-    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, int totalScore, int totalGamesPlayed, int wins, double totalTimePlayed) {
+    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, Integer totalScore, Integer totalGamesPlayed, Integer wins, Double totalTimePlayed) {
         this.playerId = playerId;
         this.gameId = gameId;
         this.name = name;
@@ -86,7 +70,7 @@ public class AchievementJpaEntity {
         this.totalTimePlayed = totalTimePlayed;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -106,23 +90,23 @@ public class AchievementJpaEntity {
         return description;
     }
 
-    public boolean isLocked() {
+    public Boolean isLocked() {
         return isLocked;
     }
 
-    public int getTotalScore() {
+    public Integer getTotalScore() {
         return totalScore;
     }
 
-    public int getTotalGamesPlayed() {
+    public Integer getTotalGamesPlayed() {
         return totalGamesPlayed;
     }
 
-    public int getWins() {
+    public Integer getWins() {
         return wins;
     }
 
-    public double getTotalTimePlayed() {
+    public Double getTotalTimePlayed() {
         return totalTimePlayed;
     }
 }
