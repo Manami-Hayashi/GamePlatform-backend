@@ -84,7 +84,6 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "id": 1,
   "playerId": "e8ed0b8e-9cec-47da-8bbb-750037b278a1",
   "gameId": "14910372-c39d-7de7-b05a-93f8166cf7af",
   "name": "First Win",
