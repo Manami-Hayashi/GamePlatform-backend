@@ -23,7 +23,11 @@ public class AchievementEventPublisher {
                 command.playerId(),
                 command.gameId(),
                 command.name(),
-                command.description()
+                command.description(),
+                command.totalScore(),
+                command.totalGamesPlayed(),
+                command.wins(),
+                command.totalTimePlayed()
         ));
     }
 }

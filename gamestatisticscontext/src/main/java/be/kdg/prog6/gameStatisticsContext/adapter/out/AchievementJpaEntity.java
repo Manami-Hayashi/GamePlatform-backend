@@ -31,6 +31,18 @@ public class AchievementJpaEntity {
     @Column(name = "is_locked")
     private boolean isLocked;
 
+    @Column(name = "total_score")
+    private int totalScore;
+
+    @Column(name = "total_games_played")
+    private int totalGamesPlayed;
+
+    @Column(name = "wins")
+    private int wins;
+
+    @Column(name = "total_time_played")
+    private double totalTimePlayed;
+
     public AchievementJpaEntity() {
     }
 
@@ -48,6 +60,30 @@ public class AchievementJpaEntity {
         this.name = name;
         this.description = description;
         this.isLocked = true;
+    }
+
+    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, boolean isLocked, int totalScore, int totalGamesPlayed, int wins, double totalTimePlayed) {
+        this.playerId = playerId;
+        this.gameId = gameId;
+        this.name = name;
+        this.description = description;
+        this.isLocked = isLocked;
+        this.totalScore = totalScore;
+        this.totalGamesPlayed = totalGamesPlayed;
+        this.wins = wins;
+        this.totalTimePlayed = totalTimePlayed;
+    }
+
+    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, int totalScore, int totalGamesPlayed, int wins, double totalTimePlayed) {
+        this.playerId = playerId;
+        this.gameId = gameId;
+        this.name = name;
+        this.description = description;
+        this.isLocked = true;
+        this.totalScore = totalScore;
+        this.totalGamesPlayed = totalGamesPlayed;
+        this.wins = wins;
+        this.totalTimePlayed = totalTimePlayed;
     }
 
     public int getId() {
@@ -72,5 +108,21 @@ public class AchievementJpaEntity {
 
     public boolean isLocked() {
         return isLocked;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public int getTotalGamesPlayed() {
+        return totalGamesPlayed;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public double getTotalTimePlayed() {
+        return totalTimePlayed;
     }
 }

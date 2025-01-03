@@ -26,10 +26,10 @@ public class AchievementDbAdapter implements LoadAchievementsPort, CreateAchieve
 
     @Override
     public void createAchievement(Achievement achievement) {
-        achievementRepo.save(new AchievementJpaEntity(achievement.getPlayerId().id(), achievement.getGameId().id(), achievement.getName(), achievement.getDescription()));
+        achievementRepo.save(new AchievementJpaEntity(achievement.getPlayerId().id(), achievement.getGameId().id(), achievement.getName(), achievement.getDescription(), achievement.isLocked(), achievement.getTotalScore(), achievement.getTotalGamesPlayed(), achievement.getWins(), achievement.getTotalTimePlayed()));
     }
 
     private Achievement toAchievement(AchievementJpaEntity achievementJpaEntity) {
-        return new Achievement(new PlayerId(achievementJpaEntity.getPlayerId()), new GameId(achievementJpaEntity.getGameId()), achievementJpaEntity.getName(), achievementJpaEntity.getDescription(), achievementJpaEntity.isLocked());
+        return new Achievement(new PlayerId(achievementJpaEntity.getPlayerId()), new GameId(achievementJpaEntity.getGameId()), achievementJpaEntity.getName(), achievementJpaEntity.getDescription(), achievementJpaEntity.isLocked(), achievementJpaEntity.getTotalScore(), achievementJpaEntity.getTotalGamesPlayed(), achievementJpaEntity.getWins(), achievementJpaEntity.getTotalTimePlayed());
     }
 }

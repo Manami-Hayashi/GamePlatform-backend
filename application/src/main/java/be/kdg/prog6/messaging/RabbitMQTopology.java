@@ -138,8 +138,7 @@ public class RabbitMQTopology {
 
     public static final String GAME_PURCHASED_EXCHANGE = "game.purchased.exchange";
     public static final String GAME_PURCHASED_QUEUE = "game.purchased.queue";
-    public static  final String GAME_PURCHASED_QUEUE2 = "game.purhcased.queue2";
-
+    public static final String GAME_PURCHASED_QUEUE2 = "game.purhcased.queue2";
 
     @Bean
     public FanoutExchange gamePurchasedExchange() {
@@ -224,7 +223,27 @@ public class RabbitMQTopology {
                 .with("friend.added");
     }
 
-    
+    // Define the exchange, queue, and binding for AchievementAddedEvent
+    public static final String ACHIEVEMENT_ADDED_EXCHANGE = "achievement.added.exchange";
+    public static final String ACHIEVEMENT_ADDED_QUEUE = "achievement.added.queue";
+
+    @Bean
+    public TopicExchange achievementAddedExchange() {
+        return new TopicExchange(ACHIEVEMENT_ADDED_EXCHANGE);
+    }
+
+    @Bean
+    public Queue achievementAddedQueue() {
+        return new Queue(ACHIEVEMENT_ADDED_QUEUE, true); // Durable queue
+    }
+
+    @Bean
+    public Binding achievementAddedBinding(Queue achievementAddedQueue, TopicExchange achievementAddedExchange) {
+        return BindingBuilder
+                .bind(achievementAddedQueue)
+                .to(achievementAddedExchange)
+                .with("achievement.added");
+    }
 
     // Define RabbitTemplate for internal communication with Keycloak (using the internalConnectionFactory)
     @Bean(name = "internalRabbitTemplate")

@@ -22,7 +22,7 @@ public class AchievementEventListener {
     @RabbitListener(queues = "add.achievement.queue")
     public void addAchievementEvent(AchievementAddedEvent event) {
         logger.info("Received achievement added event: {}", event);
-        Achievement achievement = new Achievement(new PlayerId(event.getPlayerId()), new GameId(event.getGameId()), event.getName(), event.getDescription());
+        Achievement achievement = new Achievement(new PlayerId(event.getPlayerId()), new GameId(event.getGameId()), event.getName(), event.getDescription(), event.getTotalScore(), event.getTotalGamesPlayed(), event.getWins(), event.getTotalTimePlayed());
         addAchievementUseCase.addAchievement(achievement);
     }
 }
