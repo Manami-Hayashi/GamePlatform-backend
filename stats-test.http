@@ -94,4 +94,3 @@ Authorization: Bearer {{access_token}}
   "wins": 1,
   "totalTimePlayed": 0
 }
-

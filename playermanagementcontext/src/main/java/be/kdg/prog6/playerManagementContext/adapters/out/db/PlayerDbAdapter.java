@@ -9,10 +9,9 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @Repository
@@ -21,10 +20,12 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerDbAdapter.class);
     private final PlayerJpaRepository playerJpaRepository;
     private final GameOwnedJpaRepository gameOwnedJpaRepository;
+    private final RestTemplate restTemplate;
 
-    public PlayerDbAdapter(PlayerJpaRepository playerJpaRepository, GameOwnedJpaRepository gameOwnedJpaRepository) {
+    public PlayerDbAdapter(PlayerJpaRepository playerJpaRepository, GameOwnedJpaRepository gameOwnedJpaRepository, RestTemplate restTemplate) {
         this.playerJpaRepository = playerJpaRepository;
         this.gameOwnedJpaRepository = gameOwnedJpaRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Transactional
@@ -44,8 +45,11 @@ public class PlayerDbAdapter implements CreatePlayerPort, LoadPlayerPort, LoadPl
                 false,
                 jpaEntity
         );
-
         gameOwnedJpaRepository.save(checkersGame);
+        String url = "http://localhost:8081/data/send-achievements";
+        Map<String, Object> request = new HashMap<>();
+        request.put("playerId", player.getPlayerId().id().toString());
+        restTemplate.postForObject(url, request, String.class);
         LOGGER.info("Player {} has been assigned the game 'Checkers' in their library.", player.getName());
     }
 
