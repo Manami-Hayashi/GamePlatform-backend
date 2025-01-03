@@ -1,30 +1,11 @@
 package be.kdg.prog6.gameStatisticsContext.domain;
 
 public class Achievement {
-    private int id;
     private final PlayerId playerId;
     private final GameId gameId;
     private final String name;
     private final String description;
     private boolean isLocked;
-
-    public Achievement(final int id, PlayerId playerId, final GameId gameId, final String name, final String description, boolean isLocked) {
-        this.id = id;
-        this.playerId = playerId;
-        this.gameId = gameId;
-        this.name = name;
-        this.description = description;
-        this.isLocked = isLocked;
-    }
-
-    public Achievement(int id, PlayerId playerId, GameId gameId, String name, String description) {
-        this.id = id;
-        this.playerId = playerId;
-        this.gameId = gameId;
-        this.name = name;
-        this.description = description;
-        this.isLocked = true;
-    }
 
     public Achievement(PlayerId playerId, GameId gameId, String name, String description) {
         this.playerId = playerId;
@@ -40,10 +21,6 @@ public class Achievement {
         this.name = name;
         this.description = description;
         this.isLocked = isLocked;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public PlayerId getPlayerId() {

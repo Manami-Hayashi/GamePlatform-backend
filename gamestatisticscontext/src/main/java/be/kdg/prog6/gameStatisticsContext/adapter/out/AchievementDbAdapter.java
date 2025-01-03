@@ -30,6 +30,6 @@ public class AchievementDbAdapter implements LoadAchievementsPort, CreateAchieve
     }
 
     private Achievement toAchievement(AchievementJpaEntity achievementJpaEntity) {
-        return new Achievement(achievementJpaEntity.getId(), new PlayerId(achievementJpaEntity.getPlayerId()), new GameId(achievementJpaEntity.getGameId()), achievementJpaEntity.getName(), achievementJpaEntity.getDescription(), achievementJpaEntity.isLocked());
+        return new Achievement(new PlayerId(achievementJpaEntity.getPlayerId()), new GameId(achievementJpaEntity.getGameId()), achievementJpaEntity.getName(), achievementJpaEntity.getDescription(), achievementJpaEntity.isLocked());
     }
 }
