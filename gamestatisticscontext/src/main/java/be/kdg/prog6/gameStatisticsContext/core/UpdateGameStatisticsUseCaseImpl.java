@@ -23,13 +23,19 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
     private final CreateMatchSessionPort createMatchSessionPort;
     private final LoadMatchSessionPort loadMatchSessionPort;
     private final UpdateMatchSessionPort updateMatchSessionPort;
+    private final LoadAchievementsPort loadAchievementsPort;
+    private final UpdateAchievementPort updateAchievementPort;
+    private final CreateGameStatisticsPort createGameStatisticsPort;
 
-    public UpdateGameStatisticsUseCaseImpl(LoadGameStatisticsPort loadGameStatisticsPort, UpdateGameStatisticsPort updateGameStatisticsPort, CreateMatchSessionPort createMatchSessionPort, LoadMatchSessionPort loadMatchSessionPort, UpdateMatchSessionPort updateMatchSessionPort) {
+    public UpdateGameStatisticsUseCaseImpl(LoadGameStatisticsPort loadGameStatisticsPort, UpdateGameStatisticsPort updateGameStatisticsPort, CreateMatchSessionPort createMatchSessionPort, LoadMatchSessionPort loadMatchSessionPort, UpdateMatchSessionPort updateMatchSessionPort, LoadAchievementsPort loadAchievementsPort, UpdateAchievementPort updateAchievementPort, CreateGameStatisticsPort createGameStatisticsPort) {
         this.loadGameStatisticsPort = loadGameStatisticsPort;
         this.updateGameStatisticsPort = updateGameStatisticsPort;
         this.createMatchSessionPort = createMatchSessionPort;
         this.loadMatchSessionPort = loadMatchSessionPort;
         this.updateMatchSessionPort = updateMatchSessionPort;
+        this.loadAchievementsPort = loadAchievementsPort;
+        this.updateAchievementPort = updateAchievementPort;
+        this.createGameStatisticsPort = createGameStatisticsPort;
     }
 
     private void updatePlayerStatistics(GameStatistics gameStatsP1, GameStatistics gameStatsP2, Winner winnerEnum, String winnerString, UpdateGameStatisticsCommand command, LocalDateTime startTime) {
@@ -77,6 +83,26 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         updateGameStatisticsPort.updateGameStatistics(gameStatsP2);
 
         LOGGER.info("Updated player statistics for game session: {}. Final scores - Player 1: {}, Player 2: {}.", command.id(), command.scoreP1(), command.scoreP2());
+
+        // unlock achievements that match game statistics
+        List<Achievement> achievementsP1 = loadAchievementsPort.loadAchievementsByPlayerId(gameStatsP1.getPlayerId().id());
+        for (Achievement achievement : achievementsP1) {
+            if (achievement.isLocked()) {
+                if (achievement.getWins() <= gameStatsP1.getWins() && achievement.getTotalScore() <= gameStatsP1.getTotalScore() && achievement.getTotalGamesPlayed() <= gameStatsP1.getTotalGamesPlayed() && achievement.getTotalTimePlayed() <= gameStatsP1.getTotalTimePlayed()) {
+                    achievement.unlock();
+                    updateAchievementPort.updateAchievement(achievement);
+                }
+            }
+        }
+        List<Achievement> achievementsP2 = loadAchievementsPort.loadAchievementsByPlayerId(gameStatsP2.getPlayerId().id());
+        for (Achievement achievement : achievementsP2) {
+            if (achievement.isLocked()) {
+                if (achievement.getWins() <= gameStatsP2.getWins() && achievement.getTotalScore() <= gameStatsP2.getTotalScore() && achievement.getTotalGamesPlayed() <= gameStatsP2.getTotalGamesPlayed() && achievement.getTotalTimePlayed() <= gameStatsP2.getTotalTimePlayed()) {
+                    achievement.unlock();
+                    updateAchievementPort.updateAchievement(achievement);
+                }
+            }
+        }
     }
 
     private double calculateGameDuration(LocalDateTime startTime, LocalDateTime endTime) {

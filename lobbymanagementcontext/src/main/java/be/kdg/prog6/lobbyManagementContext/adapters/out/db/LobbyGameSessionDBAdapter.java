@@ -54,7 +54,7 @@ public class LobbyGameSessionDBAdapter implements SaveGameSessionPort, UpdateGam
         request.put("player2Id", gameSession.getPlayerIds().get(1).id());
         request.put("player2Name", player2Name);
 
-        restTemplate.postForObject(url, request, Void.class);
+        restTemplate.postForObject(url, request, String.class);
     }
 
     private LobbyGameSessionJpaEntity toJpaEntity(GameSession gameSession) {

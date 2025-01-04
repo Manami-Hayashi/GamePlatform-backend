@@ -224,7 +224,7 @@ public class RabbitMQTopology {
                 .with("friend.added");
     }
 
-    
+
 
     // Define RabbitTemplate for internal communication with Keycloak (using the internalConnectionFactory)
     @Bean(name = "internalRabbitTemplate")

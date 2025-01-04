@@ -3,6 +3,7 @@ package be.kdg.prog6.gameStatisticsContext.core;
 import be.kdg.prog6.gameStatisticsContext.domain.*;
 import be.kdg.prog6.gameStatisticsContext.port.in.AddPartialSessionCommand;
 import be.kdg.prog6.gameStatisticsContext.port.in.AddPartialSessionUseCase;
+import be.kdg.prog6.gameStatisticsContext.port.out.CreateGameStatisticsPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.CreateMatchSessionPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.LoadGameStatisticsPort;
 import be.kdg.prog6.gameStatisticsContext.port.out.UpdateGameStatisticsPort;
@@ -20,11 +21,13 @@ public class AddPartialSessionUseCaseImpl implements AddPartialSessionUseCase {
     private final CreateMatchSessionPort createMatchSessionPort;
     private final LoadGameStatisticsPort loadGameStatisticsPort;
     private final UpdateGameStatisticsPort updateGameStatisticsPort;
+    private final CreateGameStatisticsPort createGameStatisticsPort;
 
-    public AddPartialSessionUseCaseImpl(CreateMatchSessionPort createMatchSessionPort, LoadGameStatisticsPort loadGameStatisticsPort, UpdateGameStatisticsPort updateGameStatisticsPort) {
+    public AddPartialSessionUseCaseImpl(CreateMatchSessionPort createMatchSessionPort, LoadGameStatisticsPort loadGameStatisticsPort, UpdateGameStatisticsPort updateGameStatisticsPort, CreateGameStatisticsPort createGameStatisticsPort) {
         this.createMatchSessionPort = createMatchSessionPort;
         this.loadGameStatisticsPort = loadGameStatisticsPort;
         this.updateGameStatisticsPort = updateGameStatisticsPort;
+        this.createGameStatisticsPort = createGameStatisticsPort;
     }
 
     @Override
@@ -34,14 +37,40 @@ public class AddPartialSessionUseCaseImpl implements AddPartialSessionUseCase {
 
         Optional<GameStatistics> optionalGameStatsP1 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerId1(), command.gameId());
         if (optionalGameStatsP1.isEmpty()) {
-            throw new IllegalArgumentException("GameStatistics not found");
-        }
-        GameStatistics gameStatsP1 = optionalGameStatsP1.get();
+            GameStatistics newGameStatsP1 = new GameStatistics(
+                    new PlayerId(command.playerId1()),
+                    new GameId(command.gameId()),
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+            );
+            createGameStatisticsPort.createGameStatistics(newGameStatsP1);        }
+        GameStatistics gameStatsP1 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerId1(), command.gameId()).get();
         Optional<GameStatistics> optionalGameStatsP2 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerId2(), command.gameId());
         if (optionalGameStatsP2.isEmpty()) {
-            throw new IllegalArgumentException("GameStatistics not found");
-        }
-        GameStatistics gameStatsP2 = optionalGameStatsP2.get();
+            GameStatistics newGameStatsP2 = new GameStatistics(
+                    new PlayerId(command.playerId2()),
+                    new GameId(command.gameId()),
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+            );
+            createGameStatisticsPort.createGameStatistics(newGameStatsP2);        }
+        GameStatistics gameStatsP2 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerId2(), command.gameId()).get();
 
         MatchSession matchSession = new MatchSession(
                 command.sessionId(),
