@@ -130,7 +130,7 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "id": "a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634"
+  "id": "49b5b7d0-ab1e-11ef-9cd2-0242ac120007"
 }
 
 ### Ready up player 2 -- HELLO WORLD
@@ -139,7 +139,7 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "id": "b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d"
+  "id": "155f3e06-bdd0-496c-919c-c3ee90dfe162"
 }
 
 ### Start game session -- HELLO WORLD
@@ -148,5 +148,5 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-  "lobbyId": "49b5b7d0-ab1e-11ef-9cd2-0242ac120002"
+  "lobbyId": "77eb6db3-888d-4b6e-bec5-0313387c5c79"
 }
