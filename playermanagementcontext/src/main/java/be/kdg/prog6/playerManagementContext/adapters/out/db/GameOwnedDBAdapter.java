@@ -9,23 +9,27 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
 @Component("playerGameDBAdapter")
 public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameOwnedDBAdapter.class);
     private final GameOwnedJpaRepository gameOwnedJpaRepository;
     private final PlayerJpaRepository playerJpaRepository;
+    private final RestTemplate restTemplate;
 
-    private static final Logger logger = LoggerFactory.getLogger(GameOwnedDBAdapter.class);
-
-    public GameOwnedDBAdapter(GameOwnedJpaRepository gameOwnedJpaRepository, PlayerJpaRepository playerJpaRepository) {
+    public GameOwnedDBAdapter(GameOwnedJpaRepository gameOwnedJpaRepository, PlayerJpaRepository playerJpaRepository, RestTemplate restTemplate) {
         this.gameOwnedJpaRepository = gameOwnedJpaRepository;
         this.playerJpaRepository = playerJpaRepository;
+        this.restTemplate = restTemplate;
     }
-
 
     @Override
     public void gameCreated(PlayerId playerId, Game game) {
@@ -40,9 +44,25 @@ public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
 
         gameOwnedJpaEntity.setPlayer(playerJpaEntity);
 
-        logger.info("creating new Game with name {}", game.getGameName());
+        LOGGER.info("creating new Game with name {}", game.getGameName());
 
         gameOwnedJpaRepository.save(gameOwnedJpaEntity);
+
+        /*
+        if (game.getGameName().equals("Hello World Clicker")) {
+            GameOwnedJpaEntity checkersGame = new GameOwnedJpaEntity(
+                    UUID.fromString("14910372-c39d-7de7-b05a-93f8166cf7af"),
+                    "Hello World Clicker",
+                    false,
+                    playerJpaEntity
+            );
+            gameOwnedJpaRepository.save(checkersGame);
+            String url = "http://localhost:8081/data/send-achievements";
+            Map<String, Object> request = new HashMap<>();
+            request.put("playerId", playerId.toString());
+            restTemplate.postForObject(url, request, String.class);
+        }
+         */
 
     }
 

@@ -19,7 +19,9 @@ INSERT INTO game_statistics.players (id, name, birth_date, gender, location)
 VALUES
     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', 'Noah', '1990-01-01', 'MALE', 'New York'),
     ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', 'Manami', '2001-08-06', 'FEMALE', 'Los Angeles'),
-    ('e4e685be-ed89-42fb-a681-f272149c8218', 'William', '2003-09-10', 'MALE', 'Chicago');
+    ('e4e685be-ed89-42fb-a681-f272149c8218', 'William', '2003-09-10', 'MALE', 'Chicago'),
+    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'Narjiss', '1999-05-15', 'FEMALE', 'San Francisco'),
+    ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', 'Alperen', '1995-12-22', 'MALE', 'Seattle');
 
 INSERT INTO game_statistics.games (id, name)
 VALUES   ('14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers'),
