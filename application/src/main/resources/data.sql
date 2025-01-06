@@ -1,16 +1,16 @@
 -- Insert dummy games into the 'game' table
 INSERT INTO store.game (game_id, game_name, price, description) VALUES
-                                                         (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers', 0, 'A classic strategy game for two players.'),
-                                                         (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120002'), 'Chess', 10.00, 'The timeless game of kings.'),
-                                                         (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'Othello', 7.50, 'A fun and strategic board game.'),
-                                                         (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 'Battle Ship', 8.99, 'Sink your opponents fleet.');
+                                                                    (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers', 0, 'A classic strategy game for two players.'),
+                                                                    (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120002'), 'Chess', 10.00, 'The timeless game of kings.'),
+                                                                    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'Othello', 7.50, 'A fun and strategic board game.'),
+                                                                    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 'Battle Ship', 8.99, 'Sink your opponents fleet.');
 
 -- Insert dummy reviews into the 'reviews' table
 INSERT INTO store.reviews (review_id, customer_id, game_id, rating, comment, created_at) VALUES
-                                                                                     (UUID_TO_BIN('4668df20-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 4, 'Fun and engaging!', '2024-01-01 12:00:00'),
-                                                                                     (UUID_TO_BIN('4c1674be-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120002'), 3, 'Quite challenging.', '2024-01-03 10:15:00'),
-                                                                                     (UUID_TO_BIN('5314ba14-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 2, 'Could be better.', '2024-01-04 08:45:00'),
-                                                                                     (UUID_TO_BIN('585d9478-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 5, 'Absolutely love it!', '2024-01-05 19:00:00');
+                                                                                             (UUID_TO_BIN('4668df20-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 4, 'Fun and engaging!', '2024-01-01 12:00:00'),
+                                                                                             (UUID_TO_BIN('4c1674be-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120002'), 3, 'Quite challenging.', '2024-01-03 10:15:00'),
+                                                                                             (UUID_TO_BIN('5314ba14-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 2, 'Could be better.', '2024-01-04 08:45:00'),
+                                                                                             (UUID_TO_BIN('585d9478-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 5, 'Absolutely love it!', '2024-01-05 19:00:00');
 INSERT INTO store.customer (customer_id, game_name)
 VALUES (UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218'), 'Battle Ship');
 
@@ -20,7 +20,23 @@ VALUES
     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', 'Noah', '1990-01-01', 'MALE', 'New York'),
     ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', 'Manami', '2001-08-06', 'FEMALE', 'Los Angeles'),
     ('e4e685be-ed89-42fb-a681-f272149c8218', 'William', '2003-09-10', 'MALE', 'Chicago'),
-    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', 'Narjiss', '1995-05-03', 'FEMALE', 'New York');
+    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', 'Narjiss', '2001-05-30', 'FEMALE', 'Chicago'),
+    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'Josh', '1995-12-25', 'MALE', 'Los Angeles'),
+    ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', 'Alice', '1998-03-15', 'FEMALE', 'New York');
+
+
+# INSERT INTO game_statistics.games (id, name)
+# VALUES   ('14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers'),
+#          ('fde47098-ab1d-11ef-9cd2-0242ac120002', 'Chess'),
+#          ('1c1182b8-4f62-4a0d-a8ac-92758177cace', 'Go');
+
+-- Insert into achievements
+INSERT INTO game_statistics.achievements (player_id, game_id, name, description, is_locked)
+VALUES
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Champion', 'Win 10 games of Checkers.', 0),
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Strategist', 'Win 20 games of Checkers.', 1),
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Veteran', 'Win 50 games of Checkers.', 1),
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1);
 
 -- Insert sample data for game_statistics
 INSERT INTO game_statistics.game_statistics (player_id, game_id, total_score, total_games_played, wins, losses, draws, win_loss_ratio, total_time_played, highest_score, moves_made, average_game_duration)

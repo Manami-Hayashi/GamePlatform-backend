@@ -3,6 +3,7 @@ package be.kdg.prog6.gameStatisticsContext.adapter.in;
 import be.kdg.prog6.common.events.GameSessionCreatedEvent;
 import be.kdg.prog6.gameStatisticsContext.port.in.AddPartialSessionCommand;
 import be.kdg.prog6.gameStatisticsContext.port.in.AddPartialSessionUseCase;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -18,6 +19,7 @@ public class SessionStartedEventListener {
     }
 
     @RabbitListener(queues = "#{sessionStartedQueue.name}")
+    @Transactional
     public void handleGameSessionCreatedEvent(GameSessionCreatedEvent event) {
         logger.info("Received GameSessionCreatedEvent for session ID: {}", event.getSessionId());
         AddPartialSessionCommand command = new AddPartialSessionCommand(
