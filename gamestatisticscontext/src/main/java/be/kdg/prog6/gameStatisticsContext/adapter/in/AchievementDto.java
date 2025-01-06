@@ -2,11 +2,8 @@ package be.kdg.prog6.gameStatisticsContext.adapter.in;
 
 import java.util.UUID;
 
-public record AchievementDto(int id, UUID playerId, UUID gameId, String name, String description, Boolean isLocked) {
+public record AchievementDto(UUID playerId, UUID gameId, String name, String description, Boolean isLocked, int totalScore, int totalGamesPlayed, int wins, double totalTimePlayed) {
     public AchievementDto {
-        if (id < 0) {
-            throw new IllegalArgumentException("Id must be positive");
-        }
         if (playerId == null) {
             throw new IllegalArgumentException("PlayerId must not be null");
         }
@@ -22,9 +19,17 @@ public record AchievementDto(int id, UUID playerId, UUID gameId, String name, St
         if (isLocked == null) {
             isLocked = true;
         }
-    }
-
-    public AchievementDto(int id, UUID playerId, UUID gameId, String name, String description) {
-        this(id, playerId, gameId, name, description, true);
+        if (totalScore < 0) {
+            throw new IllegalArgumentException("TotalScore must not be negative");
+        }
+        if (totalGamesPlayed < 0) {
+            throw new IllegalArgumentException("TotalGamesPlayed must not be negative");
+        }
+        if (wins < 0) {
+            throw new IllegalArgumentException("Wins must not be negative");
+        }
+        if (totalTimePlayed < 0) {
+            throw new IllegalArgumentException("TotalTimePlayed must not be negative");
+        }
     }
 }

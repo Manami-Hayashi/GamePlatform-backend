@@ -26,14 +26,14 @@ public class AchievementController {
         List<Achievement> achievements = getAchievementsUseCase.getAchievements(playerId);
         List<AchievementDto> achievementDtos = new ArrayList<>();
         for (Achievement achievement : achievements) {
-            achievementDtos.add(new AchievementDto(achievement.getId(), achievement.getPlayerId().id(), achievement.getGameId().id(), achievement.getName(), achievement.getDescription(), achievement.isLocked()));
+            achievementDtos.add(new AchievementDto(achievement.getPlayerId().id(), achievement.getGameId().id(), achievement.getName(), achievement.getDescription(), achievement.isLocked(), achievement.getTotalScore(), achievement.getTotalGamesPlayed(), achievement.getWins(), achievement.getTotalTimePlayed()));
         }
         return achievementDtos;
     }
 
     @PostMapping("/achievement")
     public void addAchievement(@RequestBody AchievementDto achievementDto) {
-        Achievement achievement = new Achievement(achievementDto.id(), new PlayerId(achievementDto.playerId()), new GameId(achievementDto.gameId()), achievementDto.name(), achievementDto.description());
+        Achievement achievement = new Achievement(new PlayerId(achievementDto.playerId()), new GameId(achievementDto.gameId()), achievementDto.name(), achievementDto.description(), achievementDto.totalScore(), achievementDto.totalGamesPlayed(), achievementDto.wins(), achievementDto.totalTimePlayed());
         addAchievementUseCase.addAchievement(achievement);
     }
 }
