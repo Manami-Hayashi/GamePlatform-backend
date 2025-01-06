@@ -19,12 +19,8 @@ INSERT INTO game_statistics.players (id, name, birth_date, gender, location)
 VALUES
     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', 'Noah', '1990-01-01', 'MALE', 'New York'),
     ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', 'Manami', '2001-08-06', 'FEMALE', 'Los Angeles'),
-    ('e4e685be-ed89-42fb-a681-f272149c8218', 'William', '2003-09-10', 'MALE', 'Chicago');
-
-INSERT INTO game_statistics.games (id, name)
-VALUES   ('14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers'),
-         ('fde47098-ab1d-11ef-9cd2-0242ac120002', 'Chess'),
-         ('1c1182b8-4f62-4a0d-a8ac-92758177cace', 'Go');
+    ('e4e685be-ed89-42fb-a681-f272149c8218', 'William', '2003-09-10', 'MALE', 'Chicago'),
+    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', 'Narjiss', '1995-05-03', 'FEMALE', 'New York');
 
 -- Insert into achievements
 INSERT INTO game_statistics.achievements (player_id, game_id, name, description, is_locked)
