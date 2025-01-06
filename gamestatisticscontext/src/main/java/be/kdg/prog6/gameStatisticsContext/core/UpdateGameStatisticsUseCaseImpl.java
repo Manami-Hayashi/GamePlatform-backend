@@ -134,7 +134,14 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
     private void updateMatchSession(MatchSession matchSession, UpdateGameStatisticsCommand command) {
         matchSession.setEndTime(command.endTime());
         matchSession.setActive(command.isActive());
-        matchSession.setWinner(Winner.valueOf(command.winner()));
+
+        String winnerId = command.winner();
+
+        // Map winnerId to the corresponding Winner enum
+        Winner winnerEnum = Winner.valueOf(winnerId);
+        winnerEnum = winnerEnum == Winner.NOT_FINISHED ? Winner.DRAW : winnerEnum;
+
+        matchSession.setWinner(winnerEnum);
         matchSession.setScoreP1(command.scoreP1());
         matchSession.setScoreP2(command.scoreP2());
         matchSession.setMovesMadeP1(command.movesMadeP1());
