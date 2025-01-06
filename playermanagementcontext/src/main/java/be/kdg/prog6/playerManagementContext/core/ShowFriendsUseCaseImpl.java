@@ -25,7 +25,13 @@ public class ShowFriendsUseCaseImpl implements ShowFriendsUseCase {
     @Override
     public List<Friend> getFriends(PlayerId playerId) {
         LOGGER.info("Retrieving friends for player with ID {}", playerId);
-        Player player = loadPlayerPort.loadPlayer(playerId.id());
+        Player player;
+        try {
+            player = loadPlayerPort.loadPlayer(playerId.id());
+        } catch (Exception e) {
+            LOGGER.error("Failed to retrieve friends for player with ID {}", playerId, e);
+            throw e;
+        }
         List<Friend> playerFriends = player.getFriends();
         LOGGER.info("Retrieved {} friends for player with ID {}", playerFriends.size(), playerId);
         return playerFriends;

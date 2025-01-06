@@ -39,28 +39,35 @@ public class GetMatchHistoryUseCaseImpl implements GetMatchHistoryUseCase {
             try {
                 if (gameStat.getPlayerId().id().equals(playerId)) {
                     List<MatchSession> matchSessions = loadMatchSessionsPort.loadMatchSessionsByGameStatistics(gameStat);
+
                     for (MatchSession matchSession : matchSessions) {
                         Optional<Player> optionalPlayer1 = loadPlayerPort.loadPlayerById(gameStat.getPlayerId().id());
                         if (optionalPlayer1.isEmpty()) {
-                            continue;
+                            throw new NullPointerException("Player not found for Player ID: " + gameStat.getPlayerId().id());
                         }
                         String player1 = optionalPlayer1.get().getName();
+
                         Optional<Player> optionalPlayer2 = loadPlayerPort.loadPlayerById(gameStat.getPlayerId().id());
                         if (optionalPlayer2.isEmpty()) {
-                            continue;
+                            throw new NullPointerException("Player not found for Player ID: " + gameStat.getPlayerId().id());
                         }
                         String player2 = optionalPlayer2.get().getName();
+
                         List<String> players = new ArrayList<>();
                         players.add(player1);
                         players.add(player2);
+
                         String winner;
                         if (matchSession.getWinner().equals(Winner.PLAYER1)) {
                             winner = player1;
                         } else if (matchSession.getWinner().equals(Winner.PLAYER2)) {
                             winner = player2;
-                        } else {
+                        } else if (matchSession.getWinner().equals(Winner.DRAW)) {
                             winner = "Draw";
+                        } else {
+                            throw new IllegalArgumentException("Unexpected winner value for Match Session ID: " + matchSession.getId());
                         }
+
                         matchSessionCommands.add(new GetMatchHistoryCommand(
                                 matchSession.getId(),
                                 matchSession.getGameId().id(),
@@ -76,7 +83,8 @@ public class GetMatchHistoryUseCaseImpl implements GetMatchHistoryUseCase {
                         ));
                     }
                 }
-            } catch (NullPointerException ignored) {
+            } catch (Exception e) {
+                throw new RuntimeException("Unexpected error while processing match history for Player ID: " + playerId, e);
             }
         }
         return matchSessionCommands;

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class GameStatisticsController {
     private final GetScoreboardUseCase getScoreboardUseCase;
     private final UpdateGameStatisticsUseCase updateGameStatisticsUseCase;
-    private Logger logger = Logger.getLogger(GameStatisticsController.class.getName());
+    private final Logger logger = Logger.getLogger(GameStatisticsController.class.getName());
 
     public GameStatisticsController(GetScoreboardUseCase getScoreboardUseCase, UpdateGameStatisticsUseCase updateGameStatisticsUseCase) {
         this.getScoreboardUseCase = getScoreboardUseCase;
@@ -26,7 +26,7 @@ public class GameStatisticsController {
 
     @GetMapping("/{playerId}")
     public List<GameStatisticsDto> getScoreboards(@PathVariable String playerId) {
-        List<GameStatistics> gameStatistics = getScoreboardUseCase.getMatchHistory(new PlayerId(UUID.fromString(playerId)));
+        List<GameStatistics> gameStatistics = getScoreboardUseCase.getScoreboard(new PlayerId(UUID.fromString(playerId)));
         List<GameStatisticsDto> gameStatisticsDtos = new ArrayList<>();
         for (GameStatistics gameStatistic : gameStatistics) {
             gameStatisticsDtos.add(new GameStatisticsDto(

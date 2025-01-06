@@ -22,10 +22,13 @@ public class ProfileDBAdapter implements ProfileCreatedPort, ProfileLoadedPort {
 
     @Override
     public void profileCreated(Profile profile) {
-        ProfileJpaEntity profileJpaEntity = new ProfileJpaEntity();
+        ProfileJpaEntity profileJpaEntity = profileJpaRepository.findById(profile.getPlayerId().id())
+                .orElse(new ProfileJpaEntity()); // Create a new profile entity if it doesn't exist
+
         profileJpaEntity.setPlayerId(profile.getPlayerId().id());
         profileJpaEntity.setBio(profile.getBio());
         profileJpaEntity.setAvatar(profile.getAvatar());
+        profileJpaEntity.setGender(profile.getGender());
         profileJpaEntity.setLocation(profile.getLocation());
         profileJpaEntity.setBirthDate(profile.getBirthDate());
 
@@ -49,6 +52,7 @@ public class ProfileDBAdapter implements ProfileCreatedPort, ProfileLoadedPort {
                 new PlayerId(jpaEntity.getPlayerId()),
                 jpaEntity.getBio(),
                 jpaEntity.getAvatar(),
+                jpaEntity.getGender(),
                 jpaEntity.getLocation(),
                 jpaEntity.getBirthDate()
         );

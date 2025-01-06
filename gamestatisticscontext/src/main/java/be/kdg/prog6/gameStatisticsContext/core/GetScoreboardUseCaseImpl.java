@@ -18,7 +18,7 @@ public class GetScoreboardUseCaseImpl implements GetScoreboardUseCase {
     }
 
     @Override
-    public List<GameStatistics> getMatchHistory(PlayerId playerId) {
+    public List<GameStatistics> getScoreboard(PlayerId playerId) {
         Player player = loadPlayerPort.loadPlayerById(playerId.id()).orElseThrow();
         return player.getGameStatistics();
     }

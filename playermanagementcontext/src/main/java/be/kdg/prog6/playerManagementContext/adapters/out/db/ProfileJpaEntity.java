@@ -1,9 +1,7 @@
 package be.kdg.prog6.playerManagementContext.adapters.out.db;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import be.kdg.prog6.playerManagementContext.domain.Gender;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -19,6 +17,10 @@ public class ProfileJpaEntity {
     private String bio;
     @Column(name="avatar")
     private String avatar;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="gender")
+    private Gender gender;
     @Column(name="location")
     private String location;
     @Column(name="birth_date")
@@ -27,10 +29,11 @@ public class ProfileJpaEntity {
     public ProfileJpaEntity() {
     }
 
-    public ProfileJpaEntity(UUID playerId, String bio, String avatar, String location, LocalDate birthDate) {
+    public ProfileJpaEntity(UUID playerId, String bio, String avatar, Gender gender, String location, LocalDate birthDate) {
         this.playerId = playerId;
         this.bio = bio;
         this.avatar = avatar;
+        this.gender = gender;
         this.location = location;
         this.birthDate = birthDate;
     }
@@ -46,6 +49,10 @@ public class ProfileJpaEntity {
     public String getAvatar() {return avatar;}
 
     public void setAvatar(String avatar) {this.avatar = avatar;}
+
+    public Gender getGender() {return gender;}
+
+    public void setGender(Gender gender) {this.gender = gender;}
 
     public String getLocation() {return location;}
 

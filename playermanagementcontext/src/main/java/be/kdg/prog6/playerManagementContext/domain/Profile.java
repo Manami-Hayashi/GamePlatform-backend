@@ -6,20 +6,23 @@ public class Profile {
     private PlayerId playerId;
     private String bio;
     private String avatar;
+    private Gender gender;
     private String location;
     private LocalDate birthDate;
 
-    public Profile(PlayerId playerId, String bio, String avatar, String location, LocalDate birthDate) {
+    public Profile(PlayerId playerId, String bio, String avatar, Gender gender, String location, LocalDate birthDate) {
         this.playerId = playerId;
         this.bio = bio;
         this.avatar = avatar;
+        this.gender = gender;
         this.location = location;
         this.birthDate = birthDate;
     }
 
-    public void updateProfile(String bio, String avatar, String location, LocalDate birthDate) {
+    public void updateProfile(String bio, String avatar, Gender gender, String location, LocalDate birthDate) {
         this.bio = bio;
         this.avatar = avatar;
+        this.gender = gender;
         this.location = location;
         this.birthDate = birthDate;
     }
@@ -35,6 +38,10 @@ public class Profile {
     public String getAvatar() {return avatar;}
 
     public void setAvatar(String avatar) {this.avatar = avatar;}
+
+    public Gender getGender() {return gender;}
+
+    public void setGender(Gender gender) {this.gender = gender;}
 
     public String getLocation() {return location;}
 
