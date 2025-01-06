@@ -37,6 +37,10 @@ VALUES
     ('c083a8f2-b2b4-41cc-a84a-6352ec5b6c77', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
     ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
+# INSERT INTO game_statistics.games (id, name)
+# VALUES   ('14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers'),
+#          ('fde47098-ab1d-11ef-9cd2-0242ac120002', 'Chess'),
+#          ('1c1182b8-4f62-4a0d-a8ac-92758177cace', 'Go');
 
 
 
@@ -68,7 +72,9 @@ INSERT INTO player_management.players (player_id, name)
 VALUES
     (UUID_TO_BIN('e4e685be-ed89-42fb-a681-f272149c8218'), 'William'),
     (UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83'), 'Manami'),
-    (UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162'), 'Noah');
+    (UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162'), 'Noah'),
+    (UUID_TO_BIN('dc2567de-eaad-4dc1-97fb-e1257374a614'), 'Narjiss');
+
 
 -- Insert additional dummy games into the 'games' table
 INSERT INTO player_management.games (game_id, game_name, is_favorite, player_id)
@@ -78,7 +84,9 @@ VALUES
     (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120004'), 'Battle Ship', 1, UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83')),
     (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120005'), 'Chess', 0, UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83')),
     (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120006'), 'Monopoly', 1, UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162')),
-    (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7b2'), 'Checkers', 1, UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162'));
+    (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7b2'), 'Checkers', 1, UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162')),
+    (UUID_TO_BIN('6bf497bd-b0a5-4421-a0af-c2d151bddf1f'), 'Hello World Clicker', 1, UUID_TO_BIN('dc2567de-eaad-4dc1-97fb-e1257374a614'));
+
 
 -- Insert profiles for the players
 INSERT INTO player_management.profiles (player_id, bio, avatar, location, birth_date)

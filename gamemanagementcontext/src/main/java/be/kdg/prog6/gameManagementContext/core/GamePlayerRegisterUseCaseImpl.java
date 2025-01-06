@@ -28,7 +28,6 @@ public class GamePlayerRegisterUseCaseImpl implements RegisterUseCase {
 
         gameMngPlayerCreatedPort.createPlayer(player);
         logger.info("Player registered with id and name: {} {}", playerId, player.getName());
-
     }
 
 }

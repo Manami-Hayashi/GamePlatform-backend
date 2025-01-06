@@ -58,6 +58,18 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         gameStatsP1.setTotalTimePlayed(gameStatsP1.getTotalTimePlayed() + gameDuration);
         gameStatsP2.setTotalTimePlayed(gameStatsP2.getTotalTimePlayed() + gameDuration);
 
+        // Log updated total time played
+        LOGGER.info("Updated total time played for Player 1: {}, Player 2: {}", gameStatsP1.getTotalTimePlayed(), gameStatsP2.getTotalTimePlayed());
+
+        gameStatsP1.setAverageGameDuration(gameStatsP1.getTotalGamesPlayed() == 0 ? 0 : gameStatsP1.getTotalTimePlayed() / gameStatsP1.getTotalGamesPlayed() * 60);
+        gameStatsP2.setAverageGameDuration(gameStatsP2.getTotalGamesPlayed() == 0 ? 0 : gameStatsP2.getTotalTimePlayed() / gameStatsP2.getTotalGamesPlayed() * 60);
+
+        double averageDuration = gameStatsP1.getTotalGamesPlayed() == 0 ? 0 : (gameStatsP1.getTotalTimePlayed() / gameStatsP1.getTotalGamesPlayed()) * 60;
+        gameStatsP1.setAverageGameDuration(averageDuration);
+        LOGGER.info("Calculated average game duration for Player 1: {}", averageDuration);
+
+        // Log updated average game duration
+        LOGGER.info("Updated average game duration for Player 1: {}, Player 2: {}", gameStatsP1.getAverageGameDuration(), gameStatsP2.getAverageGameDuration());
         gameStatsP1.setHighestScore(Math.max(gameStatsP1.getHighestScore(), command.scoreP1()));
         gameStatsP2.setHighestScore(Math.max(gameStatsP2.getHighestScore(), command.scoreP2()));
 
@@ -75,7 +87,15 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
     }
 
     private double calculateGameDuration(LocalDateTime startTime, LocalDateTime endTime) {
-        return (endTime.getHour() - startTime.getHour()) + (double) (endTime.getMinute() - startTime.getMinute()) / 60;
+        if (startTime == null || endTime == null) {
+            LOGGER.error("Start time or end time is null. Cannot calculate game duration.");
+            return 0;
+        }
+        double duration = (endTime.getHour() - startTime.getHour()) +
+                (double) (endTime.getMinute() - startTime.getMinute()) / 60;
+        LOGGER.info("Calculated game duration for start time: {}, end time: {}", startTime, endTime);
+        LOGGER.info("Calculated game duration: {} hours", duration);
+        return duration;
     }
 
     @Override
@@ -100,6 +120,7 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
     }
 
     private void updateMatchSession(MatchSession matchSession, UpdateGameStatisticsCommand command) {
+        matchSession.setStartTime(command.startTime());
         matchSession.setEndTime(command.endTime());
         matchSession.setActive(command.isActive());
         matchSession.setWinner(Winner.valueOf(command.winner()));
