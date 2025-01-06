@@ -163,14 +163,48 @@ public class UpdateGameStatisticsUseCaseImpl implements UpdateGameStatisticsUseC
         LOGGER.info(String.valueOf(command));
 
         // Update player statistics after match session update
-        Optional<GameStatistics> gameStatsP1 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(0), command.gameId());
-        Optional<GameStatistics> gameStatsP2 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(1), command.gameId());
+//        Optional<GameStatistics> gameStatsP1 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(0), command.gameId());
+//        Optional<GameStatistics> gameStatsP2 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(1), command.gameId());
 
-        if (gameStatsP1.isPresent() && gameStatsP2.isPresent()) {
-            updatePlayerStatistics(gameStatsP1.get(), gameStatsP2.get(), Winner.valueOf(command.winner()), command.winner(), command, startTime);
-        } else {
-            LOGGER.error("Game statistics not found for players. Cannot update statistics.");
-        }
+        Optional<GameStatistics> optionalGameStatsP1 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(0), command.gameId());
+        if (optionalGameStatsP1.isEmpty()) {
+            GameStatistics newGameStatsP1 = new GameStatistics(
+                    new PlayerId(command.playerIds().get(0)),
+                    new GameId(command.gameId()),
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+            );
+            createGameStatisticsPort.createGameStatistics(newGameStatsP1);        }
+        Optional<GameStatistics> gameStatsP1 = Optional.of(loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(0), command.gameId()).get());
+        Optional<GameStatistics> optionalGameStatsP2 = loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(1), command.gameId());
+        if (optionalGameStatsP2.isEmpty()) {
+            GameStatistics newGameStatsP2 = new GameStatistics(
+                    new PlayerId(command.playerIds().get(1)),
+                    new GameId(command.gameId()),
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+            );
+            createGameStatisticsPort.createGameStatistics(newGameStatsP2);        }
+        Optional <GameStatistics> gameStatsP2 = Optional.of(loadGameStatisticsPort.loadGameStatisticsByPlayerIdAndGameId(command.playerIds().get(1), command.gameId()).get());
+
+
+        updatePlayerStatistics(gameStatsP1.get(), gameStatsP2.get(), Winner.valueOf(command.winner()), command.winner(), command, startTime);
     }
 
     private void createNewMatchSession(UpdateGameStatisticsCommand updateGameStatisticsCommand) {
