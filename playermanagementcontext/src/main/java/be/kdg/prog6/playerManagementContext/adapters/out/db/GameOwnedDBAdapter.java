@@ -9,12 +9,8 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,12 +19,10 @@ public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
     private static final Logger LOGGER = LoggerFactory.getLogger(GameOwnedDBAdapter.class);
     private final GameOwnedJpaRepository gameOwnedJpaRepository;
     private final PlayerJpaRepository playerJpaRepository;
-    private final RestTemplate restTemplate;
 
-    public GameOwnedDBAdapter(GameOwnedJpaRepository gameOwnedJpaRepository, PlayerJpaRepository playerJpaRepository, RestTemplate restTemplate) {
+    public GameOwnedDBAdapter(GameOwnedJpaRepository gameOwnedJpaRepository, PlayerJpaRepository playerJpaRepository) {
         this.gameOwnedJpaRepository = gameOwnedJpaRepository;
         this.playerJpaRepository = playerJpaRepository;
-        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -47,20 +41,6 @@ public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
         LOGGER.info("creating new Game with name {}", game.getGameName());
 
         gameOwnedJpaRepository.save(gameOwnedJpaEntity);
-
-        if (game.getGameId().toString().equals("6bf497bd-b0a5-4421-a0af-c2d151bddf1f")) {
-            GameOwnedJpaEntity checkersGame = new GameOwnedJpaEntity(
-                    UUID.fromString("6bf497bd-b0a5-4421-a0af-c2d151bddf1f"),
-                    "Hello World Clicker",
-                    false,
-                    playerJpaEntity
-            );
-            gameOwnedJpaRepository.save(checkersGame);
-            String url = "http://localhost:8081/data/send-achievements";
-            Map<String, Object> request = new HashMap<>();
-            request.put("playerId", playerId.toString());
-            restTemplate.postForObject(url, request, String.class);
-        }
     }
 
 
