@@ -40,7 +40,7 @@ class AddLobbyGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
 
         // Act & Assert
         Assertions.assertDoesNotThrow(() -> addLobbyGameUseCase.addLobbyGame(game));
-        lobbyGameJpaRepository.deleteAll();
+//        lobbyGameJpaRepository.deleteAll();
     }
 
     @Test

@@ -76,6 +76,8 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:1.20.2'
     testImplementation 'org.testcontainers:junit-jupiter:1.20.2'
     testImplementation 'org.testcontainers:mysql:1.20.2'
+    testImplementation('com.h2database:h2')
+
 
     // Use Spring Boot dependencies to ensure alignment
     implementation platform('org.springframework.boot:spring-boot-dependencies:3.1.1')
