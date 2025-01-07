@@ -48,10 +48,9 @@ public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
 
         gameOwnedJpaRepository.save(gameOwnedJpaEntity);
 
-        /*
-        if (game.getGameName().equals("Hello World Clicker")) {
+        if (game.getGameId().toString().equals("6bf497bd-b0a5-4421-a0af-c2d151bddf1f")) {
             GameOwnedJpaEntity checkersGame = new GameOwnedJpaEntity(
-                    UUID.fromString("14910372-c39d-7de7-b05a-93f8166cf7af"),
+                    UUID.fromString("6bf497bd-b0a5-4421-a0af-c2d151bddf1f"),
                     "Hello World Clicker",
                     false,
                     playerJpaEntity
@@ -62,8 +61,6 @@ public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
             request.put("playerId", playerId.toString());
             restTemplate.postForObject(url, request, String.class);
         }
-         */
-
     }
 
 
