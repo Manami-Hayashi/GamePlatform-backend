@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = 6eSsPwJaeg9M7JpWVkslTEHzi5FFDbpR &
+client_secret = s7b2bA6t0UpwKVcfvKSYg2txVr0cHILS &
 username = user &
 password = password &
 grant_type = password &
@@ -133,6 +133,7 @@ Content-Type: application/json
   "id": "49b5b7d0-ab1e-11ef-9cd2-0242ac120007"
 }
 
+
 ### Ready up player 2 -- HELLO WORLD
 POST http://localhost:8090/api/HW/ready-up
 Authorization: Bearer {{access_token}}
@@ -141,6 +142,7 @@ Content-Type: application/json
 {
   "id": "155f3e06-bdd0-496c-919c-c3ee90dfe162"
 }
+
 
 ### Start game session -- HELLO WORLD
 POST http://localhost:8090/api/HW/start-session
