@@ -1,10 +1,10 @@
 -- Insert dummy games into the 'game' table
 INSERT INTO store.game (game_id, game_name, price, description) VALUES
                                                                     (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers', 0, 'A classic strategy game for two players.'),
-                                                                    (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120002'), 'Chess', 10.00, 'The timeless game of kings.'),
-                                                                    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'Othello', 7.50, 'A fun and strategic board game.'),
-                                                                    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 'Battle Ship', 8.99, 'Sink your opponents fleet.');
-
+                                                                    (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120002'), 'Chess', 9.99, 'The timeless game of kings.'),
+                                                                    (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'Othello', 6.99, 'A fun and strategic board game.'),
+                                                                    (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 'Battle Ship', 8.99, 'Sink your opponents fleet.'),
+                                                                    (UUID_TO_BIN('6bf497bd-b0a5-4421-a0af-c2d151bddf1f'), 'Hello World Clicker', 1.99, 'A clicking game');
 -- Insert dummy reviews into the 'reviews' table
 INSERT INTO store.reviews (review_id, customer_id, game_id, rating, comment, created_at) VALUES
                                                                                              (UUID_TO_BIN('4668df20-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 4, 'Fun and engaging!', '2024-01-01 12:00:00'),
@@ -22,8 +22,8 @@ VALUES
     ('e4e685be-ed89-42fb-a681-f272149c8218', 'William', '2003-09-10', 'MALE', 'Chicago'),
     ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', 'Narjiss', '2001-05-30', 'FEMALE', 'Chicago'),
     ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'Josh', '1995-12-25', 'MALE', 'Los Angeles'),
-    ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', 'Alice', '1998-03-15', 'FEMALE', 'New York');
-
+    ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', 'Alice', '1998-03-15', 'FEMALE', 'New York'),
+    ('49b5b7d0-ab1e-11ef-9cd2-0242ac120007', 'Player Seven', '1999-07-20', 'MALE', 'Chicago');
 
 # INSERT INTO game_statistics.games (id, name)
 # VALUES   ('14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers'),
@@ -31,22 +31,26 @@ VALUES
 #          ('1c1182b8-4f62-4a0d-a8ac-92758177cace', 'Go');
 
 -- Insert into achievements
-INSERT INTO game_statistics.achievements (player_id, game_id, name, description, is_locked)
-VALUES
-    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Champion', 'Win 10 games of Checkers.', 0),
-    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Strategist', 'Win 20 games of Checkers.', 1),
-    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Veteran', 'Win 50 games of Checkers.', 1),
-    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1);
+# INSERT INTO game_statistics.achievements (player_id, game_id, name, description, is_locked)
+# VALUES
+#     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Champion', 'Win 10 games of Checkers.', 0),
+#     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Strategist', 'Win 20 games of Checkers.', 1),
+#     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Veteran', 'Win 50 games of Checkers.', 1),
+#     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1),
+#     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1),
+#     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1);
 
 -- Insert sample data for game_statistics
 INSERT INTO game_statistics.game_statistics (player_id, game_id, total_score, total_games_played, wins, losses, draws, win_loss_ratio, total_time_played, highest_score, moves_made, average_game_duration)
 VALUES
-    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 10, 0, 0, 0, 0, 5, 0, 0, 0),
     ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 20, 0, 0, 0, 0, 5, 0, 0, 0),
     ('e4e685be-ed89-42fb-a681-f272149c8218', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 30, 0, 0, 0, 0, 5, 0, 0, 0),
-    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '6bf497bd-b0a5-4421-a0af-c2d151bddf1f', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    ('49b5b7d0-ab1e-11ef-9cd2-0242ac120007', '6bf497bd-b0a5-4421-a0af-c2d151bddf1f', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 Insert INTO lobby_management.game (game_id, name) VALUES (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers');
+Insert INTO lobby_management.game (game_id, name) VALUES (UUID_TO_BIN('6bf497bd-b0a5-4421-a0af-c2d151bddf1f'), 'Hello World Clicker');
 -- Insert dummy players with online status
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120001'), 'Player One', NOW());
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), 'Player Two', NOW());
@@ -54,12 +58,11 @@ INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120004'), 'Player Four', NOW());
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120008'), 'Player Eight', NOW());
 INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('2aeeaba5-355f-42a7-b215-44d4d0ebfd83'), 'Manami', NOW());
-INSERT INTO lobby_management.player (player_id, name, last_active) VALUES (UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162'), 'Noah', NOW());
 
 
 -- Insert lobbies
 INSERT INTO lobby_management.lobby (lobby_id, game_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'),UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'));
-INSERT INTO lobby_management.lobby (lobby_id, game_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120003'), UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'));
+INSERT INTO lobby_management.lobby (lobby_id, game_id) VALUES (UUID_TO_BIN('77eb6db3-888d-4b6e-bec5-0313387c5c79'), UUID_TO_BIN('6bf497bd-b0a5-4421-a0af-c2d151bddf1f'));
 
 -- Assign players to lobbies
 -- Lobby with 2 players
@@ -67,7 +70,8 @@ INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id, gam
 INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id, game_id) VALUES (UUID_TO_BIN('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d'), 'Alice', NOW(), UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'));
 
 -- Lobby with 1 player
-INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id, game_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120007'), 'Player Seven', NOW(), UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120003'), UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'));
+INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id, game_id) VALUES (UUID_TO_BIN('49b5b7d0-ab1e-11ef-9cd2-0242ac120007'), 'Player Seven', NOW(), UUID_TO_BIN('77eb6db3-888d-4b6e-bec5-0313387c5c79'), UUID_TO_BIN('6bf497bd-b0a5-4421-a0af-c2d151bddf1f'));
+INSERT INTO lobby_management.player (player_id, name, last_active, lobby_id, game_id) VALUES (UUID_TO_BIN('155f3e06-bdd0-496c-919c-c3ee90dfe162'), 'Noah', NOW(), UUID_TO_BIN('77eb6db3-888d-4b6e-bec5-0313387c5c79'), UUID_TO_BIN('6bf497bd-b0a5-4421-a0af-c2d151bddf1f'));
 
 -- Insert players for playerManagementContext
 INSERT INTO player_management.players (player_id, name)
