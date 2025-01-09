@@ -1,0 +1,26 @@
+version: "2"
+checks:
+  argument-count:
+    enabled: true
+  file-lines:
+    enabled: true
+  method-lines:
+    enabled: true
+  return-statements:
+    enabled: true
+  similar-code:
+    enabled: true
+  complexity:
+    enabled: true
+  duplication:
+    enabled: true
+engines:
+  structure:
+    enabled: true
+  duplication:
+    enabled: true
+  fixme:
+    enabled: true
+  eslint:
+    enabled: true
+
