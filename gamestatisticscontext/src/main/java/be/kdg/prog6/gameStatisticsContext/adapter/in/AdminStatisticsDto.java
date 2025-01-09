@@ -13,7 +13,6 @@ public record AdminStatisticsDto(
         double averageScore,
         double averageMovesMade,
         double averageAge,
-        String mostCommonLocation,
         String bestPlayer
         ) {
 }
