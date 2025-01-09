@@ -1,0 +1,23 @@
+### Get access token with admin credentials
+
+POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id = backend &
+client_secret = s7b2bA6t0UpwKVcfvKSYg2txVr0cHILS &
+username = admin &
+password = password &
+grant_type = password &
+scope = openid
+
+//saving the access token
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
+
+
+### Recommend games
+
+GET http://localhost:8090/api/games/recommend?gameNames=Chess&gameNames=Battle Ship
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
