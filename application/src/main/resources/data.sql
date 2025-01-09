@@ -40,15 +40,6 @@ VALUES
 #     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1),
 #     ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers Grandmaster', 'Win 100 games of Checkers.', 1);
 
--- Insert sample data for game_statistics
-INSERT INTO game_statistics.game_statistics (player_id, game_id, total_score, total_games_played, wins, losses, draws, win_loss_ratio, total_time_played, highest_score, moves_made, average_game_duration)
-VALUES
-    ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 20, 0, 0, 0, 0, 5, 0, 0, 0),
-    ('e4e685be-ed89-42fb-a681-f272149c8218', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 30, 0, 0, 0, 0, 5, 0, 0, 0),
-    ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', '14910372-c39d-7de7-b05a-93f8166cf7af', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('155f3e06-bdd0-496c-919c-c3ee90dfe162', '6bf497bd-b0a5-4421-a0af-c2d151bddf1f', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    ('49b5b7d0-ab1e-11ef-9cd2-0242ac120007', '6bf497bd-b0a5-4421-a0af-c2d151bddf1f', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
 Insert INTO lobby_management.game (game_id, name) VALUES (UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 'Checkers');
 Insert INTO lobby_management.game (game_id, name) VALUES (UUID_TO_BIN('6bf497bd-b0a5-4421-a0af-c2d151bddf1f'), 'Hello World Clicker');
 -- Insert dummy players with online status

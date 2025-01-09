@@ -65,12 +65,10 @@ public class GetAdminStatisticsUseCaseImpl implements GetAdminStatisticsUseCase 
             }
 
             double averageAge = players.stream().mapToInt(Player::getAge).average().orElse(0);
-            String mostCommonLocation = players.stream().collect(Collectors.groupingBy(Player::getLocation, Collectors.counting()))
-                    .entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse("");
 
             String bestPlayer = players.stream().max(Player::compareTo).map(Player::getName).orElse("");
 
-            AdminStatisticsDto newDto = new AdminStatisticsDto(gameId.id(), totalScore, totalGamesPlayed, totalTimePlayed, highestScore, movesMade, averageGameDuration, averageScore, averageMovesMade, averageAge, mostCommonLocation, bestPlayer);
+            AdminStatisticsDto newDto = new AdminStatisticsDto(gameId.id(), totalScore, totalGamesPlayed, totalTimePlayed, highestScore, movesMade, averageGameDuration, averageScore, averageMovesMade, averageAge, bestPlayer);
             dtos.add(newDto);
         }
 
