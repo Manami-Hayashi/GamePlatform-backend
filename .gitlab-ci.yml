@@ -1,165 +1,190 @@
-#stages:
-#  - compile
-#  - test
-#  - build
-#  - deploy
-#
-#variables:
-#  DOCKER_DRIVER: overlay2
-#  DOCKER_HOST: "tcp://docker:2375"
-#  DOCKER_TLS_CERTDIR: ""
-#
-#image: docker:latest
-#services:
-#  - docker:dind
-#
-## security testing: https://docs.gitlab.com/ee/user/application_security/
-## According to gitlab doc, this is the way to go.. so let's do this!
-#include:
-#  - template: Security/Dependency-Scanning.gitlab-ci.yml
-#  - template: Security/Secret-Detection.gitlab-ci.yml
-#
-#cache:
-#  key: "$CI_COMMIT_REF_NAME"
-#  policy: push
-#  paths:
-#     - build
-#     - .gradle
+stages:
+  - compile
+  - test
+  - code_quality
+  - build
+  - deploy
+  - destroy
 
-# compile:
-#   image: gradle:8.11.0-jdk21
-#   stage: compile
-#   script:
-#     - gradle compileJava
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: ""
+  GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true"
+  SPRING_PROFILES_ACTIVE: azure
+image: docker:latest
+services:
+  - docker:dind
 
-# test:
-#   image: gradle:8.11.0-jdk21
-#   stage: test
-#   script:
-#     - gradle test
-#   artifacts:
-#     when: always
-#     reports:
-#       junit: ./build/test-results/test/**/TEST-*.xml
+include:
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
 
-# build:
-#     image: gradle:8.11.0-jdk21
-#     stage: build
-#     script:
-#         - gradle clean bootBuildImage
-#
-#
-## after the image build is finished use it for the containerapps and automatically deploy it
-## container apps quickstart: https://docs.microsoft.com/de-de/azure/container-apps/get-started?tabs=bash
-#deploy:
-#  image: mcr.microsoft.com/azure-cli
-#  stage: deploy
-#  before_script:
-#    - az login --service-principal -u $AZURE_APP_ID_WILL -p $AZURE_PASSWORD_WILL --tenant $AZURE_TENANT_WILL
-#    - az extension add --name containerapp --upgrade
+cache:
+  key: "$CI_COMMIT_REF_NAME"
+  policy: push
+  paths:
+    - build
+    - .gradle
+
+code_quality:
+  stage: code_quality
+  image: docker:20.10.12
+  allow_failure: true
+  services:
+    - name: 'docker:20.10.12-dind'
+      command: ['--tls=false', '--host=tcp://0.0.0.0:2375']
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_CERT_PATH: ""
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_TLS_VERIFY: ""
+    CODE_QUALITY_IMAGE_TAG: "0.96.0"
+    CODE_QUALITY_IMAGE: "$CI_TEMPLATE_REGISTRY_HOST/gitlab-org/ci-cd/codequality:$CODE_QUALITY_IMAGE_TAG"
+    DOCKER_SOCKET_PATH: /var/run/docker.sock
+  needs: []
+  script:
+    - export SOURCE_CODE=${SOURCE_CODE:-$PWD}
+    - |
+      if ! docker info &>/dev/null; then
+        if [ -z "$DOCKER_HOST" ] && [ -n "$KUBERNETES_PORT" ]; then
+          export DOCKER_HOST='tcp://localhost:2375'
+        fi
+      fi
+    - |
+      function propagate_env_vars() {
+        CURRENT_ENV=$(printenv)
+
+        for VAR_NAME; do
+          echo $CURRENT_ENV | grep "${VAR_NAME}=" > /dev/null && echo "--env $VAR_NAME "
+        done
+      }
+    - |
+      if [ -n "$CODECLIMATE_REGISTRY_USERNAME" ] && [ -n "$CODECLIMATE_REGISTRY_PASSWORD" ] && [ -n "$CODECLIMATE_PREFIX" ]; then
+        CODECLIMATE_REGISTRY=${CODECLIMATE_PREFIX%%/*}
+        docker login "$CODECLIMATE_REGISTRY" --username "$CODECLIMATE_REGISTRY_USERNAME" --password "$CODECLIMATE_REGISTRY_PASSWORD"
+      fi
+    - docker pull --quiet "$CODE_QUALITY_IMAGE"
+    - |
+      docker run --rm \
+        $(propagate_env_vars \
+          SOURCE_CODE \
+          TIMEOUT_SECONDS \
+          CODECLIMATE_DEBUG \
+          CODECLIMATE_DEV \
+          REPORT_STDOUT \
+          REPORT_FORMAT \
+          ENGINE_MEMORY_LIMIT_BYTES \
+          CODECLIMATE_PREFIX \
+          CODECLIMATE_REGISTRY_USERNAME \
+          CODECLIMATE_REGISTRY_PASSWORD \
+          DOCKER_SOCKET_PATH \
+        ) \
+        --volume "$PWD":/code \
+        --volume "$DOCKER_SOCKET_PATH":/var/run/docker.sock \
+        "$CODE_QUALITY_IMAGE" /code
+  artifacts:
+    access: 'developer'
+    reports:
+      codequality: gl-code-quality-report.json
+    expire_in: 1 week
+  dependencies: []
+  rules:
+    - if: '$CODE_QUALITY_DISABLED'
+      when: never
+    - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH'
+
+
+
+compile:
+  image: gradle:8.10.0-jdk17
+  stage: compile
+  script:
+    - ./gradlew compileJava
+
+test:
+  image: gradle:8.10.0-jdk17
+  stage: test
+  script:
+    - gradle test
+  artifacts:
+    when: always
+    reports:
+      junit: ./build/test-results/test/**/TEST-*.xml
+  allow_failure: true
+  rules:
+    - changes:
+        - "src/**/*"
+        - "build.gradle"
+        - "settings.gradle"
+    - exists:
+        - "src/**/*"
+        - "build.gradle"
+        - "settings.gradle"
+    - if: '$CI_COMMIT_BRANCH == "cicd"'
+      when: manual
+
+
+# tried sonarqube no work here
+
+#sonarqube-check:
+#  image: gradle:8.10.0-jdk21  # Your Gradle and JDK version
+#  services:
+#    - name: sonarqube:9.9.8-community
+#      alias: sonarqube
+#  variables:
+#    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Cache directory for SonarQube
+#    GIT_DEPTH: "0"  # Fetch all branches for accurate analysis
 #  script:
-#    - tag=$CI_COMMIT_REF_NAME
-#      # az containerapp up documentation: https://docs.microsoft.com/en-us/cli/azure/containerapp?view=azure-cli-latest#az-containerapp-up
-#      #switching to northeurope because of:
-#      # {
-#      # "code": "AKSCapacityError",
-#      # "details": null,
-#      # "message": "Creating a new cluster or starting cluster is unavailable at this time in region westeurope. To create a new cluster, we recommend using an alternate region. For a list of all the Azure regions, visit https://aka.ms/aks/regions. For more details on this error, visit https://aka.ms/akscapacityerror.",
-#      # "subcode": ""
-#    # }
-#    #create your environment test.
-#    # az containerapp env create --name test --resource-group game-platform-test --location westeurope
-#    - az containerapp up --name chatbot-container --resource-group game-platform-test --location westeurope --environment test
-#      --target-port 8082 --ingress external
-#      --image "acrgamearena.azurecr.io/team3chatbot:latest"
-#
-#    - az containerapp up --name game-management-container --resource-group game-platform-test --location westeurope --environment test
-#      --target-port 8082 --ingress external
-#      --image "acrgamearena.azurecr.io/team3gamemanagement:latest"
-#
-#    - az containerapp up --name game-statistics-container --resource-group game-platform-test --location westeurope --environment test
-#      --target-port 8082 --ingress external
-#      --image "acrgamearena.azurecr.io/team3gamestatistics:latest"
-#
-#    - az containerapp up --name lobby-management-container --resource-group game-platform-test --location westeurope --environment test
-#      --target-port 8082 --ingress external
-#      --image "acrgamearena.azurecr.io/team3lobbymanagement:latest"
-#
-#    - az containerapp up --name player-management-container --resource-group game-platform-test --location westeurope --environment test
-#      --target-port 8082 --ingress external
-#      --image "acrgamearena.azurecr.io/team3playermanagement:latest"
-#
-#    - az containerapp up --name store-container --resource-group game-platform-test --location westeurope --environment test
-#      --target-port 8082 --ingress external
-#      --image "acrgamearena.azurecr.io/team3store:latest"
-#
-#
-#    - az containerapp secret set --name chatbot-container --resource-group game-platform-test
-#      --secrets
-#      secret-key=$IMAGE_USERNAME_WILL
-#
-#    - az containerapp secret set --name game-management-container --resource-group game-platform-test
-#      --secrets
-#      secret-key=$IMAGE_USERNAME_WILL
-#
-#    - az containerapp secret set --name game-statistics-container --resource-group game-platform-test
-#      --secrets
-#      secret-key=$IMAGE_USERNAME_WILL
-#
-#    - az containerapp secret set --name lobby-management-container --resource-group game-platform-test
-#      --secrets
-#      secret-key=$IMAGE_USERNAME_WILL
-#
-#    - az containerapp secret set --name player-management-container --resource-group game-platform-test
-#      --secrets
-#      secret-key=$IMAGE_USERNAME_WILL
-#
-#    - az containerapp secret set --name store-container --resource-group game-platform-test
-#      --secrets
-#      secret-key=$IMAGE_USERNAME_WILL
-#
-#
-#    - az containerapp update --name chatbot-container --resource-group game-platform-test
-#      --cpu 1 --memory 2Gi
-#      --min-replicas 0 --max-replicas 1
-#      --set-env-vars
-#      SECRET_KEY=secretref:secret-key
-#      ENV_VAR=someEnVar
-#
-#    - az containerapp update --name game-management-container --resource-group game-platform-test
-#      --cpu 1 --memory 2Gi
-#      --min-replicas 0 --max-replicas 1
-#      --set-env-vars
-#      SECRET_KEY=secretref:secret-key
-#      ENV_VAR=someEnVar
-#
-#    - az containerapp update --name game-statistics-container --resource-group game-platform-test
-#      --cpu 1 --memory 2Gi
-#      --min-replicas 0 --max-replicas 1
-#      --set-env-vars
-#      SECRET_KEY=secretref:secret-key
-#      ENV_VAR=someEnVar
-#
-#    - az containerapp update --name lobby-management-container --resource-group game-platform-test
-#      --cpu 1 --memory 2Gi
-#      --min-replicas 0 --max-replicas 1
-#      --set-env-vars
-#      SECRET_KEY=secretref:secret-key
-#      ENV_VAR=someEnVar
-#
-#    - az containerapp update --name player-management-container --resource-group game-platform-test
-#      --cpu 1 --memory 2Gi
-#      --min-replicas 0 --max-replicas 1
-#      --set-env-vars
-#      SECRET_KEY=secretref:secret-key
-#      ENV_VAR=someEnVar
-#
-#    - az containerapp update --name store-container --resource-group game-platform-test
-#      --cpu 1 --memory 2Gi
-#      --min-replicas 0 --max-replicas 1
-#      --set-env-vars
-#      SECRET_KEY=secretref:secret-key
-#      ENV_VAR=someEnVar
+#    - gradle sonarqube -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=$SONAR_TOKEN
+#  allow_failure: true  # Pipeline continues even if SonarQube analysis fails
 #  only:
-#    - tags
-#
+#    - main
+
+
+build:
+  image: gradle:8.10.0-jdk17
+  stage: build
+  script:
+    #    - export SPRING_PROFILES_ACTIVE=azure
+    - df -h  # Check disk space
+    - sleep 10  # Add a sleep command for 10 seconds
+    - ./gradlew application:bootBuildImage #-P spring.profiles.active=$SPRING_PROFILES_ACTIVE
+  artifacts:
+    paths:
+      - application/build/libs/application-0.0.1-SNAPSHOT.jar
+    expire_in: 1 week
+
+deploy:
+  image: mcr.microsoft.com/azure-cli
+  stage: deploy
+  before_script:
+    # Login to Azure
+    - az login --service-principal -u $AZURE_APP_ID_WILL -p $AZURE_PASSWORD_WILL --tenant $AZURE_TENANT_WILL
+    # Register necessary providers
+    - az provider register -n Microsoft.OperationalInsights --wait
+    - az provider register -n Microsoft.App --wait
+    - az extension add --name containerapp --upgrade
+  script:
+    # Deploy the Keycloak container
+    - az containerapp create --name keycloak-container --resource-group game-platform-test --environment test --image "acrgamearena.azurecr.io/keycloak:25.0.5" --target-port 8080 --ingress external --cpu 1 --memory 2Gi --min-replicas 0 --max-replicas 1 --registry-server acrgamearena.azurecr.io --registry-username $IMAGE_USERNAME_WILL --registry-password $IMAGE_PASSWORD_WILL --env-vars RABBITMQ_URL="amqps://cswlfyjh:mV7Y7iF7LTrd_XQz_4uI76N4WnqZJOWd@ostrich.lmq.cloudamqp.com/cswlfyjh"
+
+    # Deploy the Game Platform container
+    - az containerapp create --name game-platform-container --resource-group game-platform-test --environment test --image "acrgamearena.azurecr.io/integration5team3gameplatform:latest" --target-port 8090 --ingress external --cpu 1 --memory 2Gi --min-replicas 0 --max-replicas 1 --registry-server acrgamearena.azurecr.io --registry-username $IMAGE_USERNAME_WILL --registry-password $IMAGE_PASSWORD_WILL
+    - az containerapp secret set --name game-platform-container --resource-group game-platform-test --secrets secret-key=$IMAGE_USERNAME_WILL
+    - az containerapp update --name game-platform-container --resource-group game-platform-test --cpu 1.0 --memory 2.0Gi --min-replicas 0 --max-replicas 1 --set-env-vars SECRET_KEY=secretref:secret-key RABBITMQ_URL="amqps://cswlfyjh:mV7Y7iF7LTrd_XQz_4uI76N4WnqZJOWd@ostrich.lmq.cloudamqp.com/cswlfyjh"
+  rules:
+    - changes:
+        - ".gitlab-ci.yml"
+    - if: $CI_COMMIT_BRANCH == "cicd"
+  when: manual
+
+destroy:
+  image: mcr.microsoft.com/azure-cli
+  stage: destroy
+  before_script:
+    - az login --service-principal -u $AZURE_APP_ID_WILL -p $AZURE_PASSWORD_WILL --tenant $AZURE_TENANT_WILL
+  script:
+    - az containerapp delete --name keycloak-container --resource-group game-platform-test --yes
+    - az containerapp delete --name game-platform-container --resource-group game-platform-test --yes
+  when: manual
