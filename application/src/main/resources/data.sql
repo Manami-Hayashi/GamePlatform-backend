@@ -21,9 +21,9 @@ VALUES
     ('2aeeaba5-355f-42a7-b215-44d4d0ebfd83', 'Manami', '2001-08-06', 'FEMALE', 'Los Angeles'),
     ('e4e685be-ed89-42fb-a681-f272149c8218', 'William', '2003-09-10', 'MALE', 'Chicago'),
     ('d7e6c5b3-3b3d-4c2a-8b1b-7a9c8b6d5e4a', 'Narjiss', '2001-05-30', 'FEMALE', 'Chicago'),
-    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'Josh', '1995-12-25', 'MALE', 'Los Angeles'),
+    ('a7d9b1bc-b94d-4fa1-a1a0-65d7d4359634', 'Alperen', '1995-12-25', 'MALE', 'Los Angeles'),
     ('b5c0f1b7-3971-4e66-b5ab-49a0f4a71b4d', 'Alice', '1998-03-15', 'FEMALE', 'New York'),
-    ('49b5b7d0-ab1e-11ef-9cd2-0242ac120007', 'Player Seven', '1999-07-20', 'MALE', 'Chicago');
+    ('49b5b7d0-ab1e-11ef-9cd2-0242ac120007', 'Bobby', '1999-07-20', 'MALE', 'Chicago');
 
 INSERT INTO game_statistics.games (id, name)
 VALUES   ('14910372-c39d-7de7-b05a-93f8166cf7af', 'Checkers'),

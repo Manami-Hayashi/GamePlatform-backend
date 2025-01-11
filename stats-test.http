@@ -99,4 +99,3 @@ Authorization: Bearer {{access_token}}
 
 GET http://localhost:8090/api/leaderboard
 Authorization: Bearer {{access_token}}
-
