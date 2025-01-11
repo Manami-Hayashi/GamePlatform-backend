@@ -17,13 +17,13 @@ public class LeaderboardController {
         this.getLeaderboardUseCase = getLeaderboardUseCase;
     }
 
-    @GetMapping("/{gameId}")
-    public List<LeaderboardDto> getLeaderboard(@PathVariable String gameId) {
-        List<GetLeaderboardCommand> leaderboardCommands = getLeaderboardUseCase.getLeaderboard(UUID.fromString(gameId));
+    @GetMapping
+    public List<LeaderboardDto> getLeaderboard() {
+        List<GetLeaderboardCommand> leaderboardCommands = getLeaderboardUseCase.getLeaderboard();
         List<LeaderboardDto> leaderboardDtos = new ArrayList<>();
         for (GetLeaderboardCommand leaderboardCommand : leaderboardCommands) {
             leaderboardDtos.add(new LeaderboardDto(
-                    leaderboardCommand.playerId(), leaderboardCommand.wins(), leaderboardCommand.totalGamesPlayed()
+                    leaderboardCommand.gameName(), leaderboardCommand.playerName(), leaderboardCommand.wins(), leaderboardCommand.totalGamesPlayed()
             ));
         }
         return leaderboardDtos;

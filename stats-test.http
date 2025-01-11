@@ -94,3 +94,9 @@ Authorization: Bearer {{access_token}}
   "wins": 1,
   "totalTimePlayed": 0
 }
+
+### Get leaderboards
+
+GET http://localhost:8090/api/leaderboard
+Authorization: Bearer {{access_token}}
+

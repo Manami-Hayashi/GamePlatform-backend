@@ -5,5 +5,5 @@ import java.util.UUID;
 
 @FunctionalInterface
 public interface GetLeaderboardUseCase {
-    List<GetLeaderboardCommand> getLeaderboard(UUID gameId);
+    List<GetLeaderboardCommand> getLeaderboard();
 }
