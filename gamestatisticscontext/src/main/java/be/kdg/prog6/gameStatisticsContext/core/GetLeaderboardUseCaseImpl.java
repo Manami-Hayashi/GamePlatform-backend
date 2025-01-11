@@ -34,7 +34,7 @@ public class GetLeaderboardUseCaseImpl implements GetLeaderboardUseCase {
         }
         List<GetLeaderboardCommand> leaderboard = new ArrayList<>();
         for (GameStatistics gameStatistic : gameStatistics) {
-            leaderboard.add(new GetLeaderboardCommand(gameStatistic.getPlayerId().id()));
+            leaderboard.add(new GetLeaderboardCommand(gameStatistic.getPlayerId().id(), gameStatistic.getWins(), gameStatistic.getTotalGamesPlayed()));
         }
         return leaderboard;
     }

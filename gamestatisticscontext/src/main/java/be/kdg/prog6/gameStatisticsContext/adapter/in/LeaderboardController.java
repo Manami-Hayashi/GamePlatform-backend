@@ -23,7 +23,7 @@ public class LeaderboardController {
         List<LeaderboardDto> leaderboardDtos = new ArrayList<>();
         for (GetLeaderboardCommand leaderboardCommand : leaderboardCommands) {
             leaderboardDtos.add(new LeaderboardDto(
-                    leaderboardCommand.playerId()
+                    leaderboardCommand.playerId(), leaderboardCommand.wins(), leaderboardCommand.totalGamesPlayed()
             ));
         }
         return leaderboardDtos;
