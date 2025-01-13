@@ -19,7 +19,7 @@ public class ChatbotAdapter implements ChatbotPort {
     private final WebClient webClient;
 
     public ChatbotAdapter(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:3000").build(); // Adjust to your Python backend URL
+        this.webClient = webClientBuilder.baseUrl("https://chatbot-webapp-2.azurewebsites.net").build(); //http://localhost:3000
     }
 
     @Override
