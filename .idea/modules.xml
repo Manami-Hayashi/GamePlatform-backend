@@ -2,6 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/be.kdg.prog6.game-arena.application.test.iml" filepath="$PROJECT_DIR$/.idea/modules/application/be.kdg.prog6.game-arena.application.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chatbotcontext/be.kdg.prog6.game-arena.chatbotcontext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/chatbotcontext/be.kdg.prog6.game-arena.chatbotcontext.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gamestatisticscontext/be.kdg.prog6.game-arena.gamestatisticscontext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gamestatisticscontext/be.kdg.prog6.game-arena.gamestatisticscontext.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lobbymanagementcontext/be.kdg.prog6.game-arena.lobbymanagementcontext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lobbymanagementcontext/be.kdg.prog6.game-arena.lobbymanagementcontext.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/playermanagementcontext/be.kdg.prog6.game-arena.playermanagementcontext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/playermanagementcontext/be.kdg.prog6.game-arena.playermanagementcontext.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/storecontext/be.kdg.prog6.game-arena.storecontext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/storecontext/be.kdg.prog6.game-arena.storecontext.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/game-arena.application.main.iml" filepath="$PROJECT_DIR$/.idea/modules/application/game-arena.application.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/game-arena.application.test.iml" filepath="$PROJECT_DIR$/.idea/modules/application/game-arena.application.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/chatbotcontext/game-arena.chatbotcontext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/chatbotcontext/game-arena.chatbotcontext.main.iml" />

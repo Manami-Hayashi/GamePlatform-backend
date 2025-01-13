@@ -4,7 +4,7 @@ INSERT INTO store.game (game_id, game_name, price, description) VALUES
                                                                     (UUID_TO_BIN('fde47098-ab1d-11ef-9cd2-0242ac120002'), 'Chess', 9.99, 'The timeless game of kings.'),
                                                                     (UUID_TO_BIN('12d242be-ab1e-11ef-9cd2-0242ac120002'), 'Othello', 6.99, 'A fun and strategic board game.'),
                                                                     (UUID_TO_BIN('2e468e92-ab1e-11ef-9cd2-0242ac120002'), 'Battle Ship', 8.99, 'Sink your opponents fleet.'),
-                                                                    (UUID_TO_BIN('6bf497bd-b0a5-4421-a0af-c2d151bddf1f'), 'Hello World Clicker', 1.99, 'A clicking game');
+                                                                    (UUID_TO_BIN('6bf497bd-b0a5-4421-a0af-c2d151bddf1f'), 'Clicker Game', 1.99, 'A clicking game');
 -- Insert dummy reviews into the 'reviews' table
 INSERT INTO store.reviews (review_id, customer_id, game_id, rating, comment, created_at) VALUES
                                                                                              (UUID_TO_BIN('4668df20-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('39b5b7d0-ab1e-11ef-9cd2-0242ac120002'), UUID_TO_BIN('14910372-c39d-7de7-b05a-93f8166cf7af'), 4, 'Fun and engaging!', '2024-01-01 12:00:00'),
