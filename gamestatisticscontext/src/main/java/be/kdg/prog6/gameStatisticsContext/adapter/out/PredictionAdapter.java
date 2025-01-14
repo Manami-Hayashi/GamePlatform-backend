@@ -18,7 +18,7 @@ public class PredictionAdapter implements PredictionModelPort {
     private static final Logger logger = LoggerFactory.getLogger(PredictionAdapter.class);
 
 //    private static final String FAST_API_URL = "http://localhost:8000/predict/";
-    private static final String FAST_API_URL = "https://winprobabilitypredictionfastapiapp.azurewebsites.net/predict/";
+    private static final String FAST_API_URL = "https://winprobpredictionfastapiapp.azurewebsites.net/predict/";
 
     @Override
     public double fetchWinProbability(GameStatistics gameStatistics, String authorizationHeader) {

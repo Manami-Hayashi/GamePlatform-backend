@@ -1,0 +1,53 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /api
+spring:
+  config:
+    additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
+
+  management:
+    health:
+      rabbitmq:
+        enabled: false
+
+  sql:
+    init:
+      mode: always
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate.dialect: org.hibernate.dialect.SQLServerDialect
+        hibernate.temp.use_jdbc_metadata_defaults: false
+
+
+  datasource:
+    url: jdbc:sqlserver://gamearena.database.windows.net:1433;database=platform-db;user=gamearena@gamearena;password={Password123!};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  cloud:
+    azure:
+      keyvault.secret.property-sources[0]:
+        endpoint:
+        credential:
+          managed-identity-enabled: false
+          client-id:
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://keycloak-container.nicehill-98b0fd60.westeurope.azurecontainerapps.io/realms/master/protocol/openid-connect/certs
+          issuer-uri: https://keycloak-container.nicehill-98b0fd60.westeurope.azurecontainerapps.io/realms/master
+
+external:
+  api:
+    url: "http://localhost:8081"
+
+# Logging configuration
+logging:
+  level:
+    root: INFO

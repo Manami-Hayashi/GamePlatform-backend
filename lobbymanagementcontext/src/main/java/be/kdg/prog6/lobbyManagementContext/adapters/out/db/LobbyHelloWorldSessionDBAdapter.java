@@ -52,7 +52,8 @@ public class LobbyHelloWorldSessionDBAdapter implements SaveHelloWorldGameSessio
         logger.info("Fetching Player 2: {}", gameSession.getPlayerIds().get(1).id());
 
         // Send request to the game application (Hello World game) to start the game
-        String url = "http://localhost:8082/api/game/create-session"; // Update with actual URL
+//        String url = "http://localhost:8082/api/game/create-session"; // Update with actual URL
+        String url = "https://hello-world-container.nicehill-98b0fd60.westeurope.azurecontainerapps.io/api/game/create-session";
         Map<String, Object> request = new HashMap<>();
         request.put("sessionId", gameSession.getSessionId());
         request.put("player1Id", gameSession.getPlayerIds().get(0).id());

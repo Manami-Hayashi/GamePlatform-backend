@@ -23,8 +23,8 @@ public class RecommendGamesUseCaseImpl implements RecommendGamesUseCase {
     @Override
     @Transactional
     public List<String> recommendGames(RecommendGamesCommand command) {
-        String url = "https://localhost:5000/recommend";
-        //for deployment         String url = "https://recommendation-flask-app.azurewebsites.net/recommend"; i trust it work as getting rabbitmq error
+        //String url = "https://localhost:5000/recommend";
+        String url = "https://recommendation-flask-app.azurewebsites.net/recommend";
         Map<String, Object> request = Map.of(
                 "game_names", command.gameNames(),
                 "num_recommendations", 2

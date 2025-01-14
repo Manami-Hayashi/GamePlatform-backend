@@ -46,7 +46,8 @@ public class LobbyGameSessionDBAdapter implements SaveGameSessionPort, UpdateGam
                 .orElse("Unknown");
 
         // Send request to another service on port 8081
-        String url = "http://localhost:8081/api/checkers/connect";
+//        String url = "http://localhost:8081/api/checkers/connect";
+        String url = "https://checkers-container.nicehill-98b0fd60.westeurope.azurecontainerapps.io/api/checkers/connect";
         Map<String, Object> request = new HashMap<>();
         request.put("sessionId", gameSession.getSessionId());
         request.put("player1Id", gameSession.getPlayerIds().get(0).id());

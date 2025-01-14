@@ -39,6 +39,9 @@ class GamePlayerRegisterUseCaseImplIntegrationTest extends AbstractDatabaseTest 
     @MockBean
     private AmqpAdmin amqpAdmin;
 
+    @MockBean
+    private RestTemplateCONFIG restTemplateCONFIG;
+
 
     @Test
     void shouldGamePlayerRegisterSuccessfully() {

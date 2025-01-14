@@ -48,8 +48,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:5173");
+        configuration.addAllowedOrigin("https://gray-mushroom-0dba4a61e.4.azurestaticapps.net");
         configuration.addAllowedOrigin("http://localhost:5174");
         configuration.addAllowedOrigin("http://localhost:8081");
+        configuration.addAllowedOrigin("https://purple-flower-00b63b21e.4.azurestaticapps.net");
+        configuration.addAllowedOrigin("https://checkers-container.nicehill-98b0fd60.westeurope.azurecontainerapps.io");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);

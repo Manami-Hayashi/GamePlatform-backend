@@ -170,9 +170,9 @@ deploy:
     - az containerapp create --name keycloak-container --resource-group game-platform-test --environment test --image "acrgamearena.azurecr.io/keycloak:25.0.5" --target-port 8080 --ingress external --cpu 1 --memory 2Gi --min-replicas 0 --max-replicas 1 --registry-server acrgamearena.azurecr.io --registry-username $IMAGE_USERNAME_WILL --registry-password $IMAGE_PASSWORD_WILL --env-vars RABBITMQ_URL="amqps://cswlfyjh:mV7Y7iF7LTrd_XQz_4uI76N4WnqZJOWd@ostrich.lmq.cloudamqp.com/cswlfyjh"
 
     # Deploy the Game Platform container
-    - az containerapp create --name game-platform-container --resource-group game-platform-test --environment test --image "acrgamearena.azurecr.io/integration5team3gameplatform:latest" --target-port 8090 --ingress external --cpu 1 --memory 2Gi --min-replicas 0 --max-replicas 1 --registry-server acrgamearena.azurecr.io --registry-username $IMAGE_USERNAME_WILL --registry-password $IMAGE_PASSWORD_WILL
+    - az containerapp create --name game-platform-container --resource-group game-platform-test --environment test --image "acrgamearena.azurecr.io/integration5team3gameplatform:latest" --target-port 8090 --ingress external --cpu 2 --memory 4Gi --min-replicas 0 --max-replicas 1 --registry-server acrgamearena.azurecr.io --registry-username $IMAGE_USERNAME_WILL --registry-password $IMAGE_PASSWORD_WILL
     - az containerapp secret set --name game-platform-container --resource-group game-platform-test --secrets secret-key=$IMAGE_USERNAME_WILL
-    - az containerapp update --name game-platform-container --resource-group game-platform-test --cpu 1.0 --memory 2.0Gi --min-replicas 0 --max-replicas 1 --set-env-vars SECRET_KEY=secretref:secret-key RABBITMQ_URL="amqps://cswlfyjh:mV7Y7iF7LTrd_XQz_4uI76N4WnqZJOWd@ostrich.lmq.cloudamqp.com/cswlfyjh"
+    - az containerapp update --name game-platform-container --resource-group game-platform-test --cpu 2.0 --memory 4.0Gi --min-replicas 0 --max-replicas 1 --set-env-vars SECRET_KEY=secretref:secret-key RABBITMQ_URL="amqps://cswlfyjh:mV7Y7iF7LTrd_XQz_4uI76N4WnqZJOWd@ostrich.lmq.cloudamqp.com/cswlfyjh"
   rules:
     - changes:
         - ".gitlab-ci.yml"
