@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class GameStatisticsDbAdapter implements LoadGamesPort, LoadGameStatisticsPort, LoadGameStatisticsByGameIdPort, LoadAllGameStatisticsPort, UpdateGameStatisticsPort {
+public class GameStatisticsDbAdapter implements LoadGamesPort, LoadGamePort, LoadGameStatisticsPort, LoadGameStatisticsByGameIdPort, LoadAllGameStatisticsPort, UpdateGameStatisticsPort, CreateGameStatisticsPort {
     private static final Logger log = LoggerFactory.getLogger(GameStatisticsDbAdapter.class);
     private final GameStatisticsRepository gameStatisticsRepo;
     private final GameRepository gameRepository;
@@ -20,6 +20,20 @@ public class GameStatisticsDbAdapter implements LoadGamesPort, LoadGameStatistic
     public GameStatisticsDbAdapter(GameStatisticsRepository gameStatisticsRepo, GameRepository gameRepository) {
         this.gameStatisticsRepo = gameStatisticsRepo;
         this.gameRepository = gameRepository;
+    }
+
+    @Override
+    public List<GameId> loadGames() {
+        return gameRepository.findAll()
+                .stream()
+                .map(gameEntity -> new GameId(gameEntity.getId(), gameEntity.getName()))
+                .toList();
+    }
+
+    @Override
+    public Optional<Game> loadGameById(UUID gameId) {
+        return gameRepository.findById(gameId)
+                .map(gameEntity -> new Game(new GameId(gameEntity.getId(), gameEntity.getName()), gameEntity.getName()));
     }
 
     @Override
@@ -70,6 +84,25 @@ public class GameStatisticsDbAdapter implements LoadGamesPort, LoadGameStatistic
         log.info("GameStatistics updated for player {} and game {}", gameStatistics.getPlayerId(), gameStatistics.getGameId());
     }
 
+    @Override
+    public void createGameStatistics(GameStatistics gameStatistics) {
+        GameStatisticsJpaEntity gameStatisticsJpaEntity = new GameStatisticsJpaEntity();
+        gameStatisticsJpaEntity.setPlayerId(gameStatistics.getPlayerId().id());
+        gameStatisticsJpaEntity.setGameId(gameStatistics.getGameId().id());
+        gameStatisticsJpaEntity.setTotalScore(gameStatistics.getTotalScore());
+        gameStatisticsJpaEntity.setTotalGamesPlayed(gameStatistics.getTotalGamesPlayed());
+        gameStatisticsJpaEntity.setWins(gameStatistics.getWins());
+        gameStatisticsJpaEntity.setLosses(gameStatistics.getLosses());
+        gameStatisticsJpaEntity.setDraws(gameStatistics.getDraws());
+        gameStatisticsJpaEntity.setWinLossRatio(gameStatistics.getWinLossRatio());
+        gameStatisticsJpaEntity.setTotalTimePlayed(gameStatistics.getTotalTimePlayed());
+        gameStatisticsJpaEntity.setHighestScore(gameStatistics.getHighestScore());
+        gameStatisticsJpaEntity.setMovesMade(gameStatistics.getMovesMade());
+        gameStatisticsJpaEntity.setAverageGameDuration(gameStatistics.getAverageGameDuration());
+        gameStatisticsRepo.save(gameStatisticsJpaEntity);
+        log.info("GameStatistics created for player {} and game {}", gameStatistics.getPlayerId(), gameStatistics.getGameId());
+    }
+
     private GameStatistics toGameStatistics(GameStatisticsJpaEntity gameStatsEntity) {
         return new GameStatistics(
                 new PlayerId(gameStatsEntity.getPlayerId()),
@@ -99,13 +132,5 @@ public class GameStatisticsDbAdapter implements LoadGamesPort, LoadGameStatistic
                 LocalDate.parse(playerEntity.getBirthDate()),
                 Gender.valueOf(playerEntity.getGender()),
                 playerEntity.getLocation());
-    }
-
-    @Override
-    public List<GameId> loadGames() {
-        return gameRepository.findAll()
-                .stream()
-                .map(gameEntity -> new GameId(gameEntity.getId(), gameEntity.getName()))
-                .toList();
     }
 }

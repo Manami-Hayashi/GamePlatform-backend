@@ -48,26 +48,49 @@ public class RabbitMQTopology {
     public static final String USER_REGISTRATION_QUEUE4 = "user.registration.queue4";
     public static final String USER_REGISTRATION_QUEUE5 = "user.registration.queue5";
 
+//    @Bean
+//    public ConnectionFactory internalConnectionFactory() {
+//        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("team3_rabbitmq");
+//        connectionFactory.setUsername("myuser");
+//        connectionFactory.setPassword("mypassword");
+//        connectionFactory.setVirtualHost("/");
+//        connectionFactory.setPort(5672);
+//        return connectionFactory;
+//    }
+//
+//    @Bean(name = "applicationConnectionFactory")
+//    @Primary // This will make it the default connection factory
+//    public ConnectionFactory applicationConnectionFactory() {
+//        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
+//        connectionFactory.setUsername("myuser");
+//        connectionFactory.setPassword("mypassword");
+//        connectionFactory.setVirtualHost("/");
+//        connectionFactory.setPort(5673);
+//        return connectionFactory;
+//    }
+
+    //for deployment:
     @Bean
     public ConnectionFactory internalConnectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("team3_rabbitmq");
-        connectionFactory.setUsername("myuser");
-        connectionFactory.setPassword("mypassword");
-        connectionFactory.setVirtualHost("/");
-        connectionFactory.setPort(5672);
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("ostrich-01.lmq.cloudamqp.com");
+        connectionFactory.setUsername("cswlfyjh");
+        connectionFactory.setPassword("mV7Y7iF7LTrd_XQz_4uI76N4WnqZJOWd");
+        connectionFactory.setVirtualHost("cswlfyjh");
+        connectionFactory.setPort(5672); // Use 5671 for TLS
         return connectionFactory;
     }
 
     @Bean(name = "applicationConnectionFactory")
-    @Primary // This will make it the default connection factory
+    @Primary
     public ConnectionFactory applicationConnectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
-        connectionFactory.setUsername("myuser");
-        connectionFactory.setPassword("mypassword");
-        connectionFactory.setVirtualHost("/");
-        connectionFactory.setPort(5673);
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("ostrich-01.lmq.cloudamqp.com");
+        connectionFactory.setUsername("cswlfyjh");
+        connectionFactory.setPassword("mV7Y7iF7LTrd_XQz_4uI76N4WnqZJOWd");
+        connectionFactory.setVirtualHost("cswlfyjh");
+        connectionFactory.setPort(5672); // Use 5671 for TLS
         return connectionFactory;
     }
+
     // Define the exchange
     @Bean
     public FanoutExchange userRegistrationExchange() {
@@ -224,7 +247,7 @@ public class RabbitMQTopology {
                 .with("friend.added");
     }
 
-    
+
 
     // Define RabbitTemplate for internal communication with Keycloak (using the internalConnectionFactory)
     @Bean(name = "internalRabbitTemplate")

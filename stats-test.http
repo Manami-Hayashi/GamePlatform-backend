@@ -18,7 +18,7 @@ scope = openid
 
 ### Get achievements
 
-GET http://localhost:8090/api/achievements/player/155f3e06-bdd0-496c-919c-c3ee90dfe162
+GET http://localhost:8090/api/achievements/player/e8ed0b8e-9cec-47da-8bbb-750037b278a1
 Authorization: Bearer {{access_token}}
 
 
@@ -84,11 +84,18 @@ Content-Type: application/json
 Authorization: Bearer {{access_token}}
 
 {
-  "id": 1,
   "playerId": "e8ed0b8e-9cec-47da-8bbb-750037b278a1",
   "gameId": "14910372-c39d-7de7-b05a-93f8166cf7af",
   "name": "First Win",
   "description": "Awarded for winning the first game",
-  "isLocked": false
+  "isLocked": false,
+  "totalScore": 0,
+  "totalGamesPlayed": 0,
+  "wins": 1,
+  "totalTimePlayed": 0
 }
 
+### Get leaderboards
+
+GET http://localhost:8090/api/leaderboard
+Authorization: Bearer {{access_token}}

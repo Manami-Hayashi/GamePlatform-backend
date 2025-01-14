@@ -41,6 +41,9 @@ public class GetMatchHistoryUseCaseImpl implements GetMatchHistoryUseCase {
                     List<MatchSession> matchSessions = loadMatchSessionsPort.loadMatchSessionsByGameStatistics(gameStat);
 
                     for (MatchSession matchSession : matchSessions) {
+                        if (matchSession.getWinner().equals(Winner.NOT_FINISHED)) {
+                            continue;
+                        }
                         Optional<Player> optionalPlayer1 = loadPlayerPort.loadPlayerById(gameStat.getPlayerId().id());
                         if (optionalPlayer1.isEmpty()) {
                             throw new NullPointerException("Player not found for Player ID: " + gameStat.getPlayerId().id());

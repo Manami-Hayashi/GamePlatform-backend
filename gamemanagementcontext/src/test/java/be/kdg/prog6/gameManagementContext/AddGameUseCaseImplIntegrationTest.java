@@ -7,6 +7,7 @@ import be.kdg.prog6.gameManagementContext.domain.GameId;
 import be.kdg.prog6.gameManagementContext.ports.in.AddGameCommand;
 import be.kdg.prog6.gameManagementContext.ports.in.AddGameUseCase;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ class AddGameUseCaseImplIntegrationTest extends AbstractDatabaseTest {
 
     @MockBean
     private AmqpAdmin amqpAdmin;
+
+    @MockBean
+    private RestTemplateCONFIG restTemplateCONFIG;
 
 
     @Test

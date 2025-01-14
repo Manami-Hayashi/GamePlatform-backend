@@ -16,16 +16,14 @@ import static java.util.stream.Collectors.toList;
 
 @Component("playerGameDBAdapter")
 public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameOwnedDBAdapter.class);
     private final GameOwnedJpaRepository gameOwnedJpaRepository;
     private final PlayerJpaRepository playerJpaRepository;
-
-    private static final Logger logger = LoggerFactory.getLogger(GameOwnedDBAdapter.class);
 
     public GameOwnedDBAdapter(GameOwnedJpaRepository gameOwnedJpaRepository, PlayerJpaRepository playerJpaRepository) {
         this.gameOwnedJpaRepository = gameOwnedJpaRepository;
         this.playerJpaRepository = playerJpaRepository;
     }
-
 
     @Override
     public void gameCreated(PlayerId playerId, Game game) {
@@ -40,10 +38,9 @@ public class GameOwnedDBAdapter implements GameLoadedPort, GameCreatedPort {
 
         gameOwnedJpaEntity.setPlayer(playerJpaEntity);
 
-        logger.info("creating new Game with name {}", game.getGameName());
+        LOGGER.info("creating new Game with name {}", game.getGameName());
 
         gameOwnedJpaRepository.save(gameOwnedJpaEntity);
-
     }
 
 

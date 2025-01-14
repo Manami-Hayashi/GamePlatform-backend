@@ -9,6 +9,7 @@ import be.kdg.prog6.gameStatisticsContext.port.in.AddPartialSessionUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
@@ -64,7 +65,7 @@ class AddPartialSessionUseCaseImplIntegrationTest extends AbstractDatabaseTest {
         AddPartialSessionCommand command = new AddPartialSessionCommand(UUID.randomUUID(), TestIds.GAME_ID, TestIds.START_TIME, true, playerId.id(), player2Id.id());
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> addPartialSessionUseCase.addPartialSession(command), "Fail");
+        assertThrows(DataIntegrityViolationException.class, () -> addPartialSessionUseCase.addPartialSession(command), "Fail");
 
         // Cleanup
         matchSessionRepository.deleteAll();

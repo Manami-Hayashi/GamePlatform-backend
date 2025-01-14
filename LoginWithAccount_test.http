@@ -4,7 +4,7 @@ POST http://localhost:8181/realms/GamePlatform/protocol/openid-connect/token HTT
 Content-Type: application/x-www-form-urlencoded
 
 client_id = backend &
-client_secret = lUwSgUy7uOS9C34OApToaD3KgY2CRQon &
+client_secret = 0JpQdui4J462vq8oacEhNQ34ItJMLvZK &
 username = admin &
 password = password &
 grant_type = password &
@@ -52,3 +52,16 @@ Accept: application/json
 ### Toggle favorite game
 POST http://localhost:8090/api/players/2aeeaba5-355f-42a7-b215-44d4d0ebfd83/games/fde47098-ab1d-11ef-9cd2-0242ac120005/toggle-favorite
 Authorization: Bearer {{access_token}}
+
+### test chatbot
+POST http://localhost:8090/api/chatbot/ask
+Authorization: Bearer {{access_token}}}
+Content-Type: application/json
+
+{
+  "userInput": "What is the rule for Checkers?",
+  "chatHistory": []
+}
+
+
+

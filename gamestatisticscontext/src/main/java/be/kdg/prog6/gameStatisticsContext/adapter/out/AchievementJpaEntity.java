@@ -29,28 +29,48 @@ public class AchievementJpaEntity {
     private String description;
 
     @Column(name = "is_locked")
-    private boolean isLocked;
+    private Boolean isLocked;
+
+    @Column(name = "total_score")
+    private Integer totalScore;
+
+    @Column(name = "total_games_played")
+    private Integer totalGamesPlayed;
+
+    @Column(name = "wins")
+    private Integer wins;
+
+    @Column(name = "total_time_played")
+    private Double totalTimePlayed;
 
     public AchievementJpaEntity() {
     }
 
-    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, boolean isLocked) {
+    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, Boolean isLocked, Integer totalScore, Integer totalGamesPlayed, Integer wins, Double totalTimePlayed) {
         this.playerId = playerId;
         this.gameId = gameId;
         this.name = name;
         this.description = description;
         this.isLocked = isLocked;
+        this.totalScore = totalScore;
+        this.totalGamesPlayed = totalGamesPlayed;
+        this.wins = wins;
+        this.totalTimePlayed = totalTimePlayed;
     }
 
-    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description) {
+    public AchievementJpaEntity(UUID playerId, UUID gameId, String name, String description, Integer totalScore, Integer totalGamesPlayed, Integer wins, Double totalTimePlayed) {
         this.playerId = playerId;
         this.gameId = gameId;
         this.name = name;
         this.description = description;
         this.isLocked = true;
+        this.totalScore = totalScore;
+        this.totalGamesPlayed = totalGamesPlayed;
+        this.wins = wins;
+        this.totalTimePlayed = totalTimePlayed;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -70,7 +90,23 @@ public class AchievementJpaEntity {
         return description;
     }
 
-    public boolean isLocked() {
+    public Boolean isLocked() {
         return isLocked;
+    }
+
+    public Integer getTotalScore() {
+        return totalScore;
+    }
+
+    public Integer getTotalGamesPlayed() {
+        return totalGamesPlayed;
+    }
+
+    public Integer getWins() {
+        return wins;
+    }
+
+    public Double getTotalTimePlayed() {
+        return totalTimePlayed;
     }
 }

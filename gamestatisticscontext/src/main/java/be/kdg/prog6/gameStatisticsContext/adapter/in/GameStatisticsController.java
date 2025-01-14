@@ -10,12 +10,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/game-statistics")
 public class GameStatisticsController {
     private final GetScoreboardUseCase getScoreboardUseCase;
     private final UpdateGameStatisticsUseCase updateGameStatisticsUseCase;
+    private final Logger logger = Logger.getLogger(GameStatisticsController.class.getName());
 
     public GameStatisticsController(GetScoreboardUseCase getScoreboardUseCase, UpdateGameStatisticsUseCase updateGameStatisticsUseCase) {
         this.getScoreboardUseCase = getScoreboardUseCase;
@@ -46,11 +48,16 @@ public class GameStatisticsController {
 
     @PostMapping("/update")
     public void updateGameStatistics(@RequestBody UpdateGameStatisticsDto updateGameStatisticsDto) {
-        UUID id = UUID.randomUUID();
+        logger.info("Updating game statistics...");
+        logger.info(updateGameStatisticsDto.toString());
+        UUID id = UUID.fromString(updateGameStatisticsDto.sessionId());
         UUID gameId = UUID.fromString(updateGameStatisticsDto.gameId());
-        List<UUID> players = new ArrayList<>();
-        players.add(updateGameStatisticsDto.playerIds().get(0));
-        players.add(updateGameStatisticsDto.playerIds().get(1));
+        List<UUID> playerIds = updateGameStatisticsDto.playerIds();
+
+        if (playerIds.size() != 2) {
+            throw new IllegalArgumentException("Exactly 2 players are required");
+        }
+
         LocalDateTime startTime = updateGameStatisticsDto.startTime();
         LocalDateTime endTime = updateGameStatisticsDto.endTime();
         boolean isActive = updateGameStatisticsDto.isActive();
@@ -59,7 +66,21 @@ public class GameStatisticsController {
         int scoreP2 = updateGameStatisticsDto.scoreP2();
         int movesMadeP1 = updateGameStatisticsDto.movesMadeP1();
         int movesMadeP2 = updateGameStatisticsDto.movesMadeP2();
-        UpdateGameStatisticsCommand updateGameStatisticsCommand = new UpdateGameStatisticsCommand(id, gameId, players, startTime, endTime, isActive, winner, scoreP1, scoreP2, movesMadeP1, movesMadeP2);
+
+        UpdateGameStatisticsCommand updateGameStatisticsCommand = new UpdateGameStatisticsCommand(
+                id,
+                gameId,
+                playerIds,
+                startTime,
+                endTime,
+                isActive,
+                winner,
+                scoreP1,
+                scoreP2,
+                movesMadeP1,
+                movesMadeP2
+        );
+
         updateGameStatisticsUseCase.updateGameStatistics(updateGameStatisticsCommand);
     }
 }

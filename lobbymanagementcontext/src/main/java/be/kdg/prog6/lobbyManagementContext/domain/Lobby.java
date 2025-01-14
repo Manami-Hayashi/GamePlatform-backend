@@ -1,5 +1,6 @@
 package be.kdg.prog6.lobbyManagementContext.domain;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -83,5 +84,9 @@ public class Lobby {
 
     public void setGameId(GameId gameId) {
         this.gameId = gameId;
+    }
+
+    public Instant getCreationTime() {
+        return Instant.now();
     }
 }

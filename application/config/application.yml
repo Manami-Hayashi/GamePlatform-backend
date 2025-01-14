@@ -1,58 +1,58 @@
-server:
-  port: ${PORT:8090}
-  servlet:
-    context-path: /api
-
-spring:
-
-  # Disable RabbitMQ health check
-  management:
-    health:
-      rabbitmq:
-        enabled: false
-
-
-  config:
-    additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
-  sql:
-    init:
-      mode: always
-  jpa:
-    open-in-view: false
-    hibernate:
-      ddl-auto: create-drop
-      show-sql: true
-    defer-datasource-initialization: true
-
-  datasource:
-    url: "jdbc:mysql://localhost:13308"
-    username: user
-    password: password
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  cloud:
-    azure:
-      keyvault.secret.property-sources[0]:
-        endpoint:
-        credential:
-          managed-identity-enabled: false
-          client-id:
-
-
-
-#  rabbitmq:
-#    host: localhost
-#    port: 5673
-#    username: myuser
-#    password: mypassword
-
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8181/realms/GamePlatform/protocol/openid-connect/certs
-          issuer-uri: http://localhost:8181/realms/GamePlatform
-
-external:
-  api:
-    url: "http://localhost:8081"
+#server:
+#  port: ${PORT:8090}
+#  servlet:
+#    context-path: /api
+#
+#spring:
+#
+#  # Disable RabbitMQ health check
+#  management:
+#    health:
+#      rabbitmq:
+#        enabled: false
+#
+#
+#  config:
+#    additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
+#  sql:
+#    init:
+#      mode: always
+#  jpa:
+#    open-in-view: false
+#    hibernate:
+#      ddl-auto: create-drop
+#      show-sql: true
+#    defer-datasource-initialization: true
+#
+#  datasource:
+#    url: "jdbc:mysql://localhost:13308"
+#    username: user
+#    password: password
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#
+#  cloud:
+#    azure:
+#      keyvault.secret.property-sources[0]:
+#        endpoint:
+#        credential:
+#          managed-identity-enabled: false
+#          client-id:
+#
+#
+#
+##  rabbitmq:
+##    host: localhost
+##    port: 5673
+##    username: myuser
+##    password: mypassword
+#
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: http://localhost:8181/realms/GamePlatform/protocol/openid-connect/certs
+#          issuer-uri: http://localhost:8181/realms/GamePlatform
+#
+#external:
+#  api:
+#    url: "http://localhost:8081"
