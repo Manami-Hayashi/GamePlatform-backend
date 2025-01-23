@@ -5,6 +5,13 @@ infrastructure/idp_mysql_data/
 infrastructure/mysql/
 infrastructure/rabbitmq/
 infrastructure/team3/
+# Ignore Terraform provider binaries
+infrastructure/tofu-import/.terraform/
+
+# Ignore large data files
+application/src/main/resources/match_session.csv
+
+
 
 .idea/
 
