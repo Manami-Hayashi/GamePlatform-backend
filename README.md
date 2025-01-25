@@ -17,7 +17,8 @@ Gamearena is a dynamic platform designed to offer seamless board gaming experien
 [![Watch the video](https://img.youtube.com/vi/du_osH6nYf4/maxresdefault.jpg)](https://www.youtube.com/watch?v=du_osH6nYf4)
 
 ### Chatbot and Admin pages
-[![Watch the video](https://img.youtube.com/vi/du_osH6nYf4/maxresdefault.jpg)](https://www.youtube.com/watch?v=du_osH6nYf4)
+[![Watch the video](https://img.youtube.com/vi/jL-ZSRnhiP0/maxresdefault.jpg)](https://www.youtube.com/watch?v=jL-ZSRnhiP0)
+
 
 
 ---
