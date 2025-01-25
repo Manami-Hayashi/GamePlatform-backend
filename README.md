@@ -10,6 +10,15 @@
 ## Overview
 Gamearena is a dynamic platform designed to offer seamless board gaming experiences. This repository contains the backend code, developed using **Java Spring Boot** and **Gradle**. The platform is built for scalability, with features aimed at enhancing player engagement and simplifying game management.
 
+---
+
+## Watch the demo
+### General Use of Game platform
+[![Watch the video](https://img.youtube.com/vi/du_osH6nYf4/maxresdefault.jpg)](https://www.youtube.com/watch?v=du_osH6nYf4)
+
+### Chatbot and Admin pages
+[![Watch the video](https://img.youtube.com/vi/du_osH6nYf4/maxresdefault.jpg)](https://www.youtube.com/watch?v=du_osH6nYf4)
+
 
 ---
 
